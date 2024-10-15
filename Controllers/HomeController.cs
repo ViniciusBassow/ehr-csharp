@@ -6,21 +6,15 @@ using System.Diagnostics;
 
 namespace ehr_csharp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : GlobalController
     {
-        AppDbContext _dbContext;
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(AppDbContext dbContext, ILogger<HomeController> logger)
+        public HomeController(AppDbContext context) : base(context)
         {
-            _dbContext = dbContext;
-            _logger = logger;
         }
 
         public ActionResult Index()
         {
-            List<Paciente> pacientes = new List<Paciente>();
-            pacientes = _dbContext.Paciente.ToList();
+            var paciente = Contexto<Paciente>().FirstOrDefault(p => p.Id == 1);
 
             return View("Views\\account-billing.cshtml");
         }
