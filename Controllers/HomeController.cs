@@ -1,20 +1,27 @@
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SQLApp.Data;
 using System.Diagnostics;
 
 namespace ehr_csharp.Controllers
 {
     public class HomeController : Controller
     {
+        AppDbContext _dbContext;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext dbContext, ILogger<HomeController> logger)
         {
+            _dbContext = dbContext;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            List<Paciente> pacientes = new List<Paciente>();
+            pacientes = _dbContext.Paciente.ToList();
+
             return View("Views\\account-billing.cshtml");
         }
 
