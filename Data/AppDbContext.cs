@@ -1,9 +1,11 @@
 ﻿using ehr_csharp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace SQLApp.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<Usuario>
+
     {
         public IConfiguration _config { get; set; }
         public AppDbContext(IConfiguration config)
@@ -25,6 +27,6 @@ namespace SQLApp.Data
         //    modelBuilder.HasDefaultSchema("identity");
         //}
         public DbSet<Paciente> Paciente { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
     }
 }

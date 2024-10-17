@@ -1,4 +1,4 @@
-using ehr_csharp.Data;
+//using ehr_csharp.Data;
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +13,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddApiEndpoints();
 
-//builder.Services.AddIdentityCore<User>()
-//    .AddEntityFrameworkStores<AppDbContext>()
-//    .AddApiEndpoints();
+
+builder.Services.AddIdentity<Usuario, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AppDbContext>();
+
+builder.Services.AddTransient<IEmailSender<Usuario>, EmailSender>();
+
 
 var app = builder.Build();
 
@@ -46,11 +49,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapIdentityApi<User>();
+app.MapIdentityApi<Usuario>();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
 
 app.Run();

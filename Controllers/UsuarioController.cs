@@ -6,16 +6,17 @@ using System.Diagnostics;
 
 namespace ehr_csharp.Controllers
 {
-    public class LoginController : GlobalController
+    public class UsuarioController : GlobalController
     {
-        public LoginController(AppDbContext context) : base(context)
+        public UsuarioController(AppDbContext context) : base(context)
         {
         }
 
         public ActionResult Index()
-        {            
-
-            return View();
+        {
+            List<Usuario> usuarios = Contexto<Usuario>().ToList();
+            
+            return View(usuarios);
         }
 
         public ActionResult Editar()
