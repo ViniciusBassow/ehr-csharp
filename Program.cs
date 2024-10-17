@@ -1,4 +1,5 @@
 using ehr_csharp.Data;
+using ehr_csharp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SQLApp.Data;
@@ -7,12 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<User>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
+
+//builder.Services.AddIdentityCore<User>()
+//    .AddEntityFrameworkStores<AppDbContext>()
+//    .AddApiEndpoints();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AppDbContext>();
 
@@ -22,6 +30,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    
 }
 else
 {
@@ -36,6 +45,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapIdentityApi<User>();
 
 app.MapControllerRoute(
     name: "default",

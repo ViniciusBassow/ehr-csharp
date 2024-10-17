@@ -13,8 +13,18 @@ namespace SQLApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));            
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    //modelBuilder.Entity<User>().Property(x => x.)
+
+        //    modelBuilder.HasDefaultSchema("identity");
+        //}
         public DbSet<Paciente> Paciente { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
