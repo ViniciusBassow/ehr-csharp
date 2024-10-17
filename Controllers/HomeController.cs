@@ -16,7 +16,7 @@ namespace ehr_csharp.Controllers
         {
             var paciente = Contexto<Paciente>().FirstOrDefault(p => p.Id == 1);
 
-            return View("Views\\account-billing.cshtml");
+            return View("Views\\login\\index.cshtml");
         }
 
         public IActionResult Privacy()
