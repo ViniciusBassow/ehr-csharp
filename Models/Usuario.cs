@@ -7,7 +7,13 @@ namespace ehr_csharp.Models
 {
     public class Usuario : IdentityUser
     {
-        
+        public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdateAt { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
+        [NotMapped]
+        public string Password { get; set; }
 
     }
 
