@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Hosting;
 
 namespace ehr_csharp.Models
 {
@@ -20,6 +21,13 @@ namespace ehr_csharp.Models
         public string Profissao { get; set; }
         public string EstadoCivil { get; set; }
         public string TelefoneFixo { get; set; }
-        public string HistoricoFamiliar { get; set; }        
+        public string HistoricoFamiliar { get; set; } //Mudar para somente Historico e colocar como uma lista?
+
+        //Relações
+        public ICollection<Antecedente> Antecedentes { get; set; }
+        public ICollection<Consulta> Consultas { get; set; }
+        public ICollection<Diagnostico> Diagnosticos { get; set; }
+        public ICollection<Prescricao> Prescricoes { get; set; }
+
     }
 }

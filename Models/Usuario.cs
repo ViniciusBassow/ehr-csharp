@@ -15,6 +15,8 @@ namespace ehr_csharp.Models
         [NotMapped]
         public string Password { get; set; }
 
+        public Medico? Medico { get; set; }
+
     }
 
     public class EmailSender : IEmailSender<Usuario>

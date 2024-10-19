@@ -5,24 +5,24 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ehr_csharp.Models
 {
-    public class Paciente
+    public class Medico
     {
         [Key, Column(Order = 0)]
         public int Id { get; set; }
-        public string NomeCompleto { get; set; }
-        public string Sexo { get; set; }
-        public string Endereco { get; set; }
-        public string Celular { get; set; }
-        public string Email{ get; set; }
-        public string Cep { get; set; }
-        public string Cpf { get; set; }
-        public string Rg { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public string Profissao { get; set; }
-        public string EstadoCivil { get; set; }
-        public string TelefoneFixo { get; set; }
-        public string HistoricoFamiliar { get; set; }
-        public string HistoricoFamiliar2 { get; set; }
+        public string CRM { get; set; }
+
+        //Relações
+        public int IdUsuario { get; set; }
+        public Usuario Usuario { get; set; }
+
+        public int IdEspecialidade { get; set; }
+        public Especialidade Especialidade { get; set; }
+
+        public ICollection<Consulta> Consultas { get; set; }
+        public ICollection<Diagnostico> Diagnosticos { get; set; }
+        public ICollection<Prescricao> Prescricoes { get; set; }
+
+
 
     }
 }

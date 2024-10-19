@@ -4,24 +4,42 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ehr_csharp.Models
 {
-    public class Paciente
+    public class Hemograma
     {
         [Key, Column(Order = 0)]
         public int Id { get; set; }
-        public string NomeCompleto { get; set; }
-        public string Sexo { get; set; }
-        public string Endereco { get; set; }
-        public string Celular { get; set; }
-        public string Email{ get; set; }
-        public string Cep { get; set; }
-        public string Cpf { get; set; }
-        public string Rg { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public string Profissao { get; set; }
-        public string EstadoCivil { get; set; }
-        public string TelefoneFixo { get; set; }
-        public string HistoricoFamiliar { get; set; }
-        public string HistoricoFamiliar2 { get; set; }
+        public string Eritrocitos { get; set; }
+        public string Hemoglobina { get; set; }
+        public string Hematocrito { get; set; }
+        public string VCM { get; set; }
+        public string HCM{ get; set; }
+        public string CHCM { get; set; }
+        public string RDW { get; set; }
+        public string Leucocitos { get; set; }
+        public string Bastonetes { get; set; }
+        public string Segmentados { get; set; }
+        public string Eosinofilos { get; set; }
+        public string Basofilos { get; set; }
+        public string Linfocitos { get; set; }
+        public string Monocitos { get; set; }
+        public string Plaquetas { get; set; }
+        public string VPM { get; set; }
+        public string Glicemia { get; set; }
+        public string Creatinina { get; set; }
+        public string AcidoUrico { get; set; }
+        public string Prolactina { get; set; }
+        public string Testosterona { get; set; }
+        public string ColesterolTotal { get; set; }
+        public string HDL { get; set; }
+        public string Triglicerides { get; set; }
+        public string LDL { get; set; }
+        public string NaoHDL { get; set; }
+
+        //Relações
+        public int IdExame { get; set; }
+        public Exame Exame { get; set; }
+
+
 
     }
 }
