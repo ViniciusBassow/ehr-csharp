@@ -26,7 +26,17 @@ namespace SQLApp.Data
 
         //    modelBuilder.HasDefaultSchema("identity");
         //}
+        public DbSet<Antecedente> Antecedente { get; set; }
+        public DbSet<Consulta> Consulta { get; set; }
+        public DbSet<Diagnostico> Diagnostico { get; set; }
+        public DbSet<Especialidade> Especialidade { get; set; }
+        public DbSet<Exame> Exame { get; set; }
+        public DbSet<Hemograma> Hemograma { get; set; }
+        public DbSet<Medicamento> Medicamento { get; set; }
+        public DbSet<Medico> Medico { get; set; }
         public DbSet<Paciente> Paciente { get; set; }
+        public DbSet<Prescricao> Prescricao { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+
     }
 }

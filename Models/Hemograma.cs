@@ -37,7 +37,8 @@ namespace ehr_csharp.Models
 
         //Relações
         public int IdExame { get; set; }
-        public Exame Exame { get; set; }
+        [ForeignKey(nameof(IdExame))]
+        public virtual Exame Exame { get; set; }
 
 
 

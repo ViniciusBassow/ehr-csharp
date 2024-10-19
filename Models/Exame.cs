@@ -19,6 +19,7 @@ namespace ehr_csharp.Models
         public int IdMedico { get; set; }
         public Medico Medico { get; set; }
 
+        [ForeignKey(nameof(IdHemograma))]
         public int IdHemograma { get; set; }
         public Hemograma Hemograma { get; set; }
 

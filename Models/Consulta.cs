@@ -14,13 +14,16 @@ namespace ehr_csharp.Models
         
         //Relações
         public int IdPaciente { get; set; }
+        [ForeignKey(nameof(IdPaciente))]
         public Paciente Paciente { get; set; }
 
         public int IdMedico { get; set; }
+        [ForeignKey(nameof(IdMedico))]
         public Medico Medico { get; set; }
 
-        public int IdDiagnostico { get; set; }
-        public Diagnostico Diagnostico { get; set; }
+        //public int IdDiagnostico { get; set; }
+        //[ForeignKey(nameof(IdDiagnostico))]
+        //public Diagnostico Diagnostico { get; set; }
 
     }
 }

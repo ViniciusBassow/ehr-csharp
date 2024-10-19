@@ -12,7 +12,8 @@ namespace ehr_csharp.Models
         public string CRM { get; set; }
 
         //Relações
-        public int IdUsuario { get; set; }
+        public string IdUsuario { get; set; }
+        [ForeignKey(nameof(IdUsuario))]
         public Usuario Usuario { get; set; }
 
         public int IdEspecialidade { get; set; }
