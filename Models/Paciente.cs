@@ -20,8 +20,6 @@ namespace ehr_csharp.Models
         public string Profissao { get; set; }
         public string EstadoCivil { get; set; }
         public string TelefoneFixo { get; set; }
-        public string HistoricoFamiliar { get; set; }
-        public string HistoricoFamiliar2 { get; set; }
-
+        public string HistoricoFamiliar { get; set; }        
     }
 }
