@@ -17,4 +17,8 @@ public class GlobalController : Controller
     {
         return _context.Set<T>();
     }
+    protected void SaveChanges()
+    {
+        _context.SaveChanges();
+    }
 }

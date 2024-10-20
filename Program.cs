@@ -19,6 +19,8 @@ builder.Services.AddIdentity<Usuario, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();

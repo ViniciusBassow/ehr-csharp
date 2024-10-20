@@ -1,9 +1,12 @@
 @model ehr_csharp.Models.Usuario
 
-@using (Html.BeginForm("Salvar", "Usuario", FormMethod.Post))
+@using (Html.BeginForm("Salvar", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.HiddenFor(x => x.Id);
-    <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
+    @Html.HiddenFor(x => x.Id)
+
+
+
+    <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
         <header class="border-bottom mb-10">
             <div class="row">
                 <div class="col-sm-6 col-12">
@@ -17,48 +20,57 @@
         <div class="row align-items-center">
             <div class="col-md-1"><label class="form-label">Nome</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="Name" class="form-control"></div>
+                <div class=""><input type="text" name="usuario.Name" class="form-control"></div>
             </div>
             <div class="col-md-1"><label class="form-label">Cargo</label></div>
             <div class="col-md-2">
-                <select class="form-select" name="Role" aria-label="Default select example">
+                <select class="form-select" name="usuario.Role" aria-label="Default select example">
                     <option selected="selected">Selecionar</option>
-                    <option value="1">Administrador</option>
-                    <option value="2">Médico</option>
+                    <option value="Admin">Administrador</option>
+                    <option value="Medico">Médico</option>
                     <option value="3">Agenda</option>
                 </select>
             </div>
             <div class="col-md-1">
-                <input class="form-check-input me-n2" type="checkbox" name="LockoutEnabled" id="switchView1" checked="checked">
+                <input class="form-check-input me-n2" type="checkbox" name="usuario.LockoutEnabled" id="switchView1" checked="checked">
                 <label style="padding-left: 1rem" class="form-check-label" checked="checked" for="check_example">Ativado</label>
             </div>
         </div>
         <hr class="my-6">
 
         <div class="row align-items-center">
-            <div class="col-md-1"><label class="form-label">E-mail</label></div>
+            <div class="col-md-1"><label class="form-label">Login</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="Email" class="form-control"></div>
+                <div class=""><input type="text" name="usuario.UserName" class="form-control"></div>
             </div>
             <div class="col-md-1"><label class="form-label">Senha</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="Password" class="form-control"></div>
+                <div class=""><input type="password" name="usuario.Password" class="form-control"></div>
             </div>
         </div>
-        <hr class="my-6">
-
+        <hr class="my-6">        
         <div class="row align-items-center">
-            <div class="col-md-2"><label class="form-label">Foto do Perfil</label></div>
+            <div class="col-md-1"><label class="form-label">E-mail</label></div>
+            <div class="col-md-2 col-xl-4">
+                <div class=""><input type="text" name="usuario.Email" class="form-control"></div>
+            </div>
+
+            <div class="col-md-1"><label class="form-label">Foto do Perfil</label></div>
             <div class="col-md-8 col-xl-5">
                 <div class="">
                     <div class="d-flex align-items-center">
                         <a href="#" class="avatar avatar-lg bg-warning rounded-circle text-white"><img src="../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80" alt="..."></a>
-                        <div class="hstack gap-2 ms-5"><label for="file_upload" class="btn btn-sm btn-neutral"><span>Upload</span> <input type="file" name="file_upload" id="file_upload" class="visually-hidden"></label> <a href="#" class="btn d-inline-flex btn-sm btn-neutral text-danger"><span><i class="bi bi-trash"></i> </span><span class="d-none d-sm-block me-2">Remove</span></a></div>
+                        <div class="hstack gap-2 ms-5">
+                            <label for="file_upload" class="btn btn-sm btn-neutral">
+                                <span>Upload</span>
+                                <input type="file" name="usuario.File" id="file_upload" class="visually-hidden">
+                            </label> <a href="#" class="btn d-inline-flex btn-sm btn-neutral text-danger"><span><i class="bi bi-trash"></i> </span><span class="d-none d-sm-block me-2">Remove</span></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <hr class="my-6">
         <hr class="my-6 d-md-none">
         <div class="hstack gap-2 ms-auto align-items-end">
             <div class="d-flex align-items-end justify-content-between">

@@ -1,58 +1,164 @@
 using ehr_csharp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SQLApp.Data;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
+using System.Security.Cryptography;
+
 
 namespace ehr_csharp.Controllers
 {
     public class UsuarioController : GlobalController
     {
-        public UsuarioController(AppDbContext context) : base(context)
+        private readonly UserManager<Usuario> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<Usuario> _signInManager;
+
+        public UsuarioController(AppDbContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Usuario> signInManager) : base(context)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
-        public ActionResult Index()
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> Index()
         {
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
+            //var userName = User.Identity.Name;            
+            //var teste = await _userManager.FindByIdAsync(userId);
+
             List<Usuario> usuarios = Contexto<Usuario>().ToList();
+
+            foreach (var usuario in usuarios)
+            {
+                var roles = await _userManager.GetRolesAsync(usuario);
+                var role = roles.FirstOrDefault(); // Considerando que cada usuário tenha apenas uma role (ou pegar a primeira)
+                usuario.Role = role;
+
+            }
 
             return View(usuarios);
         }
 
         public ActionResult Editar(string Id)
         {
-            var usuario = new Usuario();
-            usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
+            var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
+            if (usuario == null)
+                usuario = new Usuario();
 
             return View(usuario);
         }
 
-        public ActionResult Salvar(Usuario usuario)
+        [HttpPost]
+        public async Task<ActionResult> Salvar(Usuario usuario)
         {
-            if (int.Parse(usuario.Id) > 0) { 
-                var usuarioBD = Contexto<Usuario>().FirstOrDefault(x => x.Id == usuario.Id);
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+
+
+            usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
+            usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
+
+
+            var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
+
+            if (usuarioBD != null)
+            {
                 usuarioBD.UserName = usuario.UserName;
                 usuarioBD.Email = usuario.Email;
-                usuarioBD.Email = usuario.Email;
-
+                usuarioBD.UpdateAt = DateTime.Now;
 
             }
-
             else
-                Contexto<Usuario>().Add(usuario);
+            {
+
+                usuario.CreatedAt = DateTime.Now;
+                errors = await Registrar(usuario);
+            }
+
+
+            SaveChanges();
+
+
+            if (errors.Any())
+            {
+                ViewBag.Errors = errors;
+                return View("Erro");
+            }
 
             return View(usuario);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<Dictionary<string, string>> Registrar(Usuario usuario)
         {
-            return View();
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+
+            try
+            {
+
+                var result = await _userManager.CreateAsync(usuario, usuario.Password);
+
+                if (result.Succeeded)
+                {
+
+                    var addToRoleResult = await _userManager.AddToRoleAsync(usuario, usuario.Role);
+
+                    if (!addToRoleResult.Succeeded)
+                    {
+                        foreach (var error in addToRoleResult.Errors)
+                        {
+                            errors.Add(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+
+                    foreach (var error in result.Errors)
+                    {
+                        errors.Add(string.Empty, error.Description);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                errors.Add("Exception", ex.Message);
+            }
+
+            return errors;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public async Task<IActionResult> Login(Usuario usuario)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            var result = await _signInManager.PasswordSignInAsync(usuario.UserName, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Usuario");
+            }
+
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "Conta bloqueada após várias tentativas.");
+            }
+            else
+            {
+
+                ModelState.AddModelError(string.Empty, "Login ou senha incorretos.");
+            }
+
+
+            return View();
         }
     }
+
+
 }

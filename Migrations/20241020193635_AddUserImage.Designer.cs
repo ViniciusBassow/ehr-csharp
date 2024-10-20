@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQLApp.Data;
 
@@ -11,9 +12,11 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241020193635_AddUserImage")]
+    partial class AddUserImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,9 +132,14 @@ namespace ehr_csharp.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -740,6 +748,10 @@ namespace ehr_csharp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ehr_csharp.Models.Usuario", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -918,6 +930,8 @@ namespace ehr_csharp.Migrations
             modelBuilder.Entity("ehr_csharp.Models.Usuario", b =>
                 {
                     b.Navigation("Medico");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }
