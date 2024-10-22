@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using SQLApp.Data;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -17,12 +18,14 @@ namespace ehr_csharp.Controllers
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<Usuario> _signInManager;
+        private readonly IMemoryCache _cache;
 
-        public UsuarioController(AppDbContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Usuario> signInManager) : base(context)
+        public UsuarioController(AppDbContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Usuario> signInManager, IMemoryCache cache) : base(context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _cache = cache;
         }
 
         [Authorize(Roles = "Administrator")]
@@ -40,6 +43,12 @@ namespace ehr_csharp.Controllers
                 var role = roles.FirstOrDefault(); // Considerando que cada usuário tenha apenas uma role (ou pegar a primeira)
                 usuario.Role = role;
 
+                if (!string.IsNullOrEmpty(usuario.ImageByteStr))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(usuario.ImageByteStr);
+
+                    usuario.UserImageBase64 = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
+                }
             }
 
             return View(usuarios);
@@ -142,6 +151,18 @@ namespace ehr_csharp.Controllers
 
             if (result.Succeeded)
             {
+                if (!_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+                {
+
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    UsuarioLogado = await _userManager.FindByIdAsync(userId);
+
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(30)); // expira se não for acessado em 5 minutos
+
+                    _cache.Set("UsuarioLogado", UsuarioLogado, cacheEntryOptions);
+                }
+
                 return RedirectToAction("Index", "Usuario");
             }
 
@@ -158,6 +179,9 @@ namespace ehr_csharp.Controllers
 
             return View();
         }
+
+
+
     }
 
 

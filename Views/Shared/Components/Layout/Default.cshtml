@@ -1,0 +1,24 @@
+﻿@model Usuario
+
+<div>
+    @if (Model != null)
+    {
+        <div class="dropdown">
+            <a class="avatar avatar-sm text-bg-dark rounded-circle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false"><img src="@Model.UserImageBase64" alt="Imagem do usuário" /></a>
+            <div class="dropdown-menu dropdown-menu-end">
+                <div class="dropdown-header"><span class="d-block text-sm text-muted mb-1">Signed in as</span> <span class="d-block text-heading fw-semibold">@Model.UserName</span></div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="bi bi-house me-3"></i>Home </a><a class="dropdown-item" href="#"><i class="bi bi-pencil me-3"></i>Edit profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="bi bi-gear me-3"></i>Settings </a><a class="dropdown-item" href="#"><i class="bi bi-image me-3"></i>Media </a><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-up me-3"></i>Share</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="bi bi-person me-3"></i>Login</a>
+            </div>
+        </div>
+        // Adicione outras informações que você deseja exibir
+    }
+    else
+    {
+        
+    }
+</div>

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using System.IO;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace ehr_csharp.Models
 {
@@ -28,6 +29,8 @@ namespace ehr_csharp.Models
         public IFormFile File { get; set; }
         [NotMapped]
         public bool RememberMe { get; set; }
+        [NotMapped]
+        public string UserImageBase64 { get; set; }
         #endregion
 
         #region Métodos Utilitários

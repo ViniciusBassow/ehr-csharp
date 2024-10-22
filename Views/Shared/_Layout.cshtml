@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ehr_csharp.styles.css" asp-append-version="true" />
@@ -17,11 +17,9 @@
     <style type="text/css" id="operaUserStyle"></style>
 </head>
 <body class="bg-body-tertiary">
-    @{
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userName = User.Identity.Name;
-        // var teste = await _userManager.FindByIdAsync(userId);
-    }
+
+
+
     <div class="modal fade" id="depositLiquidityModal" tabindex="-1" aria-labelledby="depositLiquidityModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content overflow-hidden">
@@ -128,7 +126,7 @@
                             <div class="d-none d-md-block ms-md-2"><i class="bi bi-chevron-down text-muted text-xs"></i></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <div class="dropdown-header"><span class="d-block text-sm text-muted mb-1">Signed in as</span> <span class="d-block text-heading fw-semibold">@userName</span></div>
+                            <div class="dropdown-header"><span class="d-block text-sm text-muted mb-1">Signed in as</span> <span class="d-block text-heading fw-semibold">DORIVAL</span></div>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#"><i class="bi bi-house me-3"></i>Home </a><a class="dropdown-item" href="#"><i class="bi bi-pencil me-3"></i>Edit profile</a>
                             <div class="dropdown-divider"></div>
@@ -291,18 +289,8 @@
                             <div class="dropdown-item py-2 text-center"><a href="#" class="fw-semibold text-muted text-primary-hover">View all</a></div>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <a class="avatar avatar-sm text-bg-dark rounded-circle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false"><img src="/img/memoji/memoji-1.svg"></a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <div class="dropdown-header"><span class="d-block text-sm text-muted mb-1">Signed in as</span> <span class="d-block text-heading fw-semibold">@userName</span></div>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="bi bi-house me-3"></i>Home </a><a class="dropdown-item" href="#"><i class="bi bi-pencil me-3"></i>Edit profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="bi bi-gear me-3"></i>Settings </a><a class="dropdown-item" href="#"><i class="bi bi-image me-3"></i>Media </a><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-up me-3"></i>Share</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="bi bi-person me-3"></i>Login</a>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("Layout")
+              
                 </div>
             </div>
             <div class="flex-fill overflow-y-lg-auto scrollbar bg-body rounded-top-4 rounded-top-start-lg-4 rounded-top-end-lg-0 border-top border-lg shadow-2">
@@ -312,7 +300,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/switcher.js"></script>    
+    <script src="/js/switcher.js"></script>
 </body>
 </html>
 

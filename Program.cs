@@ -55,6 +55,8 @@ app.MapIdentityApi<Usuario>();
 
 app.MapRazorPages();
 
+builder.Services.AddMemoryCache();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
