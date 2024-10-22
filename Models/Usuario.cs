@@ -22,15 +22,15 @@ namespace ehr_csharp.Models
 
         #region ViewModel Propriedades
         [NotMapped]
-        public string Role { get; set; } 
+        public string? Role { get; set; } 
         [NotMapped]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         [NotMapped]
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
         [NotMapped]
         public bool RememberMe { get; set; }
         [NotMapped]
-        public string UserImageBase64 { get; set; }
+        public string? UserImageBase64 { get; set; }
         #endregion
 
         #region Métodos Utilitários

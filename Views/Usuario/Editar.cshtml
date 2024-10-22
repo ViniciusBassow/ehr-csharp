@@ -2,9 +2,8 @@
 
 @using (Html.BeginForm("Salvar", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
     @Html.HiddenFor(x => x.Id)
-
-
 
     <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
         <header class="border-bottom mb-10">
@@ -12,27 +11,37 @@
                 <div class="col-sm-6 col-12">
                     <h1 class="ls-tight">Usuários</h1>
                 </div>
-
             </div>
             <ul class="nav nav-tabs nav-tabs-flush gap-6 overflow-x border-0 mt-4">
             </ul>
         </header>
+        @if (errors.Count > 0)
+        {
+            <div class="col-xl-12" style="margin-top:40px;">
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "Erros encontrados:")
+                </div>
+            </div>
+        }
         <div class="row align-items-center">
             <div class="col-md-1"><label class="form-label">Nome</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="usuario.Name" class="form-control"></div>
+                <div class="">
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", name = "Name" })
+                </div>
             </div>
             <div class="col-md-1"><label class="form-label">Cargo</label></div>
             <div class="col-md-2">
-                <select class="form-select" name="usuario.Role" aria-label="Default select example">
-                    <option selected="selected">Selecionar</option>
+                <select class="form-select" id="cargoSelect" name="Role" aria-label="Default select example">
+                    <option>Selecionar</option>
                     <option value="Admin">Administrador</option>
                     <option value="Medico">Médico</option>
                     <option value="3">Agenda</option>
                 </select>
             </div>
             <div class="col-md-1">
-                <input class="form-check-input me-n2" type="checkbox" name="usuario.LockoutEnabled" id="switchView1" checked="checked">
+                @Html.CheckBoxFor(x => x.LockoutEnabled, new { @class = "form-check-input me-n2", })
+                @* <input class="form-check-input me-n2" type="checkbox" name="usuario.LockoutEnabled" id="switchView1" checked="checked"> *@
                 <label style="padding-left: 1rem" class="form-check-label" checked="checked" for="check_example">Ativado</label>
             </div>
         </div>
@@ -41,18 +50,30 @@
         <div class="row align-items-center">
             <div class="col-md-1"><label class="form-label">Login</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="usuario.UserName" class="form-control"></div>
+                <div class="">
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", name = "UserName" })
+                    @* <input type="text" name="usuario.UserName" class="form-control"> *@
+                </div>
             </div>
-            <div class="col-md-1"><label class="form-label">Senha</label></div>
-            <div class="col-md-2 col-xl-4">
-                <div class=""><input type="password" name="usuario.Password" class="form-control"></div>
-            </div>
+            @if (string.IsNullOrEmpty((Model.UserName)))
+            {
+                <div class="col-md-1"><label class="form-label">Senha</label></div>
+                <div class="col-md-2 col-xl-4">
+                    <div class="">
+                        @Html.PasswordFor(x => x.Password, new { @class = "form-control", name = "Password" })
+                        @* <input type="password" name="usuario.Password" class="form-control"> *@
+                    </div>
+                </div>
+            }
         </div>
-        <hr class="my-6">        
+        <hr class="my-6">
         <div class="row align-items-center">
             <div class="col-md-1"><label class="form-label">E-mail</label></div>
             <div class="col-md-2 col-xl-4">
-                <div class=""><input type="text" name="usuario.Email" class="form-control"></div>
+                <div class="">
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", name = "Email" })
+                    @* <input type="text" name="usuario.Email" class="form-control"> *@
+                </div>
             </div>
 
             <div class="col-md-1"><label class="form-label">Foto do Perfil</label></div>
@@ -63,7 +84,7 @@
                         <div class="hstack gap-2 ms-5">
                             <label for="file_upload" class="btn btn-sm btn-neutral">
                                 <span>Upload</span>
-                                <input type="file" name="usuario.File" id="file_upload" class="visually-hidden">
+                                <input type="file" name="File" id="file_upload" class="visually-hidden">
                             </label> <a href="#" class="btn d-inline-flex btn-sm btn-neutral text-danger"><span><i class="bi bi-trash"></i> </span><span class="d-none d-sm-block me-2">Remove</span></a>
                         </div>
                     </div>
@@ -79,3 +100,11 @@
         </div>
     </main>
 }
+
+<script>
+    $(document).ready(function () {
+        debugger
+        $("#cargoSelect").val("@Model.Role");
+        
+    });
+</script>

@@ -2,6 +2,7 @@ using ehr_csharp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using SQLApp.Data;
@@ -28,12 +29,10 @@ namespace ehr_csharp.Controllers
             _cache = cache;
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
-            //var userName = User.Identity.Name;            
-            //var teste = await _userManager.FindByIdAsync(userId);
+
 
             List<Usuario> usuarios = Contexto<Usuario>().ToList();
 
@@ -54,11 +53,17 @@ namespace ehr_csharp.Controllers
             return View(usuarios);
         }
 
-        public ActionResult Editar(string Id)
+        public async Task<ActionResult> Editar(string Id)
         {
+
             var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
             if (usuario == null)
                 usuario = new Usuario();
+            else
+            {
+                var roles = await _userManager.GetRolesAsync(usuario);
+                usuario.Role = roles.FirstOrDefault();
+            }
 
             return View(usuario);
         }
@@ -67,31 +72,34 @@ namespace ehr_csharp.Controllers
         public async Task<ActionResult> Salvar(Usuario usuario)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();
-
-
-            usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
-            usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
-
-
             var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
+
+            if (usuario.File != null)
+                usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
+
+            ValidarCamposUsuario(usuario, usuarioBD == null);
+
+            if (!ModelState.IsValid)
+            {
+                return View("Views\\Usuario\\editar.cshtml", new Usuario());
+            }
 
             if (usuarioBD != null)
             {
                 usuarioBD.UserName = usuario.UserName;
                 usuarioBD.Email = usuario.Email;
                 usuarioBD.UpdateAt = DateTime.Now;
+                usuarioBD.Name = usuario.Name;
+                usuarioBD.Role = usuario.Role;
 
             }
             else
             {
-
+                usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
                 usuario.CreatedAt = DateTime.Now;
                 errors = await Registrar(usuario);
             }
-
-
             SaveChanges();
-
 
             if (errors.Any())
             {
@@ -99,7 +107,7 @@ namespace ehr_csharp.Controllers
                 return View("Erro");
             }
 
-            return View(usuario);
+            return View("Views\\Usuario\\editar.cshtml", usuario);
         }
 
         [HttpPost]
@@ -181,6 +189,22 @@ namespace ehr_csharp.Controllers
         }
 
 
+        public void ValidarCamposUsuario(Usuario usuario, bool novo)
+        {
+            if (string.IsNullOrEmpty(usuario.UserName))
+                ModelState.AddModelError("Login", "O campo Login é obrigatório");
+            if (string.IsNullOrEmpty(usuario.Email))
+                ModelState.AddModelError("Email", "O campo Email é obrigatório");
+            if (string.IsNullOrEmpty(usuario.Name))
+                ModelState.AddModelError("Nome", "O campo Nome é obrigatório");
+            if (string.IsNullOrEmpty(usuario.Role))
+                ModelState.AddModelError("Cargo", "O campo Cargo é obrigatório");
+            if (novo)
+            {
+                if (string.IsNullOrEmpty(usuario.Password))
+                    ModelState.AddModelError("Senha", "O campo Senha é obrigatório");
+            }
+        }
 
     }
 

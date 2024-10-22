@@ -35,10 +35,13 @@
 
     </div>
 
-    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
-        <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Category</button> <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Amount</button> <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Status</button>
+ @*    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
+        <button type="button" class="btn btn-xs btn-neutral text-xs">
+            <i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Category
+        </button> <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Amount</button>
+        <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Status</button>
         <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-none d-md-flex" role="button"><i class="bi bi-x me-1"></i> <span>Clear filters</span></div>
-    </div>
+    </div> *@
     <div class="table-responsive">
         <table class="table table-hover table-striped table-sm table-nowrap">
             <thead>
@@ -70,7 +73,7 @@
                                 </div>
                                 <div class="avatar avatar-sm text-bg-dark rounded-circle">
                                     @(!string.IsNullOrEmpty(usuario.UserImageBase64) ? Html.Raw($"<img src='{@usuario.UserImageBase64}'/>") : Html.Raw("<i class='bi bi-file-fill'></i>"))
-                                
+
                                 </div>
                                 <div><span class="d-block text-heading fw-bold">@usuario.UserName</span></div>
                             </div>
@@ -79,7 +82,7 @@
                         <td>@usuario.Email</td>
                         <td class="d-none d-xl-table-cell">@usuario.CreatedAt</td>
                         <td class="d-none d-xl-table-cell"><span class="badge badge-lg badge-dot"> @(usuario.LockoutEnabled ? Html.Raw("<i class='bg-danger'></i>Desativado</span></td>") : Html.Raw("<i class='bg-success'></i>Ativo</span></td>"))
-                        <td class="text-end"><button type="button" class="btn btn-sm btn-square btn-neutral w-rem-6 h-rem-6"><i class="bi bi-three-dots"></i></button></td>
+                        <td class="text-end d-none d-sm-table-cell"><a href="/Usuario/Editar/@usuario.Id" class="btn btn-xs btn-neutral">Editar</a></td>
                     </tr>
                 }
             </tbody>
