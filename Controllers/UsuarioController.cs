@@ -1,3 +1,5 @@
+using Azure.Core;
+using Azure;
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -6,10 +8,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using SQLApp.Data;
+using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 
 
 namespace ehr_csharp.Controllers
@@ -34,24 +39,44 @@ namespace ehr_csharp.Controllers
         {
 
 
-            List<Usuario> usuarios = Contexto<Usuario>().ToList();
+            List<Usuario> usuarios = Contexto<Usuario>().Where(x => x.UserName != "root").ToList();
 
             foreach (var usuario in usuarios)
             {
                 var roles = await _userManager.GetRolesAsync(usuario);
-                var role = roles.FirstOrDefault(); // Considerando que cada usuário tenha apenas uma role (ou pegar a primeira)
-                usuario.Role = role;
-
-                if (!string.IsNullOrEmpty(usuario.ImageByteStr))
-                {
-                    byte[] imageBytes = Convert.FromBase64String(usuario.ImageByteStr);
-
-                    usuario.UserImageBase64 = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
-                }
+                usuario.Role = roles.FirstOrDefault();
             }
 
+            var teste = JsonConvertedValueReaderWriter.DEserialize<ChatGptResponse>(Response.content);
             return View(usuarios);
         }
+
+        public async Task<ActionResult> FiltrarUsuarios(string role)
+        {
+            List<Usuario> usuarios = new List<Usuario> { };
+            var userRole = await _roleManager.FindByNameAsync(role);
+            
+            if (userRole != null)
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(userRole.Name);
+                var userNames = usersInRole.Select(user => user.UserName).ToList();
+                usuarios.AddRange(Contexto<Usuario>().Where(x => userNames.Contains(x.UserName) && x.UserName != "root").ToList());
+            }
+            else
+            {
+                usuarios.AddRange(Contexto<Usuario>().Where(x => x.UserName != "root").ToList());
+            }
+
+            foreach (var usuario in usuarios)
+            {
+                var roles = await _userManager.GetRolesAsync(usuario);
+                usuario.Role = roles.FirstOrDefault();
+            }
+            // Caso a role não seja encontrada, retorna uma mensagem de erro
+            return PartialView("_ListaUsuario", usuarios);
+            
+        }
+
 
         public async Task<ActionResult> Editar(string Id)
         {

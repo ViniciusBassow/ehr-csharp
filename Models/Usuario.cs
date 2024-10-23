@@ -30,7 +30,22 @@ namespace ehr_csharp.Models
         [NotMapped]
         public bool RememberMe { get; set; }
         [NotMapped]
-        public string? UserImageBase64 { get; set; }
+        public string? UserImageBase64
+        {
+            get
+            {
+                // Verifica se há uma string de imagem válida
+                if (!string.IsNullOrEmpty(ImageByteStr))
+                {
+                    // Converte a string Base64 original para bytes
+                    byte[] imageBytes = Convert.FromBase64String(ImageByteStr);
+
+                    // Retorna a imagem no formato "data:image/png;base64,..."
+                    return $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
+                }
+                return null; // Retorna null se a imagem não estiver presente
+            }
+        }
         #endregion
 
         #region Métodos Utilitários
@@ -94,4 +109,17 @@ namespace ehr_csharp.Models
             throw new NotImplementedException();
         }
     }
-}
+
+    public class ChatGptResponse
+    {
+        #region Propriedades
+        public string date { get; set; }
+        public dynamic content { get; set; }
+        
+    }
+    public class Content
+    {
+        public string paciente { get; set; }
+        public string data_nascimento { get; set; }
+
+    }
