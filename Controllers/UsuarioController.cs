@@ -47,7 +47,7 @@ namespace ehr_csharp.Controllers
                 usuario.Role = roles.FirstOrDefault();
             }
 
-            var teste = JsonConvertedValueReaderWriter.DEserialize<ChatGptResponse>(Response.content);
+            
             return View(usuarios);
         }
 
