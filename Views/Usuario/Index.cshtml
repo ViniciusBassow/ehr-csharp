@@ -14,9 +14,9 @@
             </div>
         </div>
         <ul class="nav nav-tabs nav-tabs-flush gap-8 overflow-x border-0 mt-4">
-            <li class="nav-item"><a href="#" class="nav-link active">All</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Administradores</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Médicos</a></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">All</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Administradores</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Medico')" class="nav-link">Médicos</button></li>
         </ul>
     </div>
     <div class="row align-items-center d-flex px-6 px-lg-7 pt-8">
@@ -35,12 +35,12 @@
 
     </div>
 
- @*    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
-        <button type="button" class="btn btn-xs btn-neutral text-xs">
-            <i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Category
-        </button> <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Amount</button>
-        <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Status</button>
-        <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-none d-md-flex" role="button"><i class="bi bi-x me-1"></i> <span>Clear filters</span></div>
+    @*    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
+    <button type="button" class="btn btn-xs btn-neutral text-xs">
+    <i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Category
+    </button> <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Amount</button>
+    <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Status</button>
+    <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-none d-md-flex" role="button"><i class="bi bi-x me-1"></i> <span>Clear filters</span></div>
     </div> *@
     <div class="table-responsive">
         <table class="table table-hover table-striped table-sm table-nowrap">
@@ -62,29 +62,8 @@
                 </tr>
             </thead>
 
-            <tbody>
-                @foreach (var usuario in Model)
-                {
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center gap-3 ps-1">
-                                <div class="text-base">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox"></div>
-                                </div>
-                                <div class="avatar avatar-sm text-bg-dark rounded-circle">
-                                    @(!string.IsNullOrEmpty(usuario.UserImageBase64) ? Html.Raw($"<img src='{@usuario.UserImageBase64}'/>") : Html.Raw("<i class='bi bi-file-fill'></i>"))
-
-                                </div>
-                                <div><span class="d-block text-heading fw-bold">@usuario.UserName</span></div>
-                            </div>
-                        </td>
-                        <td>@usuario.Role</td>
-                        <td>@usuario.Email</td>
-                        <td class="d-none d-xl-table-cell">@usuario.CreatedAt</td>
-                        <td class="d-none d-xl-table-cell"><span class="badge badge-lg badge-dot"> @(usuario.LockoutEnabled ? Html.Raw("<i class='bg-danger'></i>Desativado</span></td>") : Html.Raw("<i class='bg-success'></i>Ativo</span></td>"))
-                        <td class="text-end d-none d-sm-table-cell"><a href="/Usuario/Editar/@usuario.Id" class="btn btn-xs btn-neutral">Editar</a></td>
-                    </tr>
-                }
+            <tbody id="bodyUsuario">
+                @await Html.PartialAsync("~/Views/Usuario/_ListaUsuario.cshtml", Model)
             </tbody>
 
         </table>
@@ -108,3 +87,28 @@
         </div>
     </div>
 </main>
+
+
+    <script>
+        var role = "";
+
+        function FiltrarUsuarios(nivelAcesso) {
+            debugger
+            role = nivelAcesso;
+
+            $.ajax({
+                url: '/Usuario/FiltrarUsuarios',
+                type: 'GET',
+                data: { "role": role },
+            dataType: 'html',
+                success: function (data) {
+                $("#bodyUsuario").html(data);
+                    
+                },
+                error: function () {
+                    
+                }
+            });
+
+        };
+    </script>

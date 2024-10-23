@@ -17,12 +17,12 @@ namespace ehr_csharp.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public string ImageByteStr { get; set; }
-        public Medico? Medico { get; set; } 
+        public Medico? Medico { get; set; }
         #endregion
 
         #region ViewModel Propriedades
         [NotMapped]
-        public string? Role { get; set; } 
+        public string? Role { get; set; }
         [NotMapped]
         public string? Password { get; set; }
         [NotMapped]
@@ -110,16 +110,6 @@ namespace ehr_csharp.Models
         }
     }
 
-    public class ChatGptResponse
-    {
-        #region Propriedades
-        public string date { get; set; }
-        public dynamic content { get; set; }
-        
-    }
-    public class Content
-    {
-        public string paciente { get; set; }
-        public string data_nascimento { get; set; }
 
-    }
+
+}

@@ -27,7 +27,7 @@ public class LayoutViewComponent : ViewComponent
             byte[] imageBytes = Convert.FromBase64String(UsuarioLogado.ImageByteStr);
 
             // Adicionando a string Base64 para ser usada diretamente na view
-            UsuarioLogado.UserImageBase64 = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
+            //UsuarioLogado.UserImageBase64 = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";
 
             return View(UsuarioLogado);
         }
