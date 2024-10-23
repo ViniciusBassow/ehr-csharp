@@ -1,0 +1,7 @@
+
+@using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <label for="file">Importar arquivo de exame:</label>
+    <input type="file" id="file" name="file" />
+    <button type="submit">Enviar e Analisar</button>
+}
