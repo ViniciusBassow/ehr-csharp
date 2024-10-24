@@ -1,0 +1,98 @@
+@model List<ehr_csharp.Models.Paciente>
+
+
+<main class="container-fluid p-0">
+    <div class="px-6 px-lg-7 pt-8 border-bottom">
+        <div class="d-flex align-items-center">
+            <h1>Pacientes</h1>
+            <div class="hstack gap-2 ms-auto">
+                @* <button type="button" class="btn btn-sm btn-neutral d-none d-lg-inline-flex">
+                <i class="bi bi-arrow-90deg-right me-2"></i> Export *@
+                <a href="/Paciente/Editar" class="btn btn-sm btn-primary">
+                    <i class="bi bi-plus-lg me-2"></i> Cadastrar novo
+                </a>
+            </div>
+        </div>
+        <ul class="nav nav-tabs nav-tabs-flush gap-8 overflow-x border-0 mt-4">
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">Todos</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Com agendamento</button></li>            
+        </ul>
+    </div>
+    <div class="row align-items-center d-flex px-6 px-lg-7 pt-8">
+        <div class="col-md-2">
+            <label class="form-label mb-0">Nome</label>
+            <input type="text" class="form-control">
+        </div>        
+        <div class="col-md-1">
+            <label class="form-check-label" checked="checked" for="check_example">Ativos</label>
+            <input class="form-check-input me-n2" type="checkbox" name="switch1" id="switchView1" checked="checked">
+        </div>
+
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-sm table-nowrap">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <div class="d-flex align-items-center gap-2 ps-1">                            
+                            <span>Nome</span>
+                        </div>
+                    </th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Idade</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Celular</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="bodyUsuario">
+                @await Html.PartialAsync("~/Views/Paciente/_ListaPaciente.cshtml", Model)
+            </tbody>
+
+        </table>
+    </div>
+    <div class="py-4 px-6">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-md-6 d-none d-md-block"><span class="text-muted text-sm">Showing 10 items out of 250 results found</span></div>
+            <div class="col-md-auto">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-spaced gap-1">
+                        <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <script>
+        var role = "";
+
+        function FiltrarUsuarios(nivelAcesso) {
+            debugger
+            role = nivelAcesso;
+
+            $.ajax({
+                url: '/Usuario/FiltrarUsuarios',
+                type: 'GET',
+                data: { "role": role },
+            dataType: 'html',
+                success: function (data) {
+                $("#bodyUsuario").html(data);
+                    
+                },
+                error: function () {
+                    
+                }
+            });
+
+        };
+    </script>

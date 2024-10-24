@@ -1,0 +1,148 @@
+@model ehr_csharp.Models.Paciente
+
+@using (Html.BeginForm("Salvar", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
+    @Html.HiddenFor(x => x.Id)
+
+    <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
+        <header class="border-bottom mb-10">
+            <div class="row">
+                <div class="col-sm-6 col-12">
+                    <h1 class="ls-tight">Pacientes</h1>
+                </div>
+            </div>
+            <br />
+            <label class="form-label"><b>Atenção:</b> Todas as informações fornecidas são confidenciais e serão utilizadas exclusivamente para fins de atendimento médico.</label>
+            <label class="form-label">Certifique-se de que todos os dados estão corretos e atualizados.</label>
+            <ul class="nav nav-tabs nav-tabs-flush gap-6 overflow-x border-0 mt-4">
+            </ul>
+        </header>
+        @if (errors.Count > 0)
+        {
+            <div class="col-xl-12" style="margin-top:40px;">
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "Erros encontrados:")
+                </div>
+            </div>
+        }
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <label class="form-label" for="Email">* Nome Completo:</label>
+                @Html.TextBoxFor(x => x.NomeCompleto, new { @class = "form-control", name = "NomeCompleto", id = "NomeCompleto" })
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" for="DataNascimento">* Data de Nascimento:</label>
+                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control", name = "DataNascimento", id = "DataNascimento" })
+            </div>
+            <div class="col-md-2">
+                <label class="form-label" for="Sexo">* Sexo:</label>
+                <select class="form-select" id="Sexo" name="Sexo" aria-label="Default select example">
+                    <option>Selecionar</option>
+                    <option value="F">Feminino</option>
+                    <option value="M">Masculino</option>
+                </select>
+            </div>
+        </div>
+        <hr class="my-6">
+
+        <div class="row align-items-center"> 
+            <div class="col-md-3">
+                <label class="form-label" for="Cpf">* CPF:</label>
+                @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control", name = "Cpf", id = "Cpf" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="Rg">* RG:</label>
+                @Html.TextBoxFor(x => x.Rg, new { @class = "form-control", name = "Rg", id = "Rg" })
+            </div>        
+            <div class="col-md-3">
+                <label class="form-label" for="Profissao">* Profissão:</label>
+                @Html.TextBoxFor(x => x.Profissao, new { @class = "form-control", name = "Rg", id = "Rg" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="EstadoCivil">* Estado Civil:</label>
+                <select class="form-select" id="EstadoCivilSelect" name="EstadoCivil" aria-label="Default select example">
+                    <option>Selecionar</option>
+                    <option value="1">Casado(a)</option>
+                    <option value="1">Solteiro(a)</option>
+                    <option value="M">Divorciado(a)</option>
+                    <option value="M">Viúvo(a)</option>
+                    <option value="M">União Estável</option>
+                </select>
+            </div>
+        </div>
+        <hr class="my-6">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <label class="form-label" for="Email">E-mail:</label>
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", name = "Rg", id = "Rg" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="Celular">Celular:</label>
+                @Html.TextBoxFor(x => x.Celular, new { @class = "form-control", name = "Celular", id = "Celular" })
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="TelefoneFixo">Telefone Fixo:</label>
+                @Html.TextBoxFor(x => x.TelefoneFixo, new { @class = "form-control", name = "TelefoneFixo", id = "TelefoneFixo" })
+            </div>          
+        </div>
+
+        <hr class="my-6">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <label class="form-label" for="Cep">* CEP:</label>
+                @Html.TextBoxFor(x => x.Cep, new { @class = "form-control", name = "Cep", id = "Cep" })
+            </div>          
+            <div class="col-md-9">
+                <label class="form-label" for="Endereco">* Endereço (Rua, Número, Bairro, Cidade, Estado):</label>
+                @Html.TextBoxFor(x => x.Endereco, new { @class = "form-control", name = "Endereco", id = "Endereco" })
+            </div>
+        </div>
+        <hr class="my-6">
+
+        <label class="form-label" for="Cep">ANTECEDENTES:</label>
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <label class="form-label" for="AntecedenteDesc">Descrição:</label>
+                <input class="form-control" id="AntecedenteInput" />                
+            </div>
+            <div class="col-md-2" style="padding-top: 1.7rem;">
+                <button type="button" onclick="AdicionarAntecedente()" class="btn btn-sm btn-primary">+</button>                
+            </div>
+            <div id="divContainer" class="row align-items-center col-md-5">
+        </div>
+      
+
+        </div>
+        <hr class="my-6">
+
+        <div class="hstack gap-2 ms-auto align-items-end">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-none d-md-flex gap-2"><a href="/paciente/index" class="btn btn-sm btn-neutral">Cancelar</a> <button type="submit" class="btn btn-sm btn-primary">Salvar</button></div>
+            </div>
+        </div>
+    </main>
+}
+<script>
+    let contador = 0;
+    function AdicionarAntecedente() {
+        var inputValue = $('#AntecedenteInput').val();
+        
+        if (inputValue.trim() === "") {
+            alert("Por favor, insira um valor.");
+            return;
+        }
+
+        var novaDiv = $('<div class="col-md-10" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly class="form-control" value=' + inputValue + ' id="AntecedenteInput" /> </div ><div class="col-md-2" style="padding-top: 1.7rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente('+contador+')" class="btn btn-sm btn-primary">-</button> </div>');
+        $('#divContainer').append(novaDiv);
+
+        contador++;       
+        $('#AntecedenteInput').val('');
+    }
+    function RemoverAntecedente(id) {
+        $("#idAntecedenteContainer" + id).remove();
+        $("#idAntecedenteBtn" + id).remove();
+        
+    }
+</script>

@@ -1,0 +1,19 @@
+@model List<ehr_csharp.Models.Paciente>
+
+@foreach (var paciente in Model)
+{
+    <tr>
+
+        <td>
+            <div class="d-flex align-items-center gap-3 ps-1">
+             
+                <div><span class="d-block text-heading fw-bold">@paciente.NomeCompleto</span></div>
+            </div>
+        </td>
+        <td>@paciente.Sexo</td>
+        <td>@paciente.DataNascimento.ToString("dd/MM/yyyy")</td>
+        <td>@paciente.TelefoneFixo</td>
+        <td>@paciente.Celular</td>
+        <td class="text-end d-none d-sm-table-cell"><a href="/Paciente/Editar/@paciente.Id" class="btn btn-xs btn-neutral">Editar</a></td>
+    </tr>
+}
