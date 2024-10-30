@@ -12,8 +12,8 @@ namespace ehr_csharp.Models
         
         //Relações 
 
-        public int IdPaciente { get; set; }
-        public Paciente Paciente { get; set; }
+        public int PacienteId { get; set; }
+        public virtual Paciente Paciente { get; set; }
 
     }
 }

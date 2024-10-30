@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.7.1" />
+    <PackageReference Include="jQuery.InputMask" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />

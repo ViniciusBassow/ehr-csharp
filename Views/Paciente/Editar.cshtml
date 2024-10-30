@@ -33,42 +33,44 @@
             </div>
             <div class="col-md-4">
                 <label class="form-label" for="DataNascimento">* Data de Nascimento:</label>
-                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control", name = "DataNascimento", id = "DataNascimento" })
+                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control DataNascimento", name = "DataNascimento", id = "DataNascimento" })
             </div>
             <div class="col-md-2">
                 <label class="form-label" for="Sexo">* Sexo:</label>
-                <select class="form-select" id="Sexo" name="Sexo" aria-label="Default select example">
-                    <option>Selecionar</option>
-                    <option value="F">Feminino</option>
-                    <option value="M">Masculino</option>
-                </select>
+                @Html.DropDownListFor(model => model.Sexo, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "Selecionar", Value = "" },
+            new SelectListItem { Text = "Feminino", Value = "F" },
+            new SelectListItem { Text = "Masculino", Value = "M" }
+            }, new { @class = "form-select", @id = "Sexo" })
             </div>
         </div>
         <hr class="my-6">
 
-        <div class="row align-items-center"> 
+        <div class="row align-items-center">
             <div class="col-md-3">
                 <label class="form-label" for="Cpf">* CPF:</label>
-                @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control", name = "Cpf", id = "Cpf" })
+                @Html.TextBoxFor(x => x.Cpf, new { @class = "form-control cpf", name = "Cpf", id = "Cpf" })
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="Rg">* RG:</label>
-                @Html.TextBoxFor(x => x.Rg, new { @class = "form-control", name = "Rg", id = "Rg" })
-            </div>        
+                @Html.TextBoxFor(x => x.Rg, new { @class = "form-control Rg", name = "Rg", id = "Rg" })
+            </div>
             <div class="col-md-3">
                 <label class="form-label" for="Profissao">* Profissão:</label>
                 @Html.TextBoxFor(x => x.Profissao, new { @class = "form-control", name = "Rg", id = "Rg" })
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="EstadoCivil">* Estado Civil:</label>
-                <select class="form-select" id="EstadoCivilSelect" name="EstadoCivil" aria-label="Default select example">
-                    <option>Selecionar</option>
-                    <option value="1">Casado(a)</option>
-                    <option value="1">Solteiro(a)</option>
-                    <option value="M">Divorciado(a)</option>
-                    <option value="M">Viúvo(a)</option>
-                    <option value="M">União Estável</option>
-                </select>
+                @Html.DropDownListFor(model => model.EstadoCivil, new List<SelectListItem>
+            {
+            new SelectListItem { Text = "Selecionar", Value = "" },
+            new SelectListItem { Text = "Casado(a)", Value = "1" },
+            new SelectListItem { Text = "Solteiro(a)", Value = "2" },
+            new SelectListItem { Text = "Divorciado(a)", Value = "3" },
+            new SelectListItem { Text = "Viúvo(a)", Value = "4" },
+            new SelectListItem { Text = "União Estável", Value = "5" },
+            }, new { @class = "form-select", @id = "EstadoCivil" })
             </div>
         </div>
         <hr class="my-6">
@@ -80,20 +82,20 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="Celular">Celular:</label>
-                @Html.TextBoxFor(x => x.Celular, new { @class = "form-control", name = "Celular", id = "Celular" })
+                @Html.TextBoxFor(x => x.Celular, new { @class = "form-control celular", name = "Celular", id = "Celular" })
             </div>
             <div class="col-md-3">
                 <label class="form-label" for="TelefoneFixo">Telefone Fixo:</label>
-                @Html.TextBoxFor(x => x.TelefoneFixo, new { @class = "form-control", name = "TelefoneFixo", id = "TelefoneFixo" })
-            </div>          
+                @Html.TextBoxFor(x => x.TelefoneFixo, new { @class = "form-control TelefoneFixo", name = "TelefoneFixo", id = "TelefoneFixo" })
+            </div>
         </div>
 
         <hr class="my-6">
         <div class="row align-items-center">
             <div class="col-md-3">
                 <label class="form-label" for="Cep">* CEP:</label>
-                @Html.TextBoxFor(x => x.Cep, new { @class = "form-control", name = "Cep", id = "Cep" })
-            </div>          
+                @Html.TextBoxFor(x => x.Cep, new { @class = "form-control cep", name = "Cep", id = "Cep" })
+            </div>
             <div class="col-md-9">
                 <label class="form-label" for="Endereco">* Endereço (Rua, Número, Bairro, Cidade, Estado):</label>
                 @Html.TextBoxFor(x => x.Endereco, new { @class = "form-control", name = "Endereco", id = "Endereco" })
@@ -103,18 +105,21 @@
 
         <label class="form-label" for="Cep">ANTECEDENTES:</label>
         <div class="row align-items-center">
-            <div class="col-md-5">
-                <label class="form-label" for="AntecedenteDesc">Descrição:</label>
-                <input class="form-control" id="AntecedenteInput" />                
+            <div class="col-md-6 row" style="align-self: normal;">
+                <div class="col-md-10">
+                    <label class="form-label" for="AntecedenteDesc">Descrição:</label>
+                    <input class="form-control" id="AntecedenteInput" />
+                </div>
+                <div class="col-md-2" style="padding-top: 2rem;">
+                    <button type="button" onclick="AdicionarAntecedente()" class="btn btn-sm btn-primary">+</button>
+                </div>
             </div>
-            <div class="col-md-2" style="padding-top: 1.7rem;">
-                <button type="button" onclick="AdicionarAntecedente()" class="btn btn-sm btn-primary">+</button>                
-            </div>
-            <div id="divContainer" class="row align-items-center col-md-5">
-        </div>
-      
 
+            <div id="divContainer" style="padding-top: 1.3rem;" class="row align-items-center col-md-5">
+            </div>
         </div>
+            @Html.HiddenFor(m => m.Antecedentes)
+        
         <hr class="my-6">
 
         <div class="hstack gap-2 ms-auto align-items-end">
@@ -124,25 +129,45 @@
         </div>
     </main>
 }
+
+
+
 <script>
+    $(document).ready(function () {
+        $('.Cpf').mask('000.000.000-00');
+        $('.Rg').mask('00.000.000-1');
+        $('.DataNascimento').mask('00/00/0000');
+        $('.Celular').mask('(00) 00000-0000');
+        $('.TelefoneFixo').mask('(00) 0000-0000');
+        $('.Cep').mask('00000-000');
+    });
     let contador = 0;
     function AdicionarAntecedente() {
         var inputValue = $('#AntecedenteInput').val();
-        
+
         if (inputValue.trim() === "") {
             alert("Por favor, insira um valor.");
             return;
         }
 
-        var novaDiv = $('<div class="col-md-10" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly class="form-control" value=' + inputValue + ' id="AntecedenteInput" /> </div ><div class="col-md-2" style="padding-top: 1.7rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente('+contador+')" class="btn btn-sm btn-primary">-</button> </div>');
-        $('#divContainer').append(novaDiv);
+        // Cria uma nova div para exibir o antecedente adicionado
+        var novaDiv = $('<div class="col-md-10" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">-</button> </div>');
 
-        contador++;       
+        // Adiciona um campo oculto para o antecedente
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Antecedentes[' + contador + '].Descricao', // Nome do campo deve ser uma coleção
+            value: inputValue
+        }).appendTo('#divContainer');
+
+        $('#divContainer').append(novaDiv);
+        contador++;
         $('#AntecedenteInput').val('');
     }
+
     function RemoverAntecedente(id) {
         $("#idAntecedenteContainer" + id).remove();
         $("#idAntecedenteBtn" + id).remove();
-        
+        $("input[name='Antecedentes[" + id + "].Descricao']").remove(); // Remove o campo oculto correspondente
     }
 </script>

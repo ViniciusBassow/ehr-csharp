@@ -24,7 +24,7 @@ namespace ehr_csharp.Models
         public string? HistoricoFamiliar { get; set; } //Mudar para somente Historico e colocar como uma lista?
 
         //Relações
-        public ICollection<Antecedente>? Antecedentes { get; set; }
+        public virtual ICollection<Antecedente>? Antecedentes { get; set; }
         public ICollection<Consulta>? Consultas { get; set; }
         public ICollection<Diagnostico>? Diagnosticos { get; set; }
         public ICollection<Prescricao>? Prescricoes { get; set; }
