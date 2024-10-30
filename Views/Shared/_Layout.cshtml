@@ -315,8 +315,20 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/switcher.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.Cpf').mask('000.000.000-00');
+            $('.Rg').mask('00.000.000-1');
+            $('.DataNascimento').mask('00/00/0000');
+            $('.Celular').mask('(00) 00000-0000');
+            $('.TelefoneFixo').mask('(00) 0000-0000');
+            $('.Cep').mask('00000-000');
+        });
+    </script>
 </body>
 </html>
+
 
 
 

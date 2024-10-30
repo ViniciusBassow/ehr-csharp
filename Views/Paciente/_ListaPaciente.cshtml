@@ -10,10 +10,10 @@
                 <div><span class="d-block text-heading fw-bold">@paciente.NomeCompleto</span></div>
             </div>
         </td>
-        <td>@paciente.Sexo</td>
-        <td>@paciente.DataNascimento.ToString("dd/MM/yyyy")</td>
-        <td>@paciente.TelefoneFixo</td>
-        <td>@paciente.Celular</td>
+        <td class="">@paciente.Sexo</td>
+        <td class="DataNascimento">@paciente.DataNascimento.ToString("dd/MM/yyyy")</td>
+        <td class="TelefoneFixo">@paciente.TelefoneFixo</td>
+        <td class="Celular">@paciente.Celular</td>
         <td class="text-end d-none d-sm-table-cell"><a href="/Paciente/Editar/@paciente.Id" class="btn btn-xs btn-neutral">Editar</a></td>
     </tr>
 }

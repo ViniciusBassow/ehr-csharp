@@ -116,10 +116,23 @@
             </div>
 
             <div id="divContainer" style="padding-top: 1.3rem;" class="row align-items-center col-md-5">
+                @foreach (var item in Model.Antecedentes)
+                {
+                    <div class="col-md-10" id="idAntecedenteContainer@(Model.Antecedentes.IndexOf(item))">
+                        <label class="form-label" for="AntecedenteDesc">
+
+                        </label>
+                        <input readonly="" name="Antecedentes@(Model.Antecedentes.IndexOf(item))" class="form-control" value="@item.Descricao">
+                    </div>
+
+                    <div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn@(Model.Antecedentes.IndexOf(item))">
+                        <button type="button" onclick="RemoverAntecedente(@Model.Antecedentes.IndexOf(item))" class="btn btn-sm btn-primary">-</button>
+                    </div>
+                }
             </div>
         </div>
-            @Html.HiddenFor(m => m.Antecedentes)
-        
+        @Html.HiddenFor(m => m.Antecedentes)
+
         <hr class="my-6">
 
         <div class="hstack gap-2 ms-auto align-items-end">
@@ -133,14 +146,7 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('.Cpf').mask('000.000.000-00');
-        $('.Rg').mask('00.000.000-1');
-        $('.DataNascimento').mask('00/00/0000');
-        $('.Celular').mask('(00) 00000-0000');
-        $('.TelefoneFixo').mask('(00) 0000-0000');
-        $('.Cep').mask('00000-000');
-    });
+    
     let contador = 0;
     function AdicionarAntecedente() {
         var inputValue = $('#AntecedenteInput').val();

@@ -41,7 +41,8 @@ namespace ehr_csharp.Controllers
             var paciente = Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefault(x => x.Id == Id);
             if (paciente == null)
                 paciente = new Paciente();
-
+            if (paciente.Antecedentes == null)
+                paciente.Antecedentes = new List<Antecedente>();
 
             return View(paciente);
         }
@@ -49,10 +50,6 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<ActionResult> Salvar(Paciente paciente)
         {
-            Dictionary<string, string> errors = new Dictionary<string, string>();
-            var pacienteBD = await Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefaultAsync(x => x.Id == paciente.Id);
-
-
             ValidarCamposPaciente(paciente);
 
             if (!ModelState.IsValid)
@@ -60,7 +57,18 @@ namespace ehr_csharp.Controllers
                 return View("Views\\Usuario\\editar.cshtml", new Usuario());
             }
 
-            List<Antecedente> antecedentes = new List<Antecedente>();
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+            var pacienteBD = await Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefaultAsync(x => x.Id == paciente.Id);
+            
+            if (pacienteBD != null)
+            {
+                pacienteBD.Antecedentes?.Clear();
+                pacienteBD = paciente;                
+            }
+            else
+                Contexto<Paciente>().Add(paciente);
+
+
             int contadorHeader = 0;
             while (true)
             {
@@ -68,34 +76,19 @@ namespace ehr_csharp.Controllers
                 if (string.IsNullOrEmpty(descricao))
                     break;
 
-                //pacienteBD.Antecedentes.Add(new Antecedente()
-                //{
-                //    Descricao = descricao
-                //});
-                antecedentes.Add(new Antecedente()
+
+                var Antecendete = new Antecedente()
                 {
                     Descricao = descricao,
                     PacienteId = pacienteBD.Id
-                });
+                };
 
+                Contexto<Antecedente>().Add(Antecendete);
+                paciente.Antecedentes.Add(Antecendete);
                 contadorHeader++;
             }
 
-            if (pacienteBD != null)
-            {                
-                pacienteBD = paciente;
-                pacienteBD.Antecedentes.Clear();
-            }
-            else
-            {
-                paciente.Antecedentes = antecedentes;
-                Contexto<Paciente>().Add(paciente);
-            }
-
-            
-
             SaveChanges();
-
             return View("Views\\Paciente\\editar.cshtml", paciente);
         }
 
