@@ -145,6 +145,44 @@
                 </div>
                 <div class="collapse navbar-collapse overflow-x-hidden" id="sidebarCollapse">
                     <ul class="navbar-nav">
+                       
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Consulta")" role="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                </svg>Calendário
+                            </a>
+                        </li>
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Paciente")" role="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-standing" viewBox="0 0 16 16">
+                                    <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M6 6.75v8.5a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2.75a.75.75 0 0 0 1.5 0v-2.5a.25.25 0 0 1 .5 0" />
+                                </svg>Pacientes
+                            </a>
+                        </li>
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Usuario")" role="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                                </svg> Usuários
+                            </a>
+                        </li>
+
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill active" href="#sidebar-account" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebar-account">
+                                <i class="bi bi-gear-fill"></i> <span>Painel Administrador</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
+                            <div class="collapse show" id="sidebar-account">
+                                <ul class="nav nav-sm flex-column mt-1">
+                                    <li class="nav-item"><a href="/Usuario" class="nav-link">Usuarios</a></li>
+                                    <li class="nav-item"><a href="/Usuario/Editar" class="nav-link">Cadastrar Usuario</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link fw-bold">Billing</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link">Notifications</a></li>
+                                    <li class="nav-item"><a href="" class="nav-link">Team</a></li>
+                                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                                    <li class="nav-item"><a href="/pages/register.html" class="nav-link">Register</a></li>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item my-1">
                             <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-dashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-dashboards"><i class="bi bi-house-fill"></i> <span>Dashboards</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
                             <div class="collapse" id="sidebar-dashboards">
@@ -154,13 +192,6 @@
                                     <li class="nav-item"><a href="/pages/dashboard-wallet.html" class="nav-link">Wallet</a></li>
                                 </ul>
                             </div>
-                        </li>
-                        <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Paciente")"  role="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-standing" viewBox="0 0 16 16">
-                                    <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M6 6.75v8.5a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2.75a.75.75 0 0 0 1.5 0v-2.5a.25.25 0 0 1 .5 0" />
-                                </svg>Pacientes 
-                            </a>                         
                         </li>
                         <li class="nav-item my-1">
                             <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-pages" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-pages"><i class="bi bi-bar-chart-fill"></i> <span>Pages</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
@@ -173,20 +204,6 @@
                                     <li class="nav-item"><a href="/pages/page-list.html" class="nav-link">Large List</a></li>
                                     <li class="nav-item"><a href="/pages/page-checklist.html" class="nav-link">Checklist</a></li>
                                     <li class="nav-item"><a href="/pages/page-collection.html" class="nav-link">Collection</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill active" href="#sidebar-account" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebar-account"><i class="bi bi-gear-fill"></i> <span>Painel Administrador</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
-                            <div class="collapse show" id="sidebar-account">
-                                <ul class="nav nav-sm flex-column mt-1">
-                                    <li class="nav-item"><a href="/Usuario" class="nav-link">Usuarios</a></li>
-                                    <li class="nav-item"><a href="/Usuario/Editar" class="nav-link">Cadastrar Usuario</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link fw-bold">Billing</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link">Notifications</a></li>
-                                    <li class="nav-item"><a href="" class="nav-link">Team</a></li>
-                                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
-                                    <li class="nav-item"><a href="/pages/register.html" class="nav-link">Register</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -320,7 +337,7 @@
         $(document).ready(function () {
             $('.Cpf').mask('000.000.000-00');
             $('.Rg').mask('00.000.000-1');
-            $('.DataNascimento').mask('00/00/0000');
+            // $('.Data').mask('00/00/0000');
             $('.Celular').mask('(00) 00000-0000');
             $('.TelefoneFixo').mask('(00) 0000-0000');
             $('.Cep').mask('00000-000');

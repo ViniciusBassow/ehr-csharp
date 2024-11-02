@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NovaPasta\**" />
-    <Content Remove="Views\NovaPasta\**" />
-    <EmbeddedResource Remove="Views\NovaPasta\**" />
-    <None Remove="Views\NovaPasta\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Data\ApplicationDbContext.cs" />
   </ItemGroup>
 
@@ -75,6 +68,15 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Calendar\.DS_Store" />
+    <None Include="wwwroot\Calendar\css\.DS_Store" />
+    <None Include="wwwroot\Calendar\fonts\.DS_Store" />
+    <None Include="wwwroot\Calendar\images\.DS_Store" />
+    <None Include="wwwroot\Calendar\js\.DS_Store" />
+    <None Include="wwwroot\Calendar\scss\.DS_Store" />
   </ItemGroup>
 
   <ItemGroup>

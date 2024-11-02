@@ -68,6 +68,7 @@ namespace ehr_csharp.Controllers
             else
                 Contexto<Paciente>().Add(paciente);
 
+            SaveChanges();
 
             int contadorHeader = 0;
             while (true)
@@ -80,7 +81,7 @@ namespace ehr_csharp.Controllers
                 var Antecendete = new Antecedente()
                 {
                     Descricao = descricao,
-                    PacienteId = pacienteBD.Id
+                    PacienteId = paciente.Id 
                 };
 
                 Contexto<Antecedente>().Add(Antecendete);
