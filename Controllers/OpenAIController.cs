@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using RestSharp;
 using System.Text;
 using System;
+using Serilog; // Adicione esta linha para usar o Serilog
 
 namespace ehr_csharp.Controllers
 {
@@ -22,6 +23,7 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Index()
         {
+            Log.Information("Acessando a página de OpenAI."); // Log de informação ao acessar a página
             return View();
         }
 
@@ -31,26 +33,37 @@ namespace ehr_csharp.Controllers
             if (file == null || file.Length == 0)
             {
                 ViewBag.Message = "Por favor, selecione um arquivo.";
+                Log.Warning("Nenhum arquivo foi selecionado para upload."); // Log de aviso se nenhum arquivo for selecionado
                 return View();
             }
 
             // Salvar o arquivo temporariamente
             var filePath = Path.Combine(Path.GetTempPath(), file.FileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // Extrair texto do PDF
+                var extractedText = await ExtractTextFromPdf(filePath);
+                Log.Information("Texto extraído com sucesso do arquivo: {FileName}", file.FileName); // Log de informação ao extrair texto
+
+                // Chamar OpenAI API para analisar os dados
+                var analysisResult = await AnalyzeTextWithOpenAI(extractedText);
+                Log.Information("Análise do texto realizada com sucesso."); // Log de informação ao analisar o texto
+
+                // Retornar o resultado para a View
+                ViewBag.Analysis = analysisResult;
+                return View("AnalysisResult");
             }
-
-            // Extrair texto do PDF
-            var extractedText = await ExtractTextFromPdf(filePath);
-
-            // Chamar OpenAI API para analisar os dados
-            var analysisResult = await AnalyzeTextWithOpenAI(extractedText);
-
-            // Retornar o resultado para a View
-            ViewBag.Analysis = analysisResult;
-            return View("AnalysisResult");
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Erro ao processar o arquivo: {FileName}", file.FileName); // Log de erro se ocorrer uma exceção
+                ViewBag.Message = "Ocorreu um erro ao processar o arquivo.";
+                return View();
+            }
         }
 
         private async Task<string> ExtractTextFromPdf(string filePath)
@@ -94,36 +107,31 @@ namespace ehr_csharp.Controllers
 
 
             var client = new RestClient("https://api.openai.com/v1/chat/completions");
-                
-                var request = new RestRequest("", RestSharp.Method.Post); 
-                request.AddHeader("Accept", "/");
-                request.AddHeader("Content-Type", "application/json");
-                
-                request.AddHeader("Authorization", $"Bearer {_configuration["OpenAI:ApiKey"]}");
-            //request.AddParameter("model", "gpt-4o");
-            //request.AddParameter("prompt", "Analise os dados completos desse exame de hemograma: {text}");
-            //request.AddParameter("temperature", 0.5);
-            //request.AddParameter("max_tokens", 1500);
+
+            var request = new RestRequest("", RestSharp.Method.Post);
+            request.AddHeader("Accept", "/");
+            request.AddHeader("Content-Type", "application/json");
+
+            request.AddHeader("Authorization", $"Bearer {_configuration["OpenAI:ApiKey"]}");
 
             var requestBody = new
             {
                 model = "gpt-4o",  // Escolha o modelo apropriado da OpenAI
-                messages = new[] { new {  role = "user", content = $"Retorne todos os dados desse documento em json, quero os dados em portugues, sem nenhum comentario seu, somente o json : {text}" } },
+                messages = new[] { new { role = "user", content = $"Retorne todos os dados desse documento em json, quero os dados em portugues, sem nenhum comentario seu, somente o json : {text}" } },
                 temperature = 0.5,
                 max_tokens = 1500,
-                response_format = new{ type = "json_object"} 
-        };
+                response_format = new { type = "json_object" }
+            };
 
             request.AddJsonBody(requestBody);
             var content = new StringContent(JsonConvert.SerializeObject(requestBody), System.Text.Encoding.UTF8, "application/json");
-            
-            request.AddJsonBody(content);
-            
-            var response = client.Execute(request);
 
+            request.AddJsonBody(content);
+
+            var response = client.Execute(request);
+            Log.Information("Chamada à API OpenAI realizada."); // Log de informação ao chamar a API OpenAI
 
             dynamic result = JsonConvert.DeserializeObject(response.Content.Replace("\\n", " "));
-
             var test = response.Content.Replace("\\n", "").Replace("\\\"", "");
 
             return null;
