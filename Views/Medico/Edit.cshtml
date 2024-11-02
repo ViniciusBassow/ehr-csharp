@@ -1,0 +1,38 @@
+﻿@model List<ehr_csharp.Models.Medico>
+
+@{
+    ViewData["Title"] = "Lista de Médicos";
+}
+
+<h1>Lista de Médicos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Adicionar Médico</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>CRM</th>
+            <th>Usuário</th>
+            <th>Especialidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medico in Model)
+        {
+            <tr>
+                <td>@medico.Id</td>
+                <td>@medico.CRM</td>
+                <td>@medico.Usuario?.Nome</td>
+                <td>@medico.Especialidade?.Nome</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@medico.Id" class="btn btn-info">Detalhes</a>
+                    <a asp-action="Edit" asp-route-id="@medico.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@medico.Id" class="btn btn-danger">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
