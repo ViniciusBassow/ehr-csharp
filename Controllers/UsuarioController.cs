@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.Json;
-using Serilog; // Adicione esta linha para usar o Serilog
+
 
 namespace ehr_csharp.Controllers
 {
@@ -37,7 +37,7 @@ namespace ehr_csharp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
-            Log.Information("Acessando a lista de usuários."); // Log de informação ao acessar a lista de usuários
+
 
             List<Usuario> usuarios = Contexto<Usuario>().Where(x => x.UserName != "root").ToList();
 
@@ -47,16 +47,15 @@ namespace ehr_csharp.Controllers
                 usuario.Role = roles.FirstOrDefault();
             }
 
+            
             return View(usuarios);
         }
 
         public async Task<ActionResult> FiltrarUsuarios(string role)
         {
-            Log.Information("Filtrando usuários pela role: {Role}", role); // Log de informação ao filtrar usuários
-
             List<Usuario> usuarios = new List<Usuario> { };
             var userRole = await _roleManager.FindByNameAsync(role);
-
+            
             if (userRole != null)
             {
                 var usersInRole = await _userManager.GetUsersInRoleAsync(userRole.Name);
@@ -73,13 +72,14 @@ namespace ehr_csharp.Controllers
                 var roles = await _userManager.GetRolesAsync(usuario);
                 usuario.Role = roles.FirstOrDefault();
             }
-
+            // Caso a role não seja encontrada, retorna uma mensagem de erro
             return PartialView("_ListaUsuario", usuarios);
+            
         }
+
 
         public async Task<ActionResult> Editar(string Id)
         {
-            Log.Information("Editando usuário com ID: {Id}", Id); // Log de informação ao editar um usuário
 
             var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
             if (usuario == null)
@@ -96,8 +96,6 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<ActionResult> Salvar(Usuario usuario)
         {
-            Log.Information("Salvando usuário: {Usuario}", usuario); // Log de informação ao salvar um usuário
-
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
 
@@ -108,7 +106,6 @@ namespace ehr_csharp.Controllers
 
             if (!ModelState.IsValid)
             {
-                Log.Warning("ModelState inválido para usuário: {Usuario}", usuario); // Log de aviso se o ModelState não for válido
                 return View("Views\\Usuario\\editar.cshtml", new Usuario());
             }
 
@@ -119,6 +116,7 @@ namespace ehr_csharp.Controllers
                 usuarioBD.UpdateAt = DateTime.Now;
                 usuarioBD.Name = usuario.Name;
                 usuarioBD.Role = usuario.Role;
+
             }
             else
             {
@@ -140,16 +138,16 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<Dictionary<string, string>> Registrar(Usuario usuario)
         {
-            Log.Information("Registrando novo usuário: {Usuario}", usuario); // Log de informação ao registrar um usuário
-
             Dictionary<string, string> errors = new Dictionary<string, string>();
 
             try
             {
+
                 var result = await _userManager.CreateAsync(usuario, usuario.Password);
 
                 if (result.Succeeded)
                 {
+
                     var addToRoleResult = await _userManager.AddToRoleAsync(usuario, usuario.Role);
 
                     if (!addToRoleResult.Succeeded)
@@ -162,6 +160,7 @@ namespace ehr_csharp.Controllers
                 }
                 else
                 {
+
                     foreach (var error in result.Errors)
                     {
                         errors.Add(string.Empty, error.Description);
@@ -170,7 +169,7 @@ namespace ehr_csharp.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error("Erro ao registrar usuário: {Message}", ex.Message); // Log de erro ao registrar usuário
+
                 errors.Add("Exception", ex.Message);
             }
 
@@ -180,7 +179,6 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Usuario usuario)
         {
-            Log.Information("Tentativa de login para usuário: {UserName}", usuario.UserName); // Log de informação ao tentar login
 
             var result = await _signInManager.PasswordSignInAsync(usuario.UserName, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
 
@@ -188,32 +186,33 @@ namespace ehr_csharp.Controllers
             {
                 if (!_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
                 {
+
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                     UsuarioLogado = await _userManager.FindByIdAsync(userId);
 
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromMinutes(30)); // expira se não for acessado em 30 minutos
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(30)); // expira se não for acessado em 5 minutos
 
                     _cache.Set("UsuarioLogado", UsuarioLogado, cacheEntryOptions);
                 }
 
-                Log.Information("Login bem-sucedido para usuário: {UserName}", usuario.UserName); // Log de sucesso no login
                 return RedirectToAction("Index", "Usuario");
             }
 
             if (result.IsLockedOut)
             {
                 ModelState.AddModelError(string.Empty, "Conta bloqueada após várias tentativas.");
-                Log.Warning("Conta bloqueada para usuário: {UserName}", usuario.UserName); // Log de aviso se a conta estiver bloqueada
             }
             else
             {
+
                 ModelState.AddModelError(string.Empty, "Login ou senha incorretos.");
-                Log.Warning("Falha no login para usuário: {UserName}", usuario.UserName); // Log de aviso se o login falhar
             }
+
 
             return View();
         }
+
 
         public void ValidarCamposUsuario(Usuario usuario, bool novo)
         {
@@ -231,5 +230,8 @@ namespace ehr_csharp.Controllers
                     ModelState.AddModelError("Senha", "O campo Senha é obrigatório");
             }
         }
+
     }
+
+
 }
