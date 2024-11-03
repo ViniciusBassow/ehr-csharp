@@ -191,8 +191,9 @@ namespace ehr_csharp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdMedico")
                         .HasColumnType("int");
@@ -203,13 +204,6 @@ namespace ehr_csharp.Migrations
                     b.Property<string>("Motivo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MotivoCancelamento")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusConsulta")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

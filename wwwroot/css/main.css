@@ -4012,18 +4012,18 @@ progress {
 }
 
 .btn-danger {
-    --x-btn-color: #c12f43;
+    --x-btn-color: #fff;
     --x-btn-bg: #f36;
     --x-btn-border-color: #f36;
-    --x-btn-hover-color: #c12f43;
+    --x-btn-hover-color: #fff;
     --x-btn-hover-bg: #cc2952;
     --x-btn-hover-border-color: #cc2952;
     --x-btn-focus-shadow-rgb: 255,82,125;
-    --x-btn-active-color: #c12f43;
+    --x-btn-active-color: #fff;
     --x-btn-active-bg: #cc2952;
     --x-btn-active-border-color: #bf264d;
     --x-btn-active-shadow: 0 0 0 0 transparent;
-    --x-btn-disabled-color: #c12f43;
+    --x-btn-disabled-color: #fff;
     --x-btn-disabled-bg: #f36;
     --x-btn-disabled-border-color: #f36
 }
