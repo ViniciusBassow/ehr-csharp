@@ -15,6 +15,7 @@ namespace ehr_csharp.Models
         public string HCM{ get; set; }
         public string CHCM { get; set; }
         public string RDW { get; set; }
+        //(string? Absoluto, string? Relativo)
         public string Leucocitos { get; set; }
         public string Bastonetes { get; set; }
         public string Segmentados { get; set; }

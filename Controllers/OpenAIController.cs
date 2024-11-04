@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using RestSharp;
 using System.Text;
 using System;
+using OpenAI.Chat;
 
 namespace ehr_csharp.Controllers
 {
@@ -72,61 +73,46 @@ namespace ehr_csharp.Controllers
 
         private async Task<string> AnalyzeTextWithOpenAI(string text)
         {
-            //string apiKey = _configuration["OpenAI:ApiKey"];
-            //using (HttpClient client = new HttpClient())
-            //{
-            //client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-
-            //var requestBody = new
-            //{
-            //    model = "gpt-4o",  // Escolha o modelo apropriado da OpenAI
-            //    prompt = $"Por favor, analise os seguintes dados de um exame de hemograma: {text}",
-            //    temperature = 0.5,
-            //    max_tokens = 1500
-            //};
-
-            //var content = new StringContent(JsonConvert.SerializeObject(requestBody), System.Text.Encoding.UTF8, "application/json");
-
-            //var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
-            //var responseContent = await response.Content.ReadAsStringAsync();
-
-            //return result.choices[0].text;}
-
-
             var client = new RestClient("https://api.openai.com/v1/chat/completions");
-                
-                var request = new RestRequest("", RestSharp.Method.Post); 
-                request.AddHeader("Accept", "/");
-                request.AddHeader("Content-Type", "application/json");
-                
-                request.AddHeader("Authorization", $"Bearer {_configuration["OpenAI:ApiKey"]}");
-            //request.AddParameter("model", "gpt-4o");
-            //request.AddParameter("prompt", "Analise os dados completos desse exame de hemograma: {text}");
-            //request.AddParameter("temperature", 0.5);
-            //request.AddParameter("max_tokens", 1500);
+            var request = new RestRequest("", Method.Post);
+
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", $"Bearer {_configuration["OpenAI:ApiKey"]}");
 
             var requestBody = new
             {
-                model = "gpt-4o",  // Escolha o modelo apropriado da OpenAI
-                messages = new[] { new {  role = "user", content = $"Retorne todos os dados desse documento em json, quero os dados em portugues, sem nenhum comentario seu, somente o json : {text}" } },
+                model = "gpt-3.5-turbo-1106", // Ajuste o modelo conforme necessário
+                messages = new[]
+                {
+            new { role = "user", content = $"Analise o texto fornecido, extraído de um exame de hemograma em PDF. Devolva a resposta no formato de texto mas formatado como um json, contendo somente um objeto com o somente o valor.  Use esse json como template para o tipo da resposta e não crie nenhuma chave e nem tire uma chave somente preencha os valores, lembrando q os valores são do tipo double :\r\n\r\n{{\r\n  \"Hemograma\": {{\r\n    \"Eritrocitos\": \"\",\r\n    \"Hemoglobina\": \"\",\r\n    \"Hematocrito\": \"\",\r\n    \"VCM\": \"\",\r\n    \"HCM\": \"\",\r\n    \"CHCM\": \"\",\r\n    \"RDW\": \"\",\r\n    \"Leucocitos\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Bastonetes\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Segmentados\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Eosinofilos\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Basofilos\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Linfocitos\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Monocitos\": {{\r\n      \"Absoluto\": \"\",\r\n      \"Relativo\": \"\"\r\n    }},\r\n    \"Plaquetas\":  \"\",\r\n    \"VPM\":  \"\",\r\n    \"Glicemia\": \"\",\r\n    \"Creatinina\": \"\",\r\n    \"AcidoUrico\": \"\",\r\n    \"Prolactina\": \"\",\r\n    \"Testosterona\": \"\",\r\n    \"ColesterolTotal\": \"\",\r\n    \"HDL\": \"\",\r\n    \"Triglicerides\": \"\",\r\n    \"LDL\": \"\",\r\n    \"NaoHDL\": \"\"\r\n  }}\r\n}}\r\n\r\n. Utilize os dados do texto: {text}" }
+        },
                 temperature = 0.5,
                 max_tokens = 1500,
-                response_format = new{ type = "json_object"} 
-        };
+                response_format = new { type = "json_object" } // Adicionando o response_format
+
+            };
 
             request.AddJsonBody(requestBody);
-            var content = new StringContent(JsonConvert.SerializeObject(requestBody), System.Text.Encoding.UTF8, "application/json");
-            
-            request.AddJsonBody(content);
-            
-            var response = client.Execute(request);
 
+            var response = await client.ExecuteAsync(request);
 
-            dynamic result = JsonConvert.DeserializeObject(response.Content.Replace("\\n", " "));
+            if (response.IsSuccessful)
+            {
+                // Deserializar o conteúdo da resposta
+                var result = JsonConvert.DeserializeObject<dynamic>(response.Content);
 
-            var test = response.Content.Replace("\\n", "").Replace("\\\"", "");
+                // Extrair o JSON do conteúdo da mensagem
+                string jsonContent = result?.choices[0]?.message?.content;
 
-            return null;
+                return jsonContent;
+            }
+            else
+            {
+                // Trate o erro conforme necessário, por exemplo, logando a resposta
+                throw new Exception($"Erro na chamada para OpenAI: {response.StatusCode} - {response.Content}");
+            }
         }
+
     }
 }
