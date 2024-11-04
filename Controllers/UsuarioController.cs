@@ -104,6 +104,9 @@ namespace ehr_csharp.Controllers
 
             ValidarCamposUsuario(usuario, usuarioBD == null);
 
+ 
+
+
             if (!ModelState.IsValid)
             {
                 return View("Views\\Usuario\\editar.cshtml", new Usuario());
