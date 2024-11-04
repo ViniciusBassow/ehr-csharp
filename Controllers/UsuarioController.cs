@@ -119,6 +119,7 @@ namespace ehr_csharp.Controllers
                 usuarioBD.UpdateAt = DateTime.Now;
                 usuarioBD.Name = usuario.Name;
                 usuarioBD.Role = usuario.Role;
+                usuarioBD.ImageByteStr = usuario.ImageByteStr;
 
             }
             else
@@ -199,7 +200,7 @@ namespace ehr_csharp.Controllers
                     _cache.Set("UsuarioLogado", UsuarioLogado, cacheEntryOptions);
                 }
 
-                return RedirectToAction("Index", "Usuario");
+                return RedirectToAction("Editar", "Usuario");
             }
 
             if (result.IsLockedOut)

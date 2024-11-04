@@ -24,7 +24,8 @@ public class LayoutViewComponent : ViewComponent
     {
         if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
         {
-            byte[] imageBytes = Convert.FromBase64String(UsuarioLogado.ImageByteStr);
+            //if(UsuarioLogado.ImageByteStr != null)
+            //byte[] imageBytes = Convert.FromBase64String(UsuarioLogado.ImageByteStr);
 
             // Adicionando a string Base64 para ser usada diretamente na view
             //UsuarioLogado.UserImageBase64 = $"data:image/png;base64,{Convert.ToBase64String(imageBytes)}";

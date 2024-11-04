@@ -16,7 +16,7 @@ namespace ehr_csharp.Models
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdateAt { get; set; }
-        public string ImageByteStr { get; set; }
+        public string? ImageByteStr { get; set; }
         public Medico? Medico { get; set; }
         #endregion
 
