@@ -122,7 +122,13 @@
     <div class="d-flex flex-column flex-lg-row h-lg-100 gap-1">
         <nav class="flex-none navbar navbar-vertical navbar-expand-lg navbar-light bg-transparent show vh-lg-100 px-0 py-2" id="sidebar">
             <div class="container-fluid px-3 px-md-4 px-lg-6">
-                <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button> <a class="navbar-brand d-inline-block py-lg-1 mb-lg-5" href="/pages/dashboard.html"><img src="../../img/logos/logo-dark.svg" class="logo-dark h-rem-8 h-rem-md-10" alt="..."> <img src="../../img/logos/logo-light.svg" class="logo-light h-rem-8 h-rem-md-10" alt="..."></a>
+                <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class ="navbar-brand d-inline-block py-lg-4 mb-lg-15" href="/pages/dashboard.html" style="display: flex; align-items: center;">
+                    <img src="../../img/logos/logo-dark2.png" class="logo-dark h-rem-8 " alt="Logo Dark">
+                    <img src="../../img/logos/logo-dark2.png" class="logo-light h-rem-12 " alt="Logo Light">
+                </a>
                 <div class="navbar-user d-lg-none">
                     <div class="dropdown">
                         <a class="d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
@@ -132,63 +138,75 @@
                             <div class="d-none d-sm-block ms-3"><span class="h6">Alexis</span></div> *@
                             <div class="d-none d-md-block ms-md-2"><i class="bi bi-chevron-down text-muted text-xs"></i></div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                        
+                        <div class="dropdown-menu dropdown-menu-end">                        
                             <a class="dropdown-item" href="#"><i class="bi bi-house me-3"></i>Home </a><a class="dropdown-item" href="#"><i class="bi bi-pencil me-3"></i>Edit profile</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="bi bi-gear me-3"></i>Settings </a><a class="dropdown-item" href="#"><i class="bi bi-image me-3"></i>Media </a><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-up me-3"></i>Share</a>
+                            <a class="dropdown-item" href="#"><i class="bi bi-gear me-3"></i>Configurações </a>
+                            <a class="dropdown-item" href="#"><i class="bi bi-image me-3"></i>Media </a>
+                            <a class="dropdown-item" href="#"><i class="bi bi-box-arrow-up me-3"></i>Share</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="bi bi-person me-3"></i>Login</a>
+                            <a class="dropdown-item" href="/login"><i class="bi bi-person me-3"></i>Login</a>
                         </div>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse overflow-x-hidden" id="sidebarCollapse">
                     <ul class="navbar-nav">
-                       
-                        <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Consulta")" role="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
-                                </svg>Calendário
-                            </a>
-                        </li>
-                        <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Paciente")" role="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-standing" viewBox="0 0 16 16">
-                                    <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M6 6.75v8.5a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2.75a.75.75 0 0 0 1.5 0v-2.5a.25.25 0 0 1 .5 0" />
-                                </svg>Pacientes
-                            </a>
-                        </li>
-                        <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Usuario")" role="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
-                                </svg> Usuários
-                            </a>
-                        </li>
 
                         <li class="nav-item my-1">
                             <a class="nav-link d-flex align-items-center rounded-pill active" href="#sidebar-account" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebar-account">
-                                <i class="bi bi-gear-fill"></i> <span>Painel Administrador</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
+                                <i class="bi bi-gear-fill"></i> <span>Painel Administrador</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span>
+                            </a>
                             <div class="collapse show" id="sidebar-account">
                                 <ul class="nav nav-sm flex-column mt-1">
-                                    <li class="nav-item"><a href="/Usuario" class="nav-link">Usuarios</a></li>
+                                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                                    <li class="nav-item"><a href="/Usuario" class="nav-link">Usuários</a></li>
                                     <li class="nav-item"><a href="/Usuario/Editar" class="nav-link">Cadastrar Usuario</a></li>
                                     <li class="nav-item"><a href="" class="nav-link fw-bold">Billing</a></li>
                                     <li class="nav-item"><a href="" class="nav-link">Notifications</a></li>
                                     <li class="nav-item"><a href="" class="nav-link">Team</a></li>
-                                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
                                     <li class="nav-item"><a href="/pages/register.html" class="nav-link">Register</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item my-1">
-                            <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-dashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-dashboards"><i class="bi bi-house-fill"></i> <span>Dashboards</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-dashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-dashboards"><i class="bi bi-house-fill"></i> <span>Dashboard Medico</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
                             <div class="collapse" id="sidebar-dashboards">
                                 <ul class="nav nav-sm flex-column mt-1">
                                     <li class="nav-item"><a href="/pages/dashboard.html" class="nav-link">Default</a></li>
                                     <li class="nav-item"><a href="/pages/dashboard-analytics.html" class="nav-link">Analytics</a></li>
                                     <li class="nav-item"><a href="/pages/dashboard-wallet.html" class="nav-link">Wallet</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-calendario" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-calendario">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                </svg> <span>Agendamento</span>
+                            </a>
+                            <div class="collapse" id="sidebar-calendario">
+                                <ul class="nav nav-sm flex-column mt-1">
+                                    <li class="nav-item my-1">
+                                        <a class="nav-link d-flex align-items-center rounded-pill" href="@Url.Action("Index", "Consulta")" role="button">
+                                            Calendário
+                                        </a>
+                                    </li>
+                                    <li class="nav-item"><a href="/Consulta/Agendar" class="nav-link">Agendar Consulta</a></li>
+                                    <li class="nav-item"><a href="/Consulta/Relatorios" class="nav-link">Relatórios de Consultas</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item my-1">
+                            <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-paciente" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-paciente">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-standing" viewBox="0 0 16 16">
+                                    <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M6 6.75v8.5a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2.75a.75.75 0 0 0 1.5 0v-2.5a.25.25 0 0 1 .5 0" />
+                                </svg> <span>Pacientes</span>
+                            </a>
+                            <div class="collapse" id="sidebar-paciente">
+                                <ul class="nav nav-sm flex-column mt-1">
+                                    <li class="nav-item"><a href="/Paciente/Editar" class="nav-link">Cadastrar Paciente</a></li>
+                                    <li class="nav-item"><a href="/Paciente" class="nav-link">Lista de Pacientes</a></li>
+                                    <li class="nav-item"><a href="/Paciente/Relatorios" class="nav-link">Relatórios</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -218,8 +236,8 @@
                             </div>
                         </li>
                     </ul>
-                    <hr class="navbar-divider my-5 opacity-70">
-                    <ul class="navbar-nav">
+       
+                   @* <ul class="navbar-nav">
                         <li><span class="nav-link text-xs fw-semibold text-uppercase text-muted ls-wide">Resources</span></li>
                         <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill" href="/docs"><i class="bi bi-book-fill"></i> <span>Documentation</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a></li>
                         <li class="nav-item my-1">
@@ -239,16 +257,10 @@
                             </div>
                         </li>
                         <li class="nav-item my-1"><a class="nav-link d-flex align-items-center rounded-pill" href="/widgets.html"><i class="bi bi-calendar2-plus-fill"></i> <span>Widgets</span> <span class="badge badge-sm rounded-pill me-n2 bg-warning-subtle text-warning ms-auto">🔥 Hot</span></a></li>
-                    </ul>
+                    </ul> *@
                     <div class="mt-auto"></div>
-                    <div class="card bg-dark border-0 mt-5 mb-3">
-                        <div class="card-body">
-                            <div class="vstack gap-4">
-                                <i class="bi bi-rocket-takeoff-fill text-white text-2xl"></i>
-                                <p class="text-sm text-white text-opacity-70">Upgrade your account to Pro for even more examples.</p>
-                                <a href="/pages/other-pricing.html" class="btn btn-sm btn-primary w-100">Upgade now<i class="bi bi-arrow-right ms-2"></i></a>
-                            </div>
-                        </div>
+                    <div class="card bg-dark border-0 mt-0 mb-0">
+                        
                     </div>
                 </div>
             </div>

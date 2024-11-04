@@ -20,45 +20,46 @@
 </head>
 @using (Html.BeginForm("Login", "Usuario", FormMethod.Post))
 {
-                <div class="row g-0 justify-content-center gradient-bottom-right start-green middle-blue end-green">
+                <div class="row g-10 justify-content-center gradient-bottom-right start-green middle-blue end-green">
         <div class="col-md-6 col-lg-5 col-xl-5 position-fixed start-0 top-0 vh-100 overflow-y-hidden d-none d-lg-flex flex-lg-column">
             <div class="p-12 py-xl-10 px-xl-20">
                 <a class="d-block" href="/pages/dashboard.html">
                     <img src="~/img/logos/logo-light.svg" class="h-rem-0" alt="Logo claro" />
                 </a>
                 <div class="mt-50 text-center">
-                    <h1 class="ls-tight fw-bolder display-16 text-white mb-5">AVITA</h1>
+                    <h1 class="ls-tight fw-bolder display-16 text-white mb-5"></h1>
                     
                 </div>
                     <div class="mt-center ">
-                    <img src="~/img/marketing/logoAvita.png" class="img-fluid rounded-top-start-4" alt="Logo" />
+                    <img src="~/img/marketing/logo1.png" class="img-fluid rounded-top-start-4" alt="Logo" />
                 </div>
             </div>
 
         </div>
-        <div class="col-12 col-md-12 col-lg-7 offset-lg-5 min-vh-100 overflow-y-auto d-flex flex-column justify-content-center position-relative bg-white rounded-top-start-lg-4 border-start-lg shadow-soft-5">
+        <div class="col-12 col-md-12 col-lg-7 offset-lg-5 min-vh-100 overflow-y-auto d-flex flex-column justify-content-center position-relative bg-dark rounded-top-start-lg-4 border-start-lg shadow-soft-5">
             <div class="w-md-50 mx-auto px-10 px-md-0 py-10">
                 <div class="mb-10">
                     <a class="d-inline-block d-lg-none mb-10" href="/pages/dashboard.html">
                         <img src="~/img/logos/logo-dark.svg" class="h-rem-0" alt="Logo escuro" />
                     </a>
-                        <h1 class="ls-tight fw-bolder h3 text-dark">Faça login na sua conta</h1>
+                    <h1 class="ls-tight fw-bolder h3 text-white">Faça login na sua conta</h1>
                 </div>
                 <div class="mb-5">
-                    <label class="form-label text-dark" for="email">Usuário</label>
-                    <input type="text" class="form-control" name="usuario.UserName" id="email">
+                    <label class="form-label text-white" for="email" style="font-size: 1.2rem;">Usuário</label>
+
+                    <input type="text" class="form-control" name="usuario.UserName" id="email" placeholder="Digite seu usuário">
                 </div>
                 <div class="mb-5">
                     <div class="d-flex justify-content-between gap-2 mb-2 align-items-center">
-                        <label class="form-label text-dark mb-0" for="password">Senha</label>
-                            <a href="#" class="text-sm text-dark text-primary-hover text-underline">Esqueceu sua senha?</a>
+                        <label class="form-label text-white mb-0" for="password" style="font-size: 1.2rem;">Senha</label>
+                        <a href="#" class="text-sm text-white text-primary-hover text-underline">Esqueceu sua senha?</a>
                     </div>
-                    <input type="password" class="form-control" id="password" autocomplete="current-password" name="usuario.Password" />
+                    <input type="password" class="form-control" id="password" autocomplete="current-password" name="usuario.Password" placeholder="Digite sua senha" />
                 </div>
                 <div class="mb-5">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="usuario.RememberMe" id="check_example" />
-                        <label class="form-check-label text-dark" for="check_example ">Mantenha-me conectado</label>
+                        <label class="form-check-label ttext-white" for="check_example ">Mantenha-me conectado</label>
                     </div>
                 </div>
                 <div>

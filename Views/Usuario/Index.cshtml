@@ -14,27 +14,28 @@
             </div>
         </div>
         <ul class="nav nav-tabs nav-tabs-flush gap-8 overflow-x border-0 mt-4">
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">All</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">Todos</button></li>
             <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Administradores</button></li>
             <li class="nav-item"><button onclick="FiltrarUsuarios('Medico')" class="nav-link">Médicos</button></li>
         </ul>
     </div>
     <div class="row align-items-center d-flex px-6 px-lg-7 pt-8">
         <div class="col-md-2">
-            <label class="form-label mb-0">Name</label>
-            <input type="text" class="form-control">
+            <label class="form-label mb-0" style="font-size: 1.2rem;">Nome</label>
+            <input type="text" class="form-control" placeholder="Digite o nome">
         </div>
+
         <div class="col-md-2">
-            <label class="form-label mb-0">Login</label>
-            <input type="password" class="form-control">
+            <label class="form-label mb-0" style="font-size: 1.2rem;">Login</label>
+            <input type="password" class="form-control" placeholder="Digite o login">
         </div>
         <div class="col-md-1">
-            <label class="form-check-label" checked="checked" for="check_example">Ativos</label>
+            <label class="form-check-label" checked="checked" for="check_example">Ativos</label >
             <input class="form-check-input me-n2" type="checkbox" name="switch1" id="switchView1" checked="checked">
         </div>
 
     </div>
-
+    <div style="height: 20px;"></div>
     @*    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
     <button type="button" class="btn btn-xs btn-neutral text-xs">
     <i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Category
@@ -70,7 +71,7 @@
     </div>
     <div class="py-4 px-6">
         <div class="row align-items-center justify-content-between">
-            <div class="col-md-6 d-none d-md-block"><span class="text-muted text-sm">Showing 10 items out of 250 results found</span></div>
+            <div class="col-md-6 d-none d-md-block"><span class="text-muted text-sm">Mostrando todos os resultados encontrados</span></div>
             <div class="col-md-auto">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination pagination-spaced gap-1">
