@@ -200,7 +200,7 @@ namespace ehr_csharp.Controllers
                     _cache.Set("UsuarioLogado", UsuarioLogado, cacheEntryOptions);
                 }
 
-                return RedirectToAction("Editar", "Usuario");
+                return RedirectToAction("Index", "Consulta");
             }
 
             if (result.IsLockedOut)

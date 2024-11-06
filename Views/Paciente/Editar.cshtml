@@ -4,7 +4,7 @@
 }
 
 
-@using (Html.BeginForm("Salvar", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Salvar", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "formSalvarPaciente" }))
 {
     var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
     @Html.HiddenFor(x => x.Id)
@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-4">
                 <label class="form-label" for="DataNascimento">* Data de Nascimento:</label>
-                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control Data", name = "DataNascimento", id = "DataNascimento", Type ="Date" })
+                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control Data", name = "DataNascimento", id = "DataNascimento", Type = "Date" })
             </div>
             <div class="col-md-2">
                 <label class="form-label" for="Sexo">* Sexo:</label>
@@ -141,7 +141,14 @@
 
         <div class="hstack gap-2 ms-auto align-items-end">
             <div class="d-flex align-items-end justify-content-between">
-                <div class="d-none d-md-flex gap-2"><a href="/paciente/index" class="btn btn-sm btn-neutral">Cancelar</a> <button type="submit" class="btn btn-sm btn-primary">Salvar</button></div>
+                <div class="d-none d-md-flex gap-2">
+                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
+                    @if (editar)
+                    {
+                        <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Concluir Consulta</button>
+                    }
+                </div>
             </div>
         </div>
     </main>
@@ -150,7 +157,13 @@
 
 
 <script>
-    
+    $(document).ready(function () {
+        if ("@Model.Editar" != 'True') {
+            $("#formSalvarPaciente :input").prop("disabled", true);
+        }
+    });
+
+
     let contador = 0;
     function AdicionarAntecedente() {
         var inputValue = $('#AntecedenteInput').val();

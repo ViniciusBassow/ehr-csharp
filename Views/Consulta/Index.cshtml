@@ -40,7 +40,7 @@
                 <div class="modal-body" id="consultaModalBody">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-neutral" data-bs-dismiss="modal">Voltar</button>
                 <button type="submit" form="formCadastrarConsulta" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
@@ -63,8 +63,8 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: ['interaction', 'dayGrid'],
             locale: 'pt-br',
-            editable: true,
-            eventLimit: true,
+            // editable: true,
+            // eventLimit: true,
             selectable: true,
             selectHelper: true,
             defaultDate: '@DateTime.Now.ToString("yyyy-MM-dd")',
@@ -108,12 +108,13 @@
 
             // });
             // calendarModal.render();
-        },
-        eventClick: function (info) {
-            alert('Event: ' + info.event.title);
-
-            info.el.style.borderColor = 'red';
         }
+        //,
+        // eventClick: function (info) {
+        //     alert('Event: ' + info.event.title);
+
+        //     info.el.style.borderColor = 'red';
+        // }
     });
 
     calendar.render();
