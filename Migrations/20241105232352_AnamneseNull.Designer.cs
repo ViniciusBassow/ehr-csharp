@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQLApp.Data;
 
@@ -11,9 +12,11 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105232352_AnamneseNull")]
+    partial class AnamneseNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,6 +207,7 @@ namespace ehr_csharp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MotivoCancelamento")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatusConsulta")
@@ -547,8 +551,8 @@ namespace ehr_csharp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("DataNascimento")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");

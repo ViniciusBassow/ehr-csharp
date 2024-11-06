@@ -31,14 +31,14 @@ namespace ehr_csharp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
-            List<Paciente> pacientes = Contexto<Paciente>().ToList();
+            List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).ToList();
             return View(pacientes);
         }
 
         public async Task<ActionResult> Editar(int Id)
         {
 
-            var paciente = Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefault(x => x.Id == Id);
+            var paciente = Contexto<Paciente>().Include(x => x.Antecedentes).Include(x => x.Consultas).FirstOrDefault(x => x.Id == Id);
             if (paciente == null)
                 paciente = new Paciente();
             if (paciente.Antecedentes == null)
@@ -50,11 +50,12 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<ActionResult> Salvar(Paciente paciente)
         {
+            ModelState.Clear();
             ValidarCamposPaciente(paciente);
 
             if (!ModelState.IsValid)
             {
-                return View("Views\\Usuario\\editar.cshtml", new Usuario());
+                return View("Views\\Paciente\\editar.cshtml", new Paciente() { Antecedentes = new List<Antecedente>()});
             }
 
             Dictionary<string, string> errors = new Dictionary<string, string>();
@@ -97,7 +98,7 @@ namespace ehr_csharp.Controllers
         {
             if (string.IsNullOrEmpty(paciente.NomeCompleto))
                 ModelState.AddModelError("Nome Completo", "O campo é obrigatório");
-            if (paciente.DataNascimento == new DateTime())
+            if (paciente.DataNascimento == new DateOnly())
                 ModelState.AddModelError("Data de Nascimento", "O campoo é obrigatório");
             if (string.IsNullOrEmpty(paciente.Sexo))
                 ModelState.AddModelError("Sexo", "O campo é obrigatório");

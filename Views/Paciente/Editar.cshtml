@@ -1,4 +1,8 @@
 @model ehr_csharp.Models.Paciente
+@{
+    var editar = Model.Editar;
+}
+
 
 @using (Html.BeginForm("Salvar", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -33,7 +37,7 @@
             </div>
             <div class="col-md-4">
                 <label class="form-label" for="DataNascimento">* Data de Nascimento:</label>
-                @Html.TextBoxFor(x => x.DataNascimento.Date, new { @class = "form-control Data", name = "DataNascimento", id = "DataNascimento", Type ="Date" })
+                @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control Data", name = "DataNascimento", id = "DataNascimento", Type ="Date" })
             </div>
             <div class="col-md-2">
                 <label class="form-label" for="Sexo">* Sexo:</label>

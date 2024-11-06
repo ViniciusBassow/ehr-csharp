@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@@fullcalendar/daygrid@6.1.15/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@fullcalendar/timegrid@6.1.15/index.global.min.js"></script>
 
-
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
     <link href='Calendar/fullcalendar/packages/core/main.css' rel='stylesheet' />
@@ -30,24 +29,24 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="consultaModal" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="consultaModalLabel">Modal title</h1>                
-            </div>
-            <div class="modal-body" id="consultaModalBody" >
-             
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
+@* @using (Html.BeginForm("Salvar", "Consulta", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ *@
+    <div class="modal fade" id="consultaModal" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="consultaModalLabel">Modal title</h1>
+                </div>
+                <div class="modal-body" id="consultaModalBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" form="formCadastrarConsulta" class="btn btn-primary">Salvar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+@* } *@
 
 <script src="calendar/js/jquery-3.3.1.min.js"></script>
 <script src="calendar/js/popper.min.js"></script>
@@ -63,61 +62,62 @@
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: ['interaction', 'dayGrid'],
-            locale: 'pt-br',            
+            locale: 'pt-br',
             editable: true,
             eventLimit: true,
             selectable: true,
             selectHelper: true,
             defaultDate: '@DateTime.Now.ToString("yyyy-MM-dd")',
             events: [
-                @foreach (var item in Model)
-                {
-                    @:{
-                    @:title: '@item.Paciente.NomeCompleto', // Substitua por propriedade real de 'item'
-                    @:start: '@item.Data.ToString("yyyy-MM-ddTHH:mm:ss")', // Substitua por propriedade real de 'item'                    
-                    @: },
+    @foreach (var item in Model)
+    {
+        @:{
+        @:title: '@item.Paciente.NomeCompleto', // Substitua por propriedade real de 'item'
+        @:start: '@item.Data.ToString("yyyy-MM-ddTHH:mm:ss")', // Substitua por propriedade real de 'item'
+        @: },
+    }
+
+                ],
+        select: function(info) {
+            var selectedDate = info.startStr;
+            $("#consultaModalLabel").text(selectedDate)
+            $.ajax({
+                url: '/Consulta/ExibirEventosDia',
+                type: 'GET',
+                data: { "DataEvento": selectedDate },
+                dataType: 'html',
+                success: function (data) {
+             
+                    $("#consultaModalBody").html(data);
+                    $("#DataConsultaModal").val(selectedDate);
+                },
+                error: function () {
+                    console.log("erro");
                 }
-                
-            ],
-            select: function(info){                
-                var selectedDate = info.startStr;
-                $("#consultaModalLabel").text(selectedDate)
-                $.ajax({
-                    url: '/Consulta/ExibirEventosDia',
-                    type: 'GET',
-                    data: { "DataEvento": selectedDate },
-                    dataType: 'html',
-                    success: function (data) {
-                        $("#consultaModalBody").html(data);
-
-                    },
-                    error: function () {
-                        console.log("erro");
-                    }
-                });
-
-                $("#consultaModal").modal("show");
-
-                // var calendarElModal = document.getElementById('calendarModal');
-                // calendarElModal.innerHTML = ''; // Limpa o conteúdo anterior
-
-                // var calendarModal = new FullCalendar.Calendar(calendarElModal, {
-                //     plugins: ['interaction', 'dayGrid'],
-                //     initialView: 'timeGridDay',
-                //     initialDate: selectedDate,
-                    
-                // });
-                // calendarModal.render();                
-            },
-            eventClick: function (info) {
-                alert('Event: ' + info.event.title);
-                
-                info.el.style.borderColor = 'red';
-            }
             });
 
+            $("#consultaModal").modal("show");
+
+            // var calendarElModal = document.getElementById('calendarModal');
+            // calendarElModal.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // var calendarModal = new FullCalendar.Calendar(calendarElModal, {
+            //     plugins: ['interaction', 'dayGrid'],
+            //     initialView: 'timeGridDay',
+            //     initialDate: selectedDate,
+
+            // });
+            // calendarModal.render();
+        },
+        eventClick: function (info) {
+            alert('Event: ' + info.event.title);
+
+            info.el.style.borderColor = 'red';
+        }
+    });
+
     calendar.render();
-        });
+            });
 
 
 </script>

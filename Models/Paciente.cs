@@ -13,15 +13,27 @@ namespace ehr_csharp.Models
         public string Sexo { get; set; }
         public string Endereco { get; set; }
         public string? Celular { get; set; }
-        public string? Email{ get; set; }
+        public string? Email { get; set; }
         public string Cep { get; set; }
         public string Cpf { get; set; }
         public string Rg { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public DateOnly DataNascimento { get; set; }
         public string Profissao { get; set; }
         public string EstadoCivil { get; set; }
         public string? TelefoneFixo { get; set; }
         public string? HistoricoFamiliar { get; set; } //Mudar para somente Historico e colocar como uma lista?
+        [NotMapped]
+        public bool Editar
+        {
+            get
+            {
+                // Verifica se há uma string de imagem válida
+                if (Consultas != null && Consultas.Any(x => DateTime.Now >= x.Data && x.StatusConsulta == (int)StatusConsulta.EmAndamento))
+                    return true;
+                else
+                    return false;
+            }
+        }
 
         //Relações
         public virtual IList<Antecedente>? Antecedentes { get; set; }
