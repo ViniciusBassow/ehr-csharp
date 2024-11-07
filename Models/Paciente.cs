@@ -28,7 +28,7 @@ namespace ehr_csharp.Models
             get
             {
                 // Verifica se há uma string de imagem válida
-                if (Consultas != null && Consultas.Any(x => DateTime.Now >= x.Data && x.StatusConsulta == (int)StatusConsulta.EmAndamento))
+                if (Consultas == null || (Consultas.Any(x => DateTime.Now >= x.Data && x.StatusConsulta == (int)StatusConsulta.EmAndamento)))
                     return true;
                 else
                     return false;
