@@ -27,12 +27,12 @@ namespace ehr_csharp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public JsonResult UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
                 ViewBag.Message = "Por favor, selecione um arquivo.";
-                return View();
+                return Json(new { success = false, message = "Por favor, selecione um arquivo." });
             }
 
             // Salvar o arquivo temporariamente
@@ -40,21 +40,25 @@ namespace ehr_csharp.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                file.CopyTo(stream);
             }
 
             // Extrair texto do PDF
-            var extractedText = await ExtractTextFromPdf(filePath);
+            var extractedText = ExtractTextFromPdf(filePath);
 
-            // Chamar OpenAI API para analisar os dados
-            var analysisResult = await AnalyzeTextWithOpenAI(extractedText);
+            // Chamar OpenAI API para analisar os dados (exemplo)
+            var analysisResult =  AnalyzeTextWithOpenAI(extractedText);
+            //"{ \"Hemograma\": { \"Eritrocitos\": 5.2, \"Hemoglobina\": 15.8, \"Hematocrito\": 48.3, \"VCM\": 92.4, \"HCM\": 30.2, \"CHCM\": 32.7, \"RDW\": 13.0, \"Leucocitos\": { \"Absoluto\": 6.8, \"Relativo\": 3.6 }, \"Bastonetes\": { \"Absoluto\": 0.0, \"Relativo\": 0.0 }, \"Segmentados\": { \"Absoluto\": 4.84, \"Relativo\": 71.5 }, \"Eosinofilos\": { \"Absoluto\": 0.07, \"Relativo\": 1.0 }, \"Basofilos\": { \"Absoluto\": 0.05, \"Relativo\": 0.7 }, \"Linfocitos\": { \"Absoluto\": 1.38, \"Relativo\": 20.4 }, \"Monocitos\": { \"Absoluto\": 0.43, \"Relativo\": 6.4 }, \"Plaquetas\": 314.0, \"VPM\": 9.2, \"Glicemia\": 87.0, \"Creatinina\": 0.88, \"AcidoUrico\": 5.1, \"Prolactina\": 11.5, \"Testosterona\": 1080.0, \"ColesterolTotal\": 136.0, \"HDL\": 52.0, \"Triglicerides\": 43.0, \"LDL\": 72.0, \"NaoHDL\": 84.0 }}"
 
-            // Retornar o resultado para a View
-            ViewBag.Analysis = analysisResult;
-            return View("AnalysisResult");
+            // Deserializar a string JSON em um objeto para retorno
+            var deserializedResult = System.Text.Json.JsonSerializer.Deserialize<object>(analysisResult);
+
+            // Retornar o resultado como JSON para a View
+            return Json(new { success = true, data = deserializedResult });
         }
 
-        private async Task<string> ExtractTextFromPdf(string filePath)
+
+        private string ExtractTextFromPdf(string filePath)
         {
             // Utilize uma biblioteca de extração de PDF, como PdfSharp ou iTextSharp, para extrair o texto.
             // Exemplo de código com iTextSharp:
@@ -71,7 +75,7 @@ namespace ehr_csharp.Controllers
             return extractedText;
         }
 
-        private async Task<string> AnalyzeTextWithOpenAI(string text)
+        private string AnalyzeTextWithOpenAI(string text)
         {
             var client = new RestClient("https://api.openai.com/v1/chat/completions");
             var request = new RestRequest("", Method.Post);
@@ -95,7 +99,7 @@ namespace ehr_csharp.Controllers
 
             request.AddJsonBody(requestBody);
 
-            var response = await client.ExecuteAsync(request);
+            var response =  client.Execute(request);
 
             if (response.IsSuccessful)
             {

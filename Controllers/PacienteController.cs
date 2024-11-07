@@ -38,7 +38,10 @@ namespace ehr_csharp.Controllers
         public async Task<ActionResult> Editar(int Id)
         {
 
-            var paciente = Contexto<Paciente>().Include(x => x.Antecedentes).Include(x => x.Consultas).FirstOrDefault(x => x.Id == Id);
+            var paciente = Contexto<Paciente>()
+                .Include(x => x.Antecedentes)
+                .Include(x => x.Consultas)
+                .FirstOrDefault(x => x.Id == Id);
             if (paciente == null)
                 paciente = new Paciente();
             if (paciente.Antecedentes == null)
