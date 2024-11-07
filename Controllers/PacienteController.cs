@@ -44,7 +44,10 @@ namespace ehr_csharp.Controllers
             if (paciente.Antecedentes == null)
                 paciente.Antecedentes = new List<Antecedente>();
 
-            return View(paciente);
+            if (Id > 0)
+                return View("Views\\Paciente\\editar2.cshtml", paciente);
+            else
+                return View("Views\\Paciente\\editar.cshtml", paciente);
         }
 
         [HttpPost]
@@ -55,16 +58,16 @@ namespace ehr_csharp.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("Views\\Paciente\\editar.cshtml", new Paciente() { Antecedentes = new List<Antecedente>()});
+                return View("Views\\Paciente\\editar2.cshtml", new Paciente() { Antecedentes = new List<Antecedente>() });
             }
 
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var pacienteBD = await Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefaultAsync(x => x.Id == paciente.Id);
-            
+
             if (pacienteBD != null)
             {
                 pacienteBD.Antecedentes?.Clear();
-                pacienteBD = paciente;                
+                pacienteBD = paciente;
             }
             else
                 Contexto<Paciente>().Add(paciente);
@@ -82,7 +85,7 @@ namespace ehr_csharp.Controllers
                 var Antecendete = new Antecedente()
                 {
                     Descricao = descricao,
-                    PacienteId = paciente.Id 
+                    PacienteId = paciente.Id
                 };
 
                 Contexto<Antecedente>().Add(Antecendete);
@@ -91,7 +94,7 @@ namespace ehr_csharp.Controllers
             }
 
             SaveChanges();
-            return View("Views\\Paciente\\editar.cshtml", paciente);
+            return View("Views\\Paciente\\editar2.cshtml", paciente);
         }
 
         public void ValidarCamposPaciente(Paciente paciente)

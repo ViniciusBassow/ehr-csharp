@@ -21,8 +21,9 @@ namespace ehr_csharp.Models
         public string Segmentados { get; set; }
         public string Eosinofilos { get; set; }
         public string Basofilos { get; set; }
-        public string Linfocitos { get; set; }
+        public string Linfocitos { get; set; }        
         public string Monocitos { get; set; }
+        //fim
         public string Plaquetas { get; set; }
         public string VPM { get; set; }
         public string Glicemia { get; set; }

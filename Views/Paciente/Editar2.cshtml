@@ -1,0 +1,484 @@
+@using System.Globalization;
+
+@model ehr_csharp.Models.Paciente
+@{
+    var editar = Model.Editar;
+    var contador = 0;
+}
+
+
+@using (Html.BeginForm("Salvar", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "formSalvarPaciente" }))
+{
+    var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
+    <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
+        <header class="border-bottom mb-5">
+            <div class="row">
+                <div class="col-sm-6 col-12">
+                    <h1 class="ls-tight">Pacientes - @Model.NomeCompleto</h1>
+                </div>
+            </div>
+            <br />
+            <style>
+                .card {
+                    border-radius: 12px;
+                }
+
+                .nav-pills .nav-link.active {
+                    background-color: #6e46cc;
+                    color: #fff;
+                }
+
+                .card-header {
+                    font-weight: bold;
+                    font-size: 1.25rem;
+                }
+
+                .info-box {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem;
+                    border-radius: 12px;
+                    background-color: #0b111f;
+                    margin-bottom: 1rem;
+                }
+
+                    .info-box h5 {
+                        margin: 0;
+                        font-weight: bold;
+                    }
+
+                    .info-box p {
+                        margin: 0;
+                    }
+
+                .visit-card {
+                    background-color: #0b111f;
+                    padding: 1rem;
+                    border-radius: 12px;
+                    text-align: center;
+                }
+
+                    .visit-card h6 {
+                        font-weight: bold;
+                    }
+
+                .btn-new-visit {
+                    background-color: #17a2b8;
+                    color: white;
+                }
+            </style>
+        </header>
+
+        @Html.HiddenFor(x => x.Id)
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-4">
+            <li class="nav-item" onclick="MudarAba('Principal')">
+                <a class="nav-link active" id="navPrincipal" href="#">Principal</a>
+            </li>
+            <li class="nav-item" onclick="MudarAba('Hemograma')">
+                <a class="nav-link" id="navHemograma" href="#">Hemograma</a>
+            </li>
+            <li class="nav-item" onclick="MudarAba('Documentos')">
+                <a class="nav-link" id="navDocumentos" href="#">Documentos</a>
+            </li>
+
+        </ul>
+
+
+        <div id="divPrincipal">
+            <div class="row">
+                <!-- Insurance Information -->
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Dados pessoais</h6>
+                                    <p>@(Model.Sexo == "M" ? "Masculino" : "Femino")</p>
+                                    <p>@Model.DataNascimento</p>
+                                    <p class="cpf">@Model.Cpf</p>
+                                    <p class="rg">@Model.Rg</p>
+                                    <p class="">@Model.EstadoCivil</p>
+                                    <p class="">@Model.Profissao</p>
+                                </div>
+                                <div class="col-6">
+                                    <h6>Contatos</h6>
+                                    <p class="Celular">@Model.Celular</p>
+                                    <p class="TelefoneFixo">@Model.TelefoneFixo</p>
+                                    <p>@Model.Email</p>
+                                    @if (Model.Antecedentes.Count > 0)
+                                    {
+                                        <br>
+                                        <h6>Antecedentes</h6>
+                                        @foreach (var antecedente in Model.Antecedentes)
+                                        {
+                                            <p>@antecedente.Descricao</p>
+                                        }
+                                    }
+
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <h6>Endereço</h6>
+                                    <p>@Model.Cep - @Model.Endereco</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Info -->
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="info-box">
+                                <div>
+                                    <h5>Height</h5>
+                                    <p>5'0"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-box">
+                                <div>
+                                    <h5>Weight</h5>
+                                    <p>130 lbs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="info-box">
+                                <div>
+                                    <h5>BMI</h5>
+                                    <p>25.32</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="info-box">
+                                <div>
+                                    <h5>Blood Pressure</h5>
+                                    <p>120 mmHg / 80 mmHg</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="info-box">
+                                <div>
+                                    <h5>Convênio</h5>
+                                    <p>N/A</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="d-flex justify-content-between">
+                    <h3>Consultas</h3>
+                    @* <button class="btn btn-new-visit">New Visit</button> *@
+                </div>
+                @if (Model.Consultas.Count == 0)
+                {
+
+                    <div class="col-md-12 mt-3">
+                        <div class="visit-card">
+                            <p>Sem consultas por enquanto.</p>
+                        </div>
+                    </div>
+                }
+
+                @foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                {
+                    if (contador < 3)
+                    {
+                        <div class="col-md-4 mt-3">
+                            <div class="visit-card">
+                                <p class="text-muted">@consulta.Data.ToString("dddd", new CultureInfo("pt-BR")), @consulta.Data</p>
+                                <h6>@consulta.Motivo</h6>
+                                <p class="@(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ?"text-success" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "text-danger" : "text-info")) ">
+                                    @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                </p>
+                            </div>
+                        </div>
+                        contador++;
+                    }
+                }
+
+            </div>
+        </div>
+
+        <div id="divHemograma" style="display:none">
+            @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <label for="file">Importar arquivo de exame:</label>
+                <input type="file" id="file" name="file" />
+                <button type="submit">Enviar e Analisar</button>
+            }
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
+                    <input class="form-control" id="Eritrocitos" type="number" step="0.01">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
+                    <input class="form-control" id="Hemoglobina" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Hematocrito">Hematócrito:</label>
+                    <input class="form-control" id="Hematocrito" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="VCM">VCM:</label>
+                    <input class="form-control" id="VCM" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="HCM">HCM:</label>
+                    <input class="form-control" id="HCM" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="CHCM">CHCM:</label>
+                    <input class="form-control" id="CHCM" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="RDW">RDW:</label>
+                    <input class="form-control" id="RDW" type="number" step="0.1">
+                </div>
+            </div>
+            <div class="row mt-5">
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
+                    <input class="form-control" id="Leucocitos_Absoluto" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
+                    <input class="form-control" id="Leucocitos_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
+                    <input class="form-control" id="Bastonetes_Absoluto" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
+                    <input class="form-control" id="Bastonetes_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
+                    <input class="form-control" id="Segmentados_Absoluto" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
+                    <input class="form-control" id="Segmentados_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
+                    <input class="form-control" id="Eosinofilos_Absoluto" type="number" step="0.01">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
+                    <input class="form-control" id="Eosinofilos_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
+                    <input class="form-control" id="Basofilos_Absoluto" type="number" step="0.01">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
+                    <input class="form-control" id="Basofilos_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
+                    <input class="form-control" id="Linfocitos_Absoluto" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
+                    <input class="form-control" id="Linfocitos_Relativo" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
+                    <input class="form-control" id="Monocitos_Absoluto" type="number" step="0.01">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
+                    <input class="form-control" id="Monocitos_Relativo" type="number" step="0.1">
+                </div>
+            </div>            
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <label class="form-label" for="Plaquetas">Plaquetas:</label>
+                    <input class="form-control" id="Plaquetas" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="VPM">VPM:</label>
+                    <input class="form-control" id="VPM" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Glicemia">Glicemia:</label>
+                    <input class="form-control" id="Glicemia" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Creatinina">Creatinina:</label>
+                    <input class="form-control" id="Creatinina" type="number" step="0.01">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
+                    <input class="form-control" id="AcidoUrico" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Prolactina">Prolactina:</label>
+                    <input class="form-control" id="Prolactina" type="number" step="0.1">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Testosterona">Testosterona:</label>
+                    <input class="form-control" id="Testosterona" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
+                    <input class="form-control" id="ColesterolTotal" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="HDL">HDL:</label>
+                    <input class="form-control" id="HDL" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
+                    <input class="form-control" id="Triglicerides" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="LDL">LDL:</label>
+                    <input class="form-control" id="LDL" type="number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="NaoHDL">Não-HDL:</label>
+                    <input class="form-control" id="NaoHDL" type="number">
+                </div>
+            </div>
+        </div>
+
+       
+
+
+        <div class="hstack gap-2 ms-auto align-items-end mt-5">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-none d-md-flex gap-2">
+                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
+                @if (editar)
+                {
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Concluir Consulta</button>
+                }
+                </div>
+            </div>
+        </div>
+    </main>
+
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        if ("@Model.Editar" != 'True') {
+            $("#formSalvarPaciente :input").prop("disabled", true);
+        }
+    });
+
+
+    let contador = 0;
+    function AdicionarAntecedente() {
+        var inputValue = $('#AntecedenteInput').val();
+
+        if (inputValue.trim() === "") {
+            alert("Por favor, insira um valor.");
+            return;
+        }
+
+        // Cria uma nova div para exibir o antecedente adicionado
+        var novaDiv = $('<div class="col-md-10" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">-</button> </div>');
+
+        // Adiciona um campo oculto para o antecedente
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Antecedentes[' + contador + '].Descricao', // Nome do campo deve ser uma coleção
+            value: inputValue
+        }).appendTo('#divContainer');
+
+        $('#divContainer').append(novaDiv);
+        contador++;
+        $('#AntecedenteInput').val('');
+    }
+
+    function RemoverAntecedente(id) {
+        $("#idAntecedenteContainer" + id).remove();
+        $("#idAntecedenteBtn" + id).remove();
+        $("input[name='Antecedentes[" + id + "].Descricao']").remove(); // Remove o campo oculto correspondente
+    }
+
+    function MudarAba(aba) {
+        if (aba == 'Principal') {
+            $("#divHemograma").hide();
+            $("#divDocumentos").hide();
+            $("#divPrincipal").show();
+
+            $("#navHemograma").removeClass("active");
+            $("#navDocumentos").removeClass("active");
+            $("#navPrincipal").addClass("active");
+
+        }
+        else if (aba == 'Hemograma') {
+            $("#divHemograma").show();
+            $("#divDocumentos").hide();
+            $("#divPrincipal").hide();
+
+            $("#navHemograma").addClass("active");
+            $("#navDocumentos").removeClass("active");
+            $("#navPrincipal").removeClass("active");
+        }
+        else if (aba == 'Documentos') {
+            $("#divHemograma").hide();
+            $("#divDocumentos").show();
+            $("#divPrincipal").hide();
+
+            $("#navHemograma").removeClass("active");
+            $("#navDocumentos").addClass("active");
+            $("#navPrincipal").removeClass("active");
+        }
+    }
+</script>
