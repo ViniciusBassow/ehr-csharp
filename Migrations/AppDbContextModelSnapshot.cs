@@ -164,9 +164,12 @@ namespace ehr_csharp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAnexo"));
 
-                    b.Property<string>("ArquivoData")
+                    b.Property<byte[]>("ArquivoData")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("IdTabelaReferencia")
                         .IsRequired()

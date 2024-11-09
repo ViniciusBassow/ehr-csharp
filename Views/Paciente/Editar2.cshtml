@@ -68,7 +68,7 @@
         </style>
     </header>
 
-    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Id, new { @id = "idPaciente" })
     <!-- Tabs -->
     <ul class="nav nav-pills mb-4">
         <li class="nav-item" onclick="MudarAba('Principal')">
@@ -396,7 +396,7 @@
         </div>
     </div>
     <div id="divDocumentos" style="display:none">
-        @using (Html.BeginForm("UploadFile", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
+        @using (Html.BeginForm("AdicionarArquivo", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
         {
             <label for="file">Selecione um para adicionar:</label>
             <input type="file" id="file" name="file" />
@@ -412,7 +412,7 @@
                         </div>
                     </th>
                     <th scope="col">Tipo</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody id="bodyAnexo">
@@ -424,8 +424,15 @@
                                 <div><span class="d-block text-heading fw-bold">@item.NomeArquivo</span></div>
                             </div>
                         </td>
-                        <td class="">@item.TipoArquivo</td>
-                        <td class="Data"></td>
+                        <td class="">@item.TipoArquivo.ToUpper()</td>
+                        <td class="text-end d-none d-sm-table-cell">
+                            <a class="btn btn-sm btn-primary" onclick="BaixarArquivo(@item.IdAnexo)">
+                                <i class="bi bi-file-earmark-arrow-down"></i>
+                            </a>
+                            <a class="btn btn-sm btn-primary" onclick="DesativarArquivo(@item.IdAnexo)">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -595,9 +602,10 @@
     function AdicionarArquivo() {
 
         var formData = new FormData($('#AdicionarArquivoForm')[0]);
+        formData.append("idPaciente", $("#idPaciente").val());
 
         $.ajax({
-            url: '@Url.Action("UploadFile", "Paciente")',
+            url: '@Url.Action("AdicionarArquivo", "Paciente")',
             type: 'POST',
             data: formData,
             processData: false,
@@ -617,4 +625,57 @@
             }
         });
     }
+
+    function DesativarArquivo(idAnexo) {
+        if (!confirm("Tem certeza de que deseja remover este arquivo? \nEsta ação não poderá ser desfeita!")) return;
+
+        $.ajax({
+            url: '@Url.Action("DesativarArquivo", "Paciente")',
+            type: 'POST',
+            data: { "idAnexo": idAnexo },           
+            success: function (data) {
+               
+            },
+            error: function (xhr, status, error) {
+               
+            }
+        });
+    }
+
+    function BaixarArquivo(idAnexo) {
+        $.ajax({
+            url: '@Url.Action("BaixarArquivo", "Paciente")', 
+            type: 'POST',
+            data: { idAnexo: idAnexo }, 
+            xhrFields: {
+                responseType: 'blob' 
+            },
+            success: function (data, status, xhr) {
+               
+                var filename = "";
+                var disposition = xhr.getResponseHeader('Content-Disposition');
+                if (disposition && disposition.indexOf('attachment') !== -1) {
+                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    var matches = filenameRegex.exec(disposition);
+                    if (matches != null && matches[1]) {
+                        filename = matches[1].replace(/['"]/g, '');
+                    }
+                }
+
+                var link = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                link.href = url;
+                link.download = filename || 'arquivo_download.pdf'; // Define um nome padrão caso não tenha
+                link.click();
+
+                // Libera o objeto de URL após o download
+                window.URL.revokeObjectURL(url);
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao baixar o arquivo:", error);
+                alert("Ocorreu um erro ao tentar baixar o arquivo.");
+            }
+        });
+    }
+
 </script>

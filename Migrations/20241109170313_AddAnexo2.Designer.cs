@@ -12,8 +12,8 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241109021640_AddAnexo5")]
-    partial class AddAnexo5
+    [Migration("20241109170313_AddAnexo2")]
+    partial class AddAnexo2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,12 +167,16 @@ namespace ehr_csharp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAnexo"));
 
-                    b.Property<string>("ArquivoData")
+                    b.Property<byte[]>("ArquivoData")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdTabelaReferencia")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdTabelaReferencia")
-                        .HasColumnType("int");
 
                     b.Property<string>("NmTabelaReferencia")
                         .IsRequired()

@@ -5,7 +5,7 @@
 namespace ehr_csharp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAnexo3 : Migration
+    public partial class AddAnexo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,16 +14,17 @@ namespace ehr_csharp.Migrations
                 name: "Anexo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    IdAnexo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeArquivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdAnexo = table.Column<int>(type: "int", nullable: false),
-                    NmTabelaReferencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Arquivo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ArquivoData = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    TipoArquivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdTabelaReferencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NmTabelaReferencia = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Anexo", x => x.Id);
+                    table.PrimaryKey("PK_Anexo", x => x.IdAnexo);
                 });
         }
 

@@ -10,6 +10,20 @@
 
   <ItemGroup>
     <Compile Remove="Data\ApplicationDbContext.cs" />
+    <Compile Remove="Migrations\20241109015755_AddAnexo.cs" />
+    <Compile Remove="Migrations\20241109015755_AddAnexo.Designer.cs" />
+    <Compile Remove="Migrations\20241109015824_AddAnexo2.cs" />
+    <Compile Remove="Migrations\20241109015824_AddAnexo2.Designer.cs" />
+    <Compile Remove="Migrations\20241109020003_AddAnexo3.cs" />
+    <Compile Remove="Migrations\20241109020003_AddAnexo3.Designer.cs" />
+    <Compile Remove="Migrations\20241109021640_AddAnexo5.cs" />
+    <Compile Remove="Migrations\20241109021640_AddAnexo5.Designer.cs" />
+    <Compile Remove="Migrations\20241109022038_AddAnexo6.cs" />
+    <Compile Remove="Migrations\20241109022038_AddAnexo6.Designer.cs" />
+    <Compile Remove="Migrations\20241109022420_AddAnexo7.cs" />
+    <Compile Remove="Migrations\20241109022420_AddAnexo7.Designer.cs" />
+    <Compile Remove="Migrations\20241109022559_AddAnexo8.cs" />
+    <Compile Remove="Migrations\20241109022559_AddAnexo8.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,10 +21,12 @@ namespace ehr_csharp.Controllers
 {
     public class PacienteController : GlobalController
     {
+        private readonly IMemoryCache _cache;
         private readonly UserManager<Usuario> _userManager;
 
-        public PacienteController(AppDbContext context, UserManager<Usuario> userManager) : base(context)
+        public PacienteController(AppDbContext context, UserManager<Usuario> userManager, IMemoryCache cache) : base(context)
         {
+            _cache = cache;
             _userManager = userManager;
         }
 
@@ -47,7 +49,13 @@ namespace ehr_csharp.Controllers
             if (paciente.Antecedentes == null)
                 paciente.Antecedentes = new List<Antecedente>();
 
-            paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString()).ToList();
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+                UsuarioLogado.Role = _userManager.GetRolesAsync(UsuarioLogado).Result.FirstOrDefault();
+
+            if (UsuarioLogado.Role == "Admin")
+                paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString()).ToList();
+            else
+                paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString() && x.Ativo).ToList();
 
             if (Id > 0)
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
@@ -129,7 +137,7 @@ namespace ehr_csharp.Controllers
 
 
         [HttpPost]
-        public JsonResult UploadFile(IFormFile file, int idPaciente, string tipoArquivo)
+        public JsonResult AdicionarArquivo(IFormFile file, int idPaciente)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("Arquivo inválido.");
@@ -144,15 +152,37 @@ namespace ehr_csharp.Controllers
 
             Anexo anexo = new Anexo()
             {
-                NomeArquivo = file.FileName,
-                ArquivoData = fileData.ToString(),
+                NomeArquivo = file.FileName.Split(".")[0],
+                ArquivoData = fileData,
                 IdTabelaReferencia = idPaciente.ToString(),
                 NmTabelaReferencia = "Paciente",
-                TipoArquivo = tipoArquivo
+                TipoArquivo = file.FileName.Split(".")[1],
+                Ativo = true
             };
 
-            // Retornar o resultado como JSON para a View
-            return Json(new { success = true });
+            Contexto<Anexo>().Add(anexo);
+            SaveChanges();
+
+            return Json(new { success = true, anexo });
+        }
+
+        [HttpPost]
+        public JsonResult DesativarArquivo(int idAnexo)
+        {
+            var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
+            anexo.Ativo = false;
+            SaveChanges();
+
+            return Json(new { success = true, anexo });
+        }
+
+        [HttpPost]
+        public IActionResult BaixarArquivo(int idAnexo)
+        {
+            var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);                                  
+            
+
+            return File(anexo.ArquivoData, "application/pdf", anexo.NomeArquivo);
         }
     }
 

@@ -9,8 +9,10 @@ namespace ehr_csharp.Models
         [Key, Column(Order = 0)]
         public int IdAnexo { get; set; }
         public string NomeArquivo { get; set; }
-        public string ArquivoData { get; set; }
+        public byte[] ArquivoData { get; set; }
         public string TipoArquivo { get; set; }
+
+        public bool Ativo { get; set; }        
 
 
 
