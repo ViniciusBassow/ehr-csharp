@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQLApp.Data;
 
@@ -11,9 +12,11 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109020003_AddAnexo3")]
+    partial class AddAnexo3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,20 +160,18 @@ namespace ehr_csharp.Migrations
 
             modelBuilder.Entity("ehr_csharp.Models.Anexo", b =>
                 {
-                    b.Property<int>("IdAnexo")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAnexo"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ArquivoData")
+                    b.Property<string>("Arquivo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdTabelaReferencia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdAnexo")
+                        .HasColumnType("int");
 
                     b.Property<string>("NmTabelaReferencia")
                         .IsRequired()
@@ -180,11 +181,7 @@ namespace ehr_csharp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TipoArquivo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdAnexo");
+                    b.HasKey("Id");
 
                     b.ToTable("Anexo");
                 });

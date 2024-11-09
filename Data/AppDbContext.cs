@@ -26,6 +26,7 @@ namespace SQLApp.Data
 
         //    modelBuilder.HasDefaultSchema("identity");
         //}
+        public DbSet<Anexo> Anexo { get; set; }
         public DbSet<Antecedente> Antecedente { get; set; }
         public DbSet<Consulta> Consulta { get; set; }
         public DbSet<Diagnostico> Diagnostico { get; set; }

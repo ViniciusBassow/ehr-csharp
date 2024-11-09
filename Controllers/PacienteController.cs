@@ -47,6 +47,8 @@ namespace ehr_csharp.Controllers
             if (paciente.Antecedentes == null)
                 paciente.Antecedentes = new List<Antecedente>();
 
+            paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString()).ToList();
+
             if (Id > 0)
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
             else
@@ -124,6 +126,34 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError("Endereço", "O campo Endereço é obrigatório");
         }
 
+
+
+        [HttpPost]
+        public JsonResult UploadFile(IFormFile file, int idPaciente, string tipoArquivo)
+        {
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("Arquivo inválido.");
+
+            // Converte o IFormFile para um array de bytes
+            byte[] fileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                fileData = memoryStream.ToArray();
+            }
+
+            Anexo anexo = new Anexo()
+            {
+                NomeArquivo = file.FileName,
+                ArquivoData = fileData.ToString(),
+                IdTabelaReferencia = idPaciente.ToString(),
+                NmTabelaReferencia = "Paciente",
+                TipoArquivo = tipoArquivo
+            };
+
+            // Retornar o resultado como JSON para a View
+            return Json(new { success = true });
+        }
     }
 
 

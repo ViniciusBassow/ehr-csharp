@@ -395,7 +395,42 @@
             </div>
         </div>
     </div>
+    <div id="divDocumentos" style="display:none">
+        @using (Html.BeginForm("UploadFile", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
+        {
+            <label for="file">Selecione um para adicionar:</label>
+            <input type="file" id="file" name="file" />
 
+            <button type="button" onclick="AdicionarArquivo()">Enviar</button>
+        }
+        <table class="table table-hover table-striped table-sm table-nowrap">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <div class="d-flex align-items-center gap-2 ps-1">
+                            <span>Arquivo</span>
+                        </div>
+                    </th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="bodyAnexo">
+                @foreach (var item in Model.Anexos)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3 ps-1">
+                                <div><span class="d-block text-heading fw-bold">@item.NomeArquivo</span></div>
+                            </div>
+                        </td>
+                        <td class="">@item.TipoArquivo</td>
+                        <td class="Data"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
 
 
@@ -439,7 +474,7 @@
 
         $('<input>').attr({
             type: 'hidden',
-            name: 'Antecedentes[' + contador + '].Descricao', 
+            name: 'Antecedentes[' + contador + '].Descricao',
             value: inputValue
         }).appendTo('#divContainer');
 
@@ -451,7 +486,7 @@
     function RemoverAntecedente(id) {
         $("#idAntecedenteContainer" + id).remove();
         $("#idAntecedenteBtn" + id).remove();
-        $("input[name='Antecedentes[" + id + "].Descricao']").remove(); 
+        $("input[name='Antecedentes[" + id + "].Descricao']").remove();
     }
 
     function MudarAba(aba) {
@@ -532,7 +567,7 @@
     }
 
     function enviarEAnaalisar() {
- 
+
         var formData = new FormData($('#openAiUploadForm')[0]);
 
         $.ajax({
@@ -557,4 +592,29 @@
         });
     }
 
+    function AdicionarArquivo() {
+
+        var formData = new FormData($('#AdicionarArquivoForm')[0]);
+
+        $.ajax({
+            url: '@Url.Action("UploadFile", "Paciente")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.success) {
+                    preencherCampos(data.data);
+                    console.log("Análise realizada com sucesso:", data.data);
+                } else {
+                    console.log("Erro:", data.message);
+                    alert(data.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulário:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
+    }
 </script>
