@@ -32,7 +32,7 @@
             </div>
             <div class="col-md-1"><label class="form-label">Cargo</label></div>
             <div class="col-md-2">
-                <select class="form-select" id="cargoSelect" name="Role" aria-label="Default select example">
+                <select class="form-select" id="cargoSelect" name="Role" aria-label="Default select example" onchange="AlterarCargo(this)">
                     <option>Selecionar</option>
                     <option value="Admin">Administrador</option>
                     <option value="Medico">Médico</option>
@@ -91,6 +91,34 @@
                 </div>
             </div>
         </div>
+
+        <div id="divMedico" style="display:none">
+            <hr class="my-6">
+            <div class="row align-items-center">
+                <div class="col-md-1"><label class="form-label">CRM</label></div>
+                <div class="col-md-2 col-xl-4">
+                    <div class="">
+                        @Html.TextBoxFor(x => x.Medico.CRM, new { @class = "form-control", name = "Medico.CRM" })
+                        @* <input type="text" name="usuario.UserName" class="form-control"> *@
+                    </div>
+                </div>
+
+                <div class="col-md-1"><label class="form-label">Especialidade</label></div>
+                <div class="col-md-2">
+                    @Html.DropDownList("Medico.IdEspecialidade", new SelectList(ViewBag.Especialidades, "Id", "Descricao", "0"), "Selecione", new { @class = "form-control" })
+
+                  @*   <select class="form-select" id="IdEspecialidade" name="Medico.IdEspecialidade" aria-label="Default select example">
+                        <option>Selecionar</option>
+                        <option value="Admin">Administrador</option>
+                        <option value="Medico">Médico</option>
+                        <option value="3">Agenda</option>
+                    </select> *@
+                </div>
+            </div>
+        </div>
+
+
+
         <hr class="my-6">
         <hr class="my-6 d-md-none">
         <div class="hstack gap-2 ms-auto align-items-end">
@@ -103,8 +131,24 @@
 
 <script>
     $(document).ready(function () {
-        debugger
         $("#cargoSelect").val("@Model.Role");
-        
+
+        if ("@Model.Role" == "Medico") {
+            $("#divMedico").show()
+        }
+
     });
+
+
+    function AlterarCargo(selectObject) {
+
+        if (selectObject.value == "Medico") {
+            $("#divMedico").show()
+        }
+        else {
+            $("#divMedico").hide()
+        }
+
+        console.log(value);
+    }
 </script>

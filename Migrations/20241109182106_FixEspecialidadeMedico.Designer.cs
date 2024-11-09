@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQLApp.Data;
 
@@ -11,9 +12,11 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109182106_FixEspecialidadeMedico")]
+    partial class FixEspecialidadeMedico
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -544,6 +547,9 @@ namespace ehr_csharp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EspecialidadeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdEspecialidade")
                         .HasColumnType("int");
 
@@ -553,7 +559,7 @@ namespace ehr_csharp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEspecialidade");
+                    b.HasIndex("EspecialidadeId");
 
                     b.HasIndex("IdUsuario")
                         .IsUnique();
@@ -875,7 +881,7 @@ namespace ehr_csharp.Migrations
                 {
                     b.HasOne("ehr_csharp.Models.Especialidade", "Especialidade")
                         .WithMany("Medicos")
-                        .HasForeignKey("IdEspecialidade")
+                        .HasForeignKey("EspecialidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

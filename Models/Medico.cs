@@ -16,8 +16,12 @@ namespace ehr_csharp.Models
         [ForeignKey(nameof(IdUsuario))]
         public Usuario Usuario { get; set; }
 
+  
+
         public int IdEspecialidade { get; set; }
+        [ForeignKey(nameof(IdEspecialidade))]
         public Especialidade Especialidade { get; set; }
+
 
         public ICollection<Consulta> Consultas { get; set; }
         public ICollection<Diagnostico> Diagnosticos { get; set; }

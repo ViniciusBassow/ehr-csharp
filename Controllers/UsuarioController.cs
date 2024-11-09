@@ -47,7 +47,7 @@ namespace ehr_csharp.Controllers
                 usuario.Role = roles.FirstOrDefault();
             }
 
-            
+
             return View(usuarios);
         }
 
@@ -55,7 +55,7 @@ namespace ehr_csharp.Controllers
         {
             List<Usuario> usuarios = new List<Usuario> { };
             var userRole = await _roleManager.FindByNameAsync(role);
-            
+
             if (userRole != null)
             {
                 var usersInRole = await _userManager.GetUsersInRoleAsync(userRole.Name);
@@ -74,13 +74,12 @@ namespace ehr_csharp.Controllers
             }
             // Caso a role não seja encontrada, retorna uma mensagem de erro
             return PartialView("_ListaUsuario", usuarios);
-            
+
         }
 
 
         public async Task<ActionResult> Editar(string Id)
         {
-
             var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
             if (usuario == null)
                 usuario = new Usuario();
@@ -90,12 +89,16 @@ namespace ehr_csharp.Controllers
                 usuario.Role = roles.FirstOrDefault();
             }
 
+            ViewBag.Especialidades = Contexto<Especialidade>().ToList();
+
+            ModelState.Clear();
             return View(usuario);
         }
 
         [HttpPost]
         public async Task<ActionResult> Salvar(Usuario usuario)
         {
+            ModelState.Clear();
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
 
@@ -104,7 +107,7 @@ namespace ehr_csharp.Controllers
 
             ValidarCamposUsuario(usuario, usuarioBD == null);
 
- 
+
 
 
             if (!ModelState.IsValid)
@@ -126,6 +129,12 @@ namespace ehr_csharp.Controllers
             {
                 usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
                 usuario.CreatedAt = DateTime.Now;
+
+                if (usuario.Role == "Medico")
+                {
+                    usuario.Medico.IdUsuario = usuario.Id;
+                }
+
                 errors = await Registrar(usuario);
             }
             SaveChanges();
@@ -135,6 +144,7 @@ namespace ehr_csharp.Controllers
                 ViewBag.Errors = errors;
                 return View("Erro");
             }
+           
 
             return View("Views\\Usuario\\editar.cshtml", usuario);
         }
@@ -233,6 +243,15 @@ namespace ehr_csharp.Controllers
                 if (string.IsNullOrEmpty(usuario.Password))
                     ModelState.AddModelError("Senha", "O campo Senha é obrigatório");
             }
+            if (usuario.Role == "Medico")
+            {
+                if (usuario.Medico == null || string.IsNullOrEmpty(usuario.Medico.CRM))
+                    ModelState.AddModelError("Cargo", "Os campos CRM é obrigatório");
+
+                if (usuario.Medico.IdEspecialidade == 0)
+                    ModelState.AddModelError("Especialidade", "O campo Especialidade é obrigatório");
+            }
+
         }
 
     }
