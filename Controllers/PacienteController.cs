@@ -37,6 +37,28 @@ namespace ehr_csharp.Controllers
             return View(pacientes);
         }
 
+
+        public async Task<ActionResult> Perfil()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Consultas()
+        {
+            return View();
+        }
+
+
+        public async Task<ActionResult> RegistroMedico()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Medicacoes()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> Editar(int Id)
         {
 
