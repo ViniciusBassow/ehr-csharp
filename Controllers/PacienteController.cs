@@ -49,7 +49,7 @@ namespace ehr_csharp.Controllers
         }
 
 
-        public async Task<ActionResult> RegistroMedico()
+        public async Task<ActionResult> RegistrosMedicos()
         {
             return View();
         }

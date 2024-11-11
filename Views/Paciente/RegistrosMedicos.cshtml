@@ -2,7 +2,531 @@
 
  *@
 
-<main class="container-fluid p-0">
-   <h1>Dashboard Paciente</h1>
+<main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
+
+    <div class="mb-6 mb-xl-8">
+        <div class="row g-3 align-items-center">
+            <div class="col">
+                <h1 class="h2 ls-tight">Registros Médicos</h1>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row g-8">
+
+
+        <div class="col-lg-7 vstack gap-5">
+            
+            <div class="d-flex align-items-end justify-content-between mt-3 mb-3">
+                <div>
+                    <h4 class="fw-semibold mb-1">Documentos</h4>
+                    <p class="text-sm text-muted">
+                        Histórico Completo e Atualizado dos Seus Registros e Documentos Médicos
+                    </p>
+                </div>
+                <div class="d-none d-md-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-dark">
+                        <i class="bi bi-download me-2"></i>Exportar
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-nowrap table-flush">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="d-flex align-items-center gap-2 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div><span>Documento</span>
+                                </div>
+                            </th>
+                            <th scope="col">Paciente</th>
+                            <th scope="col">Médico</th>
+                            <th scope="col">Especialidade</th>
+                            <th scope="col">Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                           <a href="#!" class="dropdown-item">Analise </a>
+                                           <a href="#!"class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                           <a href="#!" class="dropdown-item">Analise </a>
+                                           <a href="#!"class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3 ps-1">
+                                    <div class="text-base">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-shape w-rem-10 h-rem-10 rounded-circle text-sm bg-primary bg-opacity-25 text-tertiary">
+                                        <i class="bi bi-file-fill"></i>
+                                    </div>
+                                    <div>
+                                        <span class="d-block text-heading fw-bold">Hemograma</span>
+                                        <span class="text-xs text-muted">10/01/2024</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a class="text-current" href="#">Pedro Augusto da Silva Abel</a></td>
+                            <td>Thiago Crochat</td>
+                            <td>Urologista</td>
+                            <td><span class="badge bg-body-secondary text-xs text-success">Analisado</span></td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <a class="text-muted" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="#!"
+                                           class="dropdown-item">Exportar </a>
+                                        <a href="#!" class="dropdown-item">Analise </a>
+                                        <a href="#!" class="dropdown-item">Retorno</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-between mt-4">
+                    <div>
+                        <span class="text-muted text-sm"> 10 itens de 250 resultados encontrados</span>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-spaced gap-1">
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 vstack gap-5">
+
+          
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="mb-2 d-flex align-items-center">
+                        <h5>Documentos</h5>
+                        <div class="ms-auto text-end">
+                            <a href="#" class="text-sm fw-semibold">Ver mais</a>
+                        </div>
+                    </div>
+                    <div class="hstack gap-2 mt-4 mb-6">
+                        <button class="btn btn-sm btn-neutral">
+                            <i class="bi bi-plus me-2 d-none d-sm-inline-block"></i>Novo Documento
+                        </button>
+                    </div>
+                    <div class="surtitle mb-2">Documentos Enviados</div>
+                    <div class="vstack gap-2 mx-n3">
+                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
+                            <div>
+                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                    <i class="bi bi-droplet-half"></i>
+                                </span>
+                            </div>
+                            <div class="ms-3 ms-md-4 flex-fill">
+                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
+                                     role="button" data-bs-toggle="offcanvas"
+                                     data-bs-target="#cardDetailsOffcanvas"
+                                     aria-controls="cardDetailsOffcanvas">
+                                    Hemograma
+                                </div>
+                                <div class="d-block text-xs gap-2 mt-1">
+                                    <span>Especialista: Clínico Geral</span>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block ms-auto text-end">
+                                <span class="badge bg-body-secondary text-warning">Em análise</span>
+                                <div class="d-none d-sm-block text-xs text-muted mt-2">
+                                    Adicionado a 2h atrás
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
+                            <div>
+                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                    <i class="bi bi-ear"></i>
+                                </span>
+                            </div>
+                            <div class="ms-3 ms-md-4 flex-fill">
+                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
+                                     role="button" data-bs-toggle="offcanvas"
+                                     data-bs-target="#cardDetailsOffcanvas"
+                                     aria-controls="cardDetailsOffcanvas">
+                                    Audiometria
+                                </div>
+                                <div class="d-block text-xs gap-2 mt-1">
+                                    <span>Especialista: otorrinolaringologista</span>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block ms-auto text-end">
+                                <span class="badge bg-body-secondary text-success">Concluído</span>
+                                <div class="d-none d-sm-block text-xs text-muted mt-2">
+                                    Adicionado a 1 ano atrás
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
+                            <div>
+                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                    <i class="bi bi-activity"></i>
+                                </span>
+                            </div>
+                            <div class="ms-3 ms-md-4 flex-fill">
+                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
+                                     role="button" data-bs-toggle="offcanvas"
+                                     data-bs-target="#cardDetailsOffcanvas"
+                                     aria-controls="cardDetailsOffcanvas">
+                                    Raio-X
+                                </div>
+                                <div class="d-block text-xs gap-2 mt-1">
+                                    <span>Especialista: Ortopedista</span>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block ms-auto text-end">
+                                <span class="badge bg-body-secondary text-success">Concluído</span>
+                                <div class="d-none d-sm-block text-xs text-muted mt-2">
+                                    Adicionado a 1 ano atrás
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
+                            <div>
+                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                    <i class="bi bi-heart-half"></i>
+                                </span>
+                            </div>
+                            <div class="ms-3 ms-md-4 flex-fill">
+                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
+                                     role="button" data-bs-toggle="offcanvas"
+                                     data-bs-target="#cardDetailsOffcanvas"
+                                     aria-controls="cardDetailsOffcanvas">
+                                    Eletrocardiograma
+                                </div>
+                                <div class="d-block text-xs gap-2 mt-1">
+                                    <span>Especialista: Cardiologista</span>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block ms-auto text-end">
+                                <span class="badge bg-body-secondary text-success">Concluído</span>
+                                <div class="d-none d-sm-block text-xs text-muted mt-2">
+                                    Adicionado a 1 ano atrás
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="surtitle mt-6"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </main>
 
