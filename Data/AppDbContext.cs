@@ -39,5 +39,18 @@ namespace SQLApp.Data
         public DbSet<Prescricao> Prescricao { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configurando o relacionamento entre Hemograma e Consulta
+            modelBuilder.Entity<Hemograma>()
+                .HasOne(h => h.Consulta)
+                .WithMany() // Presume-se que Consulta não tem uma coleção de Hemogramas
+                .HasForeignKey(h => h.IdConsulta)
+                .OnDelete(DeleteBehavior.Restrict); // Define Restrict para evitar cascata
+        }
+
     }
 }

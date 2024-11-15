@@ -144,7 +144,7 @@ namespace ehr_csharp.Controllers
                 ViewBag.Errors = errors;
                 return View("Erro");
             }
-           
+
 
             return View("Views\\Usuario\\editar.cshtml", usuario);
         }
@@ -193,6 +193,15 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Usuario usuario)
         {
+            ModelState.Clear();
+            if (string.IsNullOrEmpty(usuario.UserName))
+                ModelState.AddModelError(string.Empty, "O campo login é obrigatório.");
+            if (string.IsNullOrEmpty(usuario.Password))
+                ModelState.AddModelError(string.Empty, "O campo senha é obrigatório.");
+
+            if(!ModelState.IsValid)
+                return View("Views\\Login\\index.cshtml");
+
 
             var result = await _signInManager.PasswordSignInAsync(usuario.UserName, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
 
@@ -219,12 +228,11 @@ namespace ehr_csharp.Controllers
             }
             else
             {
-
                 ModelState.AddModelError(string.Empty, "Login ou senha incorretos.");
             }
 
 
-            return View();
+            return View("Views\\Login\\index.cshtml");
         }
 
 

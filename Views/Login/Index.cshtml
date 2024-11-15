@@ -1,6 +1,7 @@
 @model ehr_csharp.Models.Usuario
 @{
     Layout = null;
+    var errors = ViewData.ModelState.Where(n => n.Value.Errors.Count > 0).ToList();
 }
 <head>
     <meta charset="utf-8" />
@@ -45,6 +46,14 @@
                     <h1 class="ls-tight fw-bolder h3 text-white">Faça login na sua conta</h1>
                 </div>
                 <div class="mb-5">
+                    @if (errors.Count > 0)
+                    {
+                        <div class="col-xl-12" style="margin-top:40px;">
+                            <div class="alert alert-danger">
+                                @Html.ValidationSummary(false, "Erros encontrados:")
+                            </div>
+                        </div>
+                    }
                     <label class="form-label text-white" for="email" style="font-size: 1.2rem;">Usuário</label>
 
                     <input type="text" class="form-control" name="usuario.UserName" id="email" placeholder="Digite seu usuário">

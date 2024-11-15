@@ -11,9 +11,27 @@ namespace ehr_csharp.Models
         public DateTime Data { get; set; }
         public string? Anamnese { get; set; }
         public string Motivo { get; set; }
+
+        public int StatusConsulta { get; set; }
+        public string? MotivoCancelamento { get; set; }
+
+        public string? QueixaPrincipal { get; set; }     
+        public string? HistoricoDoencaAtual { get; set; }
+        public string? ExameFisico { get; set; }         
+        public string? HipoteseDiagnostica { get; set; } 
+        public string? ExamesSolicitados { get; set; }   
+        public string? Prescricao { get; set; }          
+        public string? Orientacoes { get; set; }         
+        public string? Observacoes { get; set; }         
+        public DateTime? RetornoConsulta { get; set; }  
+
+
+
+
         [NotMapped]
         public TimeSpan Hora { get; set; }
 
+        #region relacionamentos
         //Relações
         public int IdPaciente { get; set; }
         [ForeignKey(nameof(IdPaciente))]
@@ -22,12 +40,7 @@ namespace ehr_csharp.Models
         public int IdMedico { get; set; }
         [ForeignKey(nameof(IdMedico))]
         public Medico Medico { get; set; }
-
-        public int StatusConsulta { get; set; }
-        public string? MotivoCancelamento { get; set; }
-        //public int IdDiagnostico { get; set; }
-        //[ForeignKey(nameof(IdDiagnostico))]
-        //public Diagnostico Diagnostico { get; set; }
+        #endregion
 
     }
 

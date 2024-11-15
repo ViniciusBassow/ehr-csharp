@@ -79,10 +79,21 @@ namespace ehr_csharp.Controllers
             else
                 paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString() && x.Ativo).ToList();
 
+            if (paciente.Consultas != null && paciente.Consultas.Count > 0){
+
+                var maiorIdConsulta = paciente.Consultas.OrderByDescending(x => x.Data).First().Id;
+
+                paciente.ultimaConsultaHemograma = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == maiorIdConsulta);
+               
+            }
+
+            if (paciente.ultimaConsultaHemograma == null)
+                paciente.ultimaConsultaHemograma = new Hemograma();
+
             if (Id > 0)
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
             else
-                return View("Views\\Paciente\\editar.cshtml", paciente);
+                return View("Views\\Paciente\\editar2.cshtml", paciente);
         }
 
         [HttpPost]
@@ -156,10 +167,68 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError("Endereço", "O campo Endereço é obrigatório");
         }
 
+        [HttpPost]
+        public async Task<JsonResult> SalvarHemograma(Hemograma hemograma)
+        {
+            ModelState.Clear();
+            hemograma.Consulta = await Contexto<Consulta>().FirstOrDefaultAsync(x => x.Id == hemograma.IdConsulta);
+
+
+            var hemogramaDb = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == hemograma.IdConsulta);
+
+            if (hemogramaDb == null)
+            {
+                Contexto<Hemograma>().Add(hemograma);
+                
+            }
+            else
+            {
+                hemogramaDb.Eritrocitos = hemograma.Eritrocitos;
+                hemogramaDb.Hemoglobina = hemograma.Hemoglobina;
+                hemogramaDb.Hematocrito = hemograma.Hematocrito;
+                hemogramaDb.VCM = hemograma.VCM;
+                hemogramaDb.HCM = hemograma.HCM;
+                hemogramaDb.CHCM = hemograma.CHCM;
+                hemogramaDb.RDW = hemograma.RDW;
+                hemogramaDb.Leucocitos_Absoluto = hemograma.Leucocitos_Absoluto;
+                hemogramaDb.Leucocitos_Relativo = hemograma.Leucocitos_Relativo;
+                hemogramaDb.Bastonetes_Absoluto= hemograma.Bastonetes_Absoluto;
+                hemogramaDb.Bastonetes_Relativo = hemograma.Bastonetes_Relativo;
+                hemogramaDb.Segmentados_Absoluto = hemograma.Segmentados_Absoluto;
+                hemogramaDb.Segmentados_Relativo = hemograma.Segmentados_Relativo;
+                hemogramaDb.Eosinofilos_Relativo = hemograma.Eosinofilos_Relativo;
+                hemogramaDb.Eosinofilos_Absoluto = hemograma.Eosinofilos_Absoluto;
+                hemogramaDb.Basofilos_Absoluto = hemograma.Basofilos_Absoluto;
+                hemogramaDb.Basofilos_Relativo = hemograma.Basofilos_Relativo;
+                hemogramaDb.Linfocitos_Absoluto = hemograma.Linfocitos_Absoluto;
+                hemogramaDb.Linfocitos_Relativo = hemograma.Linfocitos_Relativo;
+                hemogramaDb.Monocitos_Relativo = hemograma.Monocitos_Relativo;
+                hemogramaDb.Monocitos_Absoluto = hemograma.Monocitos_Absoluto;
+                hemogramaDb.Plaquetas = hemograma.Plaquetas;
+                hemogramaDb.VPM = hemograma.VPM;
+                hemogramaDb.Glicemia = hemograma.Glicemia;
+                hemogramaDb.Creatinina = hemograma.Creatinina;
+                hemogramaDb.AcidoUrico = hemograma.AcidoUrico;
+                hemogramaDb.Prolactina = hemograma.Prolactina;
+                hemogramaDb.Testosterona = hemograma.Testosterona;
+                hemogramaDb.ColesterolTotal = hemograma.ColesterolTotal;
+                hemogramaDb.HDL = hemograma.HDL;
+                hemogramaDb.Triglicerides = hemograma.Triglicerides;
+                hemogramaDb.LDL = hemograma.LDL;
+                hemogramaDb.NaoHDL = hemograma.NaoHDL;
+
+                // Atualiza o registro no contexto
+                Contexto<Hemograma>().Update(hemogramaDb);
+            }
+            SaveChanges();
+
+
+            return Json(new { success = true });
+        }
 
 
         [HttpPost]
-        public JsonResult AdicionarArquivo(IFormFile file, int idPaciente)
+        public JsonResult AdicionarArquivo(IFormFile file, int idPaciente, string nmArquivo)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("Arquivo inválido.");
@@ -174,7 +243,7 @@ namespace ehr_csharp.Controllers
 
             Anexo anexo = new Anexo()
             {
-                NomeArquivo = file.FileName.Split(".")[0],
+                NomeArquivo = nmArquivo,
                 ArquivoData = fileData,
                 IdTabelaReferencia = idPaciente.ToString(),
                 NmTabelaReferencia = "Paciente",
@@ -201,10 +270,19 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public IActionResult BaixarArquivo(int idAnexo)
         {
-            var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);                                  
-            
+            var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
+            var mimeType = anexo.TipoArquivo switch
+            {
+                "pdf" => "application/pdf",
+                "jpeg" or "jpg" => "image/jpeg",
+                "png" => "image/png",
+                "gif" => "image/gif",
+                "doc" => "application/msword",
+                "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                _ => "application/octet-stream" // Tipo genérico
+            };
 
-            return File(anexo.ArquivoData, "application/pdf", anexo.NomeArquivo);
+            return File(anexo.ArquivoData, mimeType, anexo.NomeArquivo);
         }
     }
 

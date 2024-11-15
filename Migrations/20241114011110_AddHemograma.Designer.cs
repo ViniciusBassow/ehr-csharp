@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQLApp.Data;
 
@@ -11,9 +12,11 @@ using SQLApp.Data;
 namespace ehr_csharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114011110_AddHemograma")]
+    partial class AddHemograma
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -411,105 +414,110 @@ namespace ehr_csharp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AcidoUrico")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Basofilos_Absoluto")
+                    b.Property<string>("Basofilos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Basofilos_Relativo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bastonetes_Absoluto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Bastonetes_Relativo")
+                    b.Property<string>("Bastonetes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CHCM")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ColesterolTotal")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Creatinina")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Eosinofilos_Absoluto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Eosinofilos_Relativo")
+                    b.Property<string>("Eosinofilos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Eritrocitos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Glicemia")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HCM")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HDL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hematocrito")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hemoglobina")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdConsulta")
                         .HasColumnType("int");
 
                     b.Property<string>("LDL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Leucocitos_Absoluto")
+                    b.Property<string>("Leucocitos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Leucocitos_Relativo")
+                    b.Property<string>("Linfocitos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Linfocitos_Absoluto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Linfocitos_Relativo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Monocitos_Absoluto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Monocitos_Relativo")
+                    b.Property<string>("Monocitos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NaoHDL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Plaquetas")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Prolactina")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RDW")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Segmentados_Absoluto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Segmentados_Relativo")
+                    b.Property<string>("Segmentados")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Testosterona")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Triglicerides")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VCM")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VPM")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

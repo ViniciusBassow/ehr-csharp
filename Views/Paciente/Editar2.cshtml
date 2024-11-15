@@ -4,6 +4,8 @@
 @{
     var editar = Model.Editar;
     var contador = 0;
+
+
 }
 
 
@@ -12,7 +14,7 @@
     <header class="border-bottom mb-5">
         <div class="row">
             <div class="col-sm-6 col-12">
-                <h1 class="ls-tight">Pacientes - @Model.NomeCompleto</h1>
+                <h1 class="ls-tight">@(Model.Id > 0 ? $"Pacientes - {Model.NomeCompleto}" : "Novo Paciente") </h1>
             </div>
         </div>
         <br />
@@ -74,10 +76,13 @@
         <li class="nav-item" onclick="MudarAba('Principal')">
             <a class="nav-link active" id="navPrincipal" href="#">Principal</a>
         </li>
-        <li class="nav-item" onclick="MudarAba('Hemograma')">
+        <li class="nav-item" onclick="MudarAba('Consulta')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
+            <a class="nav-link" id="navConsulta" href="#">Consulta</a>
+        </li>
+        <li class="nav-item" onclick="MudarAba('Hemograma')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
             <a class="nav-link" id="navHemograma" href="#">Hemograma</a>
         </li>
-        <li class="nav-item" onclick="MudarAba('Documentos')">
+        <li class="nav-item" onclick="MudarAba('Documentos')" style="@(Model.Id > 0 ? "": "display: none")">
             <a class="nav-link" id="navDocumentos" href="#">Documentos</a>
         </li>
 
@@ -107,7 +112,7 @@
                                     <p class="Celular">@Model.Celular</p>
                                     <p class="TelefoneFixo">@Model.TelefoneFixo</p>
                                     <p>@Model.Email</p>
-                                    @if (Model.Antecedentes.Count > 0)
+                                    @if (Model.Antecedentes?.Count > 0)
                                     {
                                         <br>
                                         <h6>Antecedentes</h6>
@@ -184,7 +189,7 @@
                     <h3>Consultas</h3>
                     @* <button class="btn btn-new-visit">New Visit</button> *@
                 </div>
-                @if (Model.Consultas.Count == 0)
+                @if (Model.Consultas == null || Model.Consultas.Count == 0)
                 {
 
                     <div class="col-md-12 mt-3">
@@ -193,215 +198,333 @@
                         </div>
                     </div>
                 }
-
-                @foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                else
                 {
-                    if (contador < 3)
+                    foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
                     {
-                        <div class="col-md-4 mt-3">
-                            <div class="visit-card">
-                                <p class="text-muted">@consulta.Data.ToString("dddd", new CultureInfo("pt-BR")), @consulta.Data</p>
-                                <h6>@consulta.Motivo</h6>
-                                <p class="@(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ?"text-success" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "text-danger" : "text-info")) ">
-                                    @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
-                                </p>
+                        if (contador < 3)
+                        {
+                            <div class="col-md-4 mt-3">
+                                <div class="visit-card">
+                                    <p class="text-muted">@consulta.Data.ToString("dddd", new CultureInfo("pt-BR")), @consulta.Data</p>
+                                    <h6>@consulta.Motivo</h6>
+                                    <p class="@(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ?"text-success" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "text-danger" : "text-info")) ">
+                                        @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        contador++;
+                            contador++;
+                        }
                     }
                 }
-
             </div>
         </div>
     }
-    <div id="divHemograma" style="display:none">
-        @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
-        {
-            <label for="file">Importar arquivo de exame:</label>
-            <input type="file" id="file" name="file" />
-            <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
-        }
 
 
 
+
+    <div id="divConsulta" style="display:none">
 
         <div class="row">
-            <div class="col-md-4">
-                <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
-                <input class="form-control" id="Eritrocitos" step="0.01">
+            <!-- Insurance Information -->
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>* Queixa</h6>
+                        <div class="row mt-2">
+                            <textarea rows="8" class="form-control ml-2"> 
+                            </textarea>
+                            <div class="col-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Historico da doença atual</h6>
+                        <div class="row mt-2">
+                            <textarea rows="8" class="form-control ml-2"> 
+
+                            </textarea>
+                            <div class="col-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Orientações</h6>
+                        <div class="row mt-2">
+                            <textarea rows="8" class="form-control ml-2"> 
+                            </textarea>
+                            <div class="col-6">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 mt-2">
+                            <h6>Data do retorno:</h6>
+                            <input class="form-control Data" data-val="true" data-val-required="The DataNascimento field is required." id="DataNascimento" name="DataNascimento" type="Date" value="01/01/0001">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!-- Patient Info -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="info-box">
+                            <div>
+                                <h5>Height</h5>
+                                <p>5'0"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="info-box">
+                            <div>
+                                <h5>Weight</h5>
+                                <p>130 lbs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="info-box">
+                            <div>
+                                <h5>BMI</h5>
+                                <p>25.32</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="info-box">
+                            <div>
+                                <h5>Blood Pressure</h5>
+                                <p>120 mmHg / 80 mmHg</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="info-box">
+                            <div>
+                                <h5>Convênio</h5>
+                                <p>N/A</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
-                <input class="form-control" id="Hemoglobina" step="0.1">
-            </div>
 
-            <div class="col-md-4">
-                <label class="form-label" for="Hematocrito">Hematócrito:</label>
-                <input class="form-control" id="Hematocrito" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="VCM">VCM:</label>
-                <input class="form-control" id="VCM" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="HCM">HCM:</label>
-                <input class="form-control" id="HCM" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="CHCM">CHCM:</label>
-                <input class="form-control" id="CHCM" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="RDW">RDW:</label>
-                <input class="form-control" id="RDW" step="0.1">
-            </div>
         </div>
-        <div class="row mt-5">
 
-            <div class="col-md-4">
-                <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
-                <input class="form-control" id="Leucocitos_Absoluto" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
-                <input class="form-control" id="Leucocitos_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
-                <input class="form-control" id="Bastonetes_Absoluto" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
-                <input class="form-control" id="Bastonetes_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
-                <input class="form-control" id="Segmentados_Absoluto" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
-                <input class="form-control" id="Segmentados_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
-                <input class="form-control" id="Eosinofilos_Absoluto" step="0.01">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
-                <input class="form-control" id="Eosinofilos_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
-                <input class="form-control" id="Basofilos_Absoluto" step="0.01">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
-                <input class="form-control" id="Basofilos_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
-                <input class="form-control" id="Linfocitos_Absoluto" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
-                <input class="form-control" id="Linfocitos_Relativo" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
-                <input class="form-control" id="Monocitos_Absoluto" step="0.01">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
-                <input class="form-control" id="Monocitos_Relativo" step="0.1">
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <label class="form-label" for="Plaquetas">Plaquetas:</label>
-                <input class="form-control" id="Plaquetas">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="VPM">VPM:</label>
-                <input class="form-control" id="VPM" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Glicemia">Glicemia:</label>
-                <input class="form-control" id="Glicemia">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Creatinina">Creatinina:</label>
-                <input class="form-control" id="Creatinina" step="0.01">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
-                <input class="form-control" id="AcidoUrico" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Prolactina">Prolactina:</label>
-                <input class="form-control" id="Prolactina" step="0.1">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Testosterona">Testosterona:</label>
-                <input class="form-control" id="Testosterona">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
-                <input class="form-control" id="ColesterolTotal">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="HDL">HDL:</label>
-                <input class="form-control" id="HDL">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
-                <input class="form-control" id="Triglicerides">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="LDL">LDL:</label>
-                <input class="form-control" id="LDL">
-            </div>
-
-            <div class="col-md-4">
-                <label class="form-label" for="NaoHDL">Não-HDL:</label>
-                <input class="form-control" id="NaoHDL">
-            </div>
-        </div>
     </div>
+
+    <div id="divHemograma" style="display:none">
+        @if (Model.Consultas != null && Model.Consultas.Count > 0)
+        {
+            <form id="formHemograma">
+                <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
+                        @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "form-control", id = "Eritrocitos", step = "0.01" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
+                        @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "form-control", id = "Hemoglobina", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Hematocrito">Hematócrito:</label>
+                        @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "form-control", id = "Hematocrito", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="VCM">VCM:</label>
+                        @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "form-control", id = "VCM", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="HCM">HCM:</label>
+                        @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "form-control", id = "HCM", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="CHCM">CHCM:</label>
+                        @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "form-control", id = "CHCM", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="RDW">RDW:</label>
+                        @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "form-control", id = "RDW", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
+                        @Html.TextBox("Leucocitos_Absoluto", Model.ultimaConsultaHemograma.Leucocitos_Absoluto, new { @class = "form-control", id = "Leucocitos_Absoluto", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
+                        @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "form-control", id = "Leucocitos_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
+                        @Html.TextBox("Bastonetes_Absoluto", Model.ultimaConsultaHemograma.Bastonetes_Absoluto, new { @class = "form-control", id = "Bastonetes_Absoluto", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
+                        @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "form-control", id = "Bastonetes_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
+                        @Html.TextBox("Segmentados_Absoluto", Model.ultimaConsultaHemograma.Segmentados_Absoluto, new { @class = "form-control", id = "Segmentados_Absoluto", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
+                        @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "form-control", id = "Segmentados_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
+                        @Html.TextBox("Eosinofilos_Absoluto", Model.ultimaConsultaHemograma.Eosinofilos_Absoluto, new { @class = "form-control", id = "Eosinofilos_Absoluto", step = "0.01" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
+                        @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "form-control", id = "Eosinofilos_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
+                        @Html.TextBox("Basofilos_Absoluto", Model.ultimaConsultaHemograma.Basofilos_Absoluto, new { @class = "form-control", id = "Basofilos_Absoluto", step = "0.01" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
+                        @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "form-control", id = "Basofilos_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
+                        @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "form-control", id = "Linfocitos_Absoluto", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
+                        @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "form-control", id = "Linfocitos_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
+                        @Html.TextBox("Monocitos_Absoluto", Model.ultimaConsultaHemograma.Monocitos_Absoluto, new { @class = "form-control", id = "Monocitos_Absoluto", step = "0.01" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
+                        @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "form-control", id = "Monocitos_Relativo", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Plaquetas">Plaquetas:</label>
+                        @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "form-control", id = "Plaquetas" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="VPM">VPM:</label>
+                        @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "form-control", id = "VPM", step = "0.1" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Glicemia">Glicemia:</label>
+                        @Html.TextBox("Glicemia", Model.ultimaConsultaHemograma.Glicemia, new { @class = "form-control", id = "Glicemia" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Creatinina">Creatinina:</label>
+                        @Html.TextBox("Creatinina", Model.ultimaConsultaHemograma.Creatinina, new { @class = "form-control", id = "Creatinina" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
+                        @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "form-control", id = "AcidoUrico" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Prolactina">Prolactina:</label>
+                        @Html.TextBox("Prolactina", Model.ultimaConsultaHemograma.Prolactina, new { @class = "form-control", id = "Prolactina" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Testosterona">Testosterona:</label>
+                        @Html.TextBox("Testosterona", Model.ultimaConsultaHemograma.Testosterona, new { @class = "form-control", id = "Testosterona" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
+                        @Html.TextBox("ColesterolTotal", Model.ultimaConsultaHemograma.ColesterolTotal, new { @class = "form-control", id = "ColesterolTotal" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="HDL">HDL:</label>
+                        @Html.TextBox("HDL", Model.ultimaConsultaHemograma.HDL, new { @class = "form-control", id = "HDL" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
+                        @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "form-control", id = "Triglicerides" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="LDL">LDL:</label>
+                        @Html.TextBox("LDL", Model.ultimaConsultaHemograma.LDL, new { @class = "form-control", id = "LDL" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="NaoHDL">Não-HDL:</label>
+                        @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "form-control", id = "NaoHDL" })
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarHemograma()">Salvar</button>
+            </form>
+        }
+    </div>
+
     <div id="divDocumentos" style="display:none">
         @using (Html.BeginForm("AdicionarArquivo", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
         {
-            <label for="file">Selecione um para adicionar:</label>
+            <label for="file">Selecione um arquivo para adicionar a ficha do paciente: </label>
+            <div class="col-md-4">
+                <label class="form-label" for="nmArquivo">Nome:</label>
+                <input class="form-control" id="nmArquivo">
+            </div>
+            <br>
             <input type="file" id="file" name="file" />
 
-            <button type="button" onclick="AdicionarArquivo()">Enviar</button>
+
+            <button type="button" class="btn btn-sm btn-primary" onclick="AdicionarArquivo()">Enviar</button>
         }
         <table class="table table-hover table-striped table-sm table-nowrap">
             <thead>
@@ -438,6 +561,7 @@
             </tbody>
         </table>
     </div>
+
 
 
 
@@ -501,29 +625,45 @@
             $("#divHemograma").hide();
             $("#divDocumentos").hide();
             $("#divPrincipal").show();
+            $("#divConsulta").hide();
 
             $("#navHemograma").removeClass("active");
             $("#navDocumentos").removeClass("active");
             $("#navPrincipal").addClass("active");
-
+            $("#navConsulta").removeClass("active");
         }
         else if (aba == 'Hemograma') {
             $("#divHemograma").show();
             $("#divDocumentos").hide();
             $("#divPrincipal").hide();
+            $("#divConsulta").hide();
 
             $("#navHemograma").addClass("active");
             $("#navDocumentos").removeClass("active");
             $("#navPrincipal").removeClass("active");
+            $("#navConsulta").removeClass("active");
         }
         else if (aba == 'Documentos') {
             $("#divHemograma").hide();
             $("#divDocumentos").show();
             $("#divPrincipal").hide();
+            $("#divConsulta").hide();
 
             $("#navHemograma").removeClass("active");
             $("#navDocumentos").addClass("active");
             $("#navPrincipal").removeClass("active");
+            $("#navConsulta").removeClass("active");
+        }
+        else if (aba == 'Consulta') {
+            $("#divHemograma").hide();
+            $("#divDocumentos").hide();
+            $("#divPrincipal").hide();
+            $("#divConsulta").show();
+
+            $("#navHemograma").removeClass("active");
+            $("#navDocumentos").removeClass("active");
+            $("#navPrincipal").removeClass("active");
+            $("#navConsulta").addClass("active");
         }
     }
 
@@ -603,6 +743,7 @@
 
         var formData = new FormData($('#AdicionarArquivoForm')[0]);
         formData.append("idPaciente", $("#idPaciente").val());
+        formData.append("nmArquivo", $("#nmArquivo").val());
 
         $.ajax({
             url: '@Url.Action("AdicionarArquivo", "Paciente")',
@@ -632,26 +773,26 @@
         $.ajax({
             url: '@Url.Action("DesativarArquivo", "Paciente")',
             type: 'POST',
-            data: { "idAnexo": idAnexo },           
+            data: { "idAnexo": idAnexo },
             success: function (data) {
-               
+
             },
             error: function (xhr, status, error) {
-               
+
             }
         });
     }
 
     function BaixarArquivo(idAnexo) {
         $.ajax({
-            url: '@Url.Action("BaixarArquivo", "Paciente")', 
+            url: '@Url.Action("BaixarArquivo", "Paciente")',
             type: 'POST',
-            data: { idAnexo: idAnexo }, 
+            data: { idAnexo: idAnexo },
             xhrFields: {
-                responseType: 'blob' 
+                responseType: 'blob'
             },
             success: function (data, status, xhr) {
-               
+
                 var filename = "";
                 var disposition = xhr.getResponseHeader('Content-Disposition');
                 if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -678,4 +819,22 @@
         });
     }
 
+    function salvarHemograma() {
+        var formData = new FormData($('#formHemograma')[0]);
+
+        $.ajax({
+            url: '@Url.Action("SalvarHemograma", "Paciente")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert("Salvo");
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulário:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
+    }
 </script>

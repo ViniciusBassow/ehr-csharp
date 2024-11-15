@@ -24,6 +24,8 @@
     <Compile Remove="Migrations\20241109022420_AddAnexo7.Designer.cs" />
     <Compile Remove="Migrations\20241109022559_AddAnexo8.cs" />
     <Compile Remove="Migrations\20241109022559_AddAnexo8.Designer.cs" />
+    <Compile Remove="Migrations\20241109214952_AddCamposConsulta.cs" />
+    <Compile Remove="Migrations\20241109214952_AddCamposConsulta.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -42,6 +42,9 @@ namespace ehr_csharp.Models
         public ICollection<Prescricao>? Prescricoes { get; set; }
 
         [NotMapped]
+        public Hemograma ultimaConsultaHemograma { get; set; }
+
+        [NotMapped]
         public List<Anexo> Anexos { get; set; }
 
     }

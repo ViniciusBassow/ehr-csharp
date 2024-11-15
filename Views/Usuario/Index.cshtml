@@ -14,9 +14,9 @@
             </div>
         </div>
         <ul class="nav nav-tabs nav-tabs-flush gap-8 overflow-x border-0 mt-4">
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">Todos</button></li>
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Administradores</button></li>
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Medico')" class="nav-link">Médicos</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active" id="navTodos">Todos</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link" id="navAdmin">Administradores</button></li>
+            <li class="nav-item"><button onclick="FiltrarUsuarios('Medico')" class="nav-link" id="navMedico">Médicos</button></li>
         </ul>
     </div>
     <div class="row align-items-center d-flex px-6 px-lg-7 pt-8">
@@ -93,8 +93,7 @@
     <script>
         var role = "";
 
-        function FiltrarUsuarios(nivelAcesso) {
-            debugger
+        function FiltrarUsuarios(nivelAcesso) {            
             role = nivelAcesso;
 
             $.ajax({
@@ -105,6 +104,22 @@
                 success: function (data) {
                 $("#bodyUsuario").html(data);
                     
+                debugger
+                if(role == 'Admin'){
+                    $("#navAdmin").addClass("active");
+                    $("#navMedico").removeClass("active");
+                    $("#navTodos").removeClass("active");
+                }
+                else if (role == 'Medico') {
+                    $("#navAdmin").removeClass("active");
+                    $("#navMedico").addClass("active");
+                    $("#navTodos").removeClass("active");
+                }
+                else if (role == 'Todos') {
+                    $("#navAdmin").removeClass("active");
+                    $("#navMedico").removeClass("active");
+                    $("#navTodos").addClass("active");
+                }
                 },
                 error: function () {
                     
