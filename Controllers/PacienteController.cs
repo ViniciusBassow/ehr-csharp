@@ -64,7 +64,7 @@ namespace ehr_csharp.Controllers
 
             var paciente = Contexto<Paciente>()
                 .Include(x => x.Antecedentes)
-                .Include(x => x.Consultas)
+                .Include(x => x.Consultas).ThenInclude(x => x.Medico).ThenInclude(x => x.Usuario)
                 .FirstOrDefault(x => x.Id == Id);
             if (paciente == null)
                 paciente = new Paciente();

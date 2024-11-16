@@ -21,6 +21,13 @@ namespace ehr_csharp.Models
         public string Profissao { get; set; }
         public string EstadoCivil { get; set; }
         public string? TelefoneFixo { get; set; }
+        public bool Ativo { get; set; }
+        public DateOnly DataCadastro { get; set; }
+        public float? Altura { get; set; }
+        public float? Peso { get; set; }
+        public string? Carteirinha { get; set; }
+
+
         public string? HistoricoFamiliar { get; set; } //Mudar para somente Historico e colocar como uma lista?
         [NotMapped]
         public bool Editar
