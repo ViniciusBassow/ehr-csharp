@@ -19,152 +19,25 @@
             <li class="nav-item"><button onclick="FiltrarUsuarios('Medico')" class="nav-link" id="navMedico">Médicos</button></li>
         </ul>
     </div>
-    <div class="row align-items-center g-6 mt-0 m-3">
-        <div class="col-sm-6">
-            <div class="d-flex flex-wrap gap-2">
-                <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
-                    <span class="input-group-text"><i class="bi bi-search me-2"></i> </span><input type="search" class="form-control ps-0" placeholder="Procurar"
-                                                                                                   aria-label="Search">
-                </div>
-                <div class="dropdown">
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkStatus1">
-                            </div>
-                            <div class="ms-3 me-5"><label for="checkStatus1">Backlog</label></div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkStatus2">
-                            </div>
-                            <div class="ms-3 me-5"><label for="checkStatus2">Todo</label></div>
-                            <div class="ms-auto">
-                                <span class="badge rounded-pill bg-opacity-25 bg-success text-success">23</span>
-                            </div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkStatus3">
-                            </div>
-                            <div class="ms-3 me-5">
-                                <label for="checkStatus3">In Progress</label>
-                            </div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkStatus4">
-                            </div>
-                            <div class="ms-3 me-5"><label for="checkStatus4">Done</label></div>
-                            <div class="ms-auto">
-                                <span class="badge rounded-pill bg-opacity-25 bg-warning text-warning">190</span>
-                            </div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkStatus5">
-                            </div>
-                            <div class="ms-3 me-5"><label for="checkStatus5">Cancelled</label></div>
-                        </div>
+    @using (Html.BeginForm())
+    {
+        <div class="row align-items-center g-6 mt-0 m-3">
+            <div class="col-sm-6">
+                <div class="d-flex flex-wrap gap-2">
+
+                    <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
+                        <span class="input-group-text">
+                            <i class="bi bi-search me-2"></i>
+                        </span>
+                        <input type="search" name="SearchString" class="form-control ps-0" placeholder="Procurar" aria-label="Search" />
                     </div>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-neutral"
-                            data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                            aria-expanded="false">
-                        <i class="bi bi-plus-circle"></i> <span class="ms-2">Prioridade</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkPriority1">
-                            </div>
-                            <div class="ms-3 me-5">
-                                <label class="d-flex align-items-center"
-                                       for="checkPriority1">
-                                    <span class="w-rem-2 h-rem-2 me-2 bg-success rounded-circle"></span>
-                                    <span>Baixa</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkPriority2">
-                            </div>
-                            <div class="ms-3 me-5">
-                                <label class="d-flex align-items-center"
-                                       for="checkPriority2">
-                                    <span class="w-rem-2 h-rem-2 me-2 bg-warning rounded-circle"></span>
-                                    <span>Média</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                            <div class="text-lg">
-                                <input class="form-check-input" type="checkbox"
-                                       id="checkPriority3">
-                            </div>
-                            <div class="ms-3 me-5">
-                                <label class="d-flex align-items-center"
-                                       for="checkPriority3">
-                                    <span class="w-rem-2 h-rem-2 me-2 bg-danger rounded-circle"></span>
-                                    <span>Alta</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
+
         </div>
-        <div class="col-sm-6">
-            <div class="hstack justify-content-end gap-2">
-                <div class="d-flex align-items-center justify-content-end gap-2">
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-neutral flex-none d-flex align-items-center gap-2 py-1 px-2"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-award-fill"></i><span>Especialidade</span> <i class="bi bi-chevron-down text-xs me-1"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-sm">
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2"
-                                   href="#">
-                                    <span>Urgente</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2"
-                                   href="#">
-                                    <span>Rotina</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2"
-                                   href="#">
-                                    <span>Novo Sintoma</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2"
-                                   href="#">
-                                    <span>Avaliação Anual</span>
-                                </a>
-                            </li>
 
-
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    }
     <div style="height: 20px;"></div>
     @*    <div class="d-flex gap-2 scrollable-x py-3 px-7 border-bottom">
     <button type="button" class="btn btn-xs btn-neutral text-xs">
@@ -220,22 +93,22 @@
 </main>
 
 
-    <script>
-        var role = "";
+<script>
+    var role = "";
 
-        function FiltrarUsuarios(nivelAcesso) {            
-            role = nivelAcesso;
+    function FiltrarUsuarios(nivelAcesso) {
+        role = nivelAcesso;
 
-            $.ajax({
-                url: '/Usuario/FiltrarUsuarios',
-                type: 'GET',
-                data: { "role": role },
+        $.ajax({
+            url: '/Usuario/FiltrarUsuarios',
+            type: 'GET',
+            data: { "role": role },
             dataType: 'html',
-                success: function (data) {
+            success: function (data) {
                 $("#bodyUsuario").html(data);
-                    
+
                 debugger
-                if(role == 'Admin'){
+                if (role == 'Admin') {
                     $("#navAdmin").addClass("active");
                     $("#navMedico").removeClass("active");
                     $("#navTodos").removeClass("active");
@@ -250,11 +123,11 @@
                     $("#navMedico").removeClass("active");
                     $("#navTodos").addClass("active");
                 }
-                },
-                error: function () {
-                    
-                }
-            });
+            },
+            error: function () {
 
-        };
-    </script>
+            }
+        });
+
+    };
+</script>

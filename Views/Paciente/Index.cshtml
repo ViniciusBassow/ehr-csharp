@@ -19,17 +19,25 @@
             <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Com Consulta</button></li>            
         </ul>
     </div>
-    <div class="row align-items-center d-flex px-6 px-lg-7 pt-8">
-        <div class="col-md-2">
-            <label class="form-label mb-0">Nome</label>
-            <input type="text" class="form-control">
-        </div>        
-        <div class="col-md-1">
-            <label class="form-check-label" checked="checked" for="check_example">Ativos</label>
-            <input class="form-check-input me-n2" type="checkbox" name="switch1" id="switchView1" checked="checked">
+    @using (Html.BeginForm())
+    {
+        <div class="row align-items-center g-6 mt-0 m-3">
+            <div class="col-sm-6">
+                <div class="d-flex flex-wrap gap-2">
+
+                    <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
+                        <span class="input-group-text">
+                            <i class="bi bi-search me-2"></i>
+                        </span>
+                        <input type="search" name="SearchString" class="form-control ps-0" placeholder="Procurar" aria-label="Search" />
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
-    </div>
+    }
     <div class="table-responsive">
         <table class="table table-hover table-striped table-sm table-nowrap">
             <thead>

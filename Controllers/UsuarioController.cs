@@ -35,18 +35,36 @@ namespace ehr_csharp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
-
-
             List<Usuario> usuarios = Contexto<Usuario>().Where(x => x.UserName != "root").ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                usuarios = usuarios.Where(u => u.UserName.Contains(searchString) || u.Email.Contains(searchString)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    usuarios = usuarios.OrderByDescending(u => u.UserName).ToList();
+                    break;
+                case "email":
+                    usuarios = usuarios.OrderBy(u => u.Email).ToList();
+                    break;
+                case "email_desc":
+                    usuarios = usuarios.OrderByDescending(u => u.Email).ToList();
+                    break;
+                default:
+                    usuarios = usuarios.OrderBy(u => u.UserName).ToList();
+                    break;
+            }
 
             foreach (var usuario in usuarios)
             {
                 var roles = await _userManager.GetRolesAsync(usuario);
                 usuario.Role = roles.FirstOrDefault();
             }
-
 
             return View(usuarios);
         }
