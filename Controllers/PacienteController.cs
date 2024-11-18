@@ -41,12 +41,27 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Perfil()
         {
-            return View();
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Especialidade)
+                                         .Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Usuario)
+                                         .FirstOrDefault(x => x.Id == 3);
+
+            return View(paciente);
         }
 
         public async Task<ActionResult> Consultas()
         {
-            return View();
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Especialidade)
+                                        .Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Usuario)
+                                        .FirstOrDefault(x => x.Id == 3);
+            return View(paciente);
         }
 
 
