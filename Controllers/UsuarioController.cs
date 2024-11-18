@@ -98,6 +98,15 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Editar(string Id)
         {
+            // Log de início de edição de usuário
+            Log logEditarUsuario = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Usuario",
+                Alteracao = $"Início de edição do usuário com ID {Id}"
+            };
+            Contexto<Log>().Add(logEditarUsuario); // Adicionando log
+
             var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
             if (usuario == null)
                 usuario = new Usuario();
@@ -120,12 +129,19 @@ namespace ehr_csharp.Controllers
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
 
+            // Log de início de edição de usuário
+            Log logIniciarEdicao = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Usuario",
+                Alteracao = usuarioBD == null ? $"Início de criação do usuário com ID {usuario.Id}" : $"Início de edição do usuário com ID {usuario.Id}"
+            };
+            Contexto<Log>().Add(logIniciarEdicao); // Adicionando log
+
             if (usuario.File != null)
                 usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
 
             ValidarCamposUsuario(usuario, usuarioBD == null);
-
-
 
 
             if (!ModelState.IsValid)
@@ -142,6 +158,15 @@ namespace ehr_csharp.Controllers
                 usuarioBD.Role = usuario.Role;
                 usuarioBD.ImageByteStr = usuario.ImageByteStr;
 
+                // Log de atualização de usuário
+                Log logAtualizarUsuario = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = $"Atualização do usuário com ID {usuario.Id}"
+                };
+                Contexto<Log>().Add(logAtualizarUsuario); // Adicionando log
+
             }
             else
             {
@@ -154,6 +179,15 @@ namespace ehr_csharp.Controllers
                 }
 
                 errors = await Registrar(usuario);
+
+                // Log de criação de usuário
+                Log logCriarUsuario = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = $"Criação de novo usuário com ID {usuario.Id}"
+                };
+                Contexto<Log>().Add(logCriarUsuario); // Adicionando log
             }
             SaveChanges();
 
@@ -174,6 +208,26 @@ namespace ehr_csharp.Controllers
 
             try
             {
+                // Log de início de edição ou criação de usuário
+                Log logIniciar = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = usuario.Id == null ? $"Início de criação do usuário com nome {usuario.UserName}" : $"Início de edição do usuário com ID {usuario.Id}"
+                };
+                Contexto<Log>().Add(logIniciar); // Adicionando log
+
+                // Log de adição de arquivo ao usuário (caso tenha arquivo)
+                if (usuario.File != null)
+                {
+                    Log logAdicionarArquivo = new Log()
+                    {
+                        DataAlteracao = DateTime.Now,
+                        TabelaReferencia = "Usuario",
+                        Alteracao = $"Adição de arquivo ao usuário com ID {usuario.Id}"
+                    };
+                    Contexto<Log>().Add(logAdicionarArquivo); // Adicionando log
+                }
 
                 var result = await _userManager.CreateAsync(usuario, usuario.Password);
 
@@ -220,6 +274,14 @@ namespace ehr_csharp.Controllers
             if(!ModelState.IsValid)
                 return View("Views\\Login\\index.cshtml");
 
+            // Log de início de login
+            Log logLogin = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Usuario",
+                Alteracao = $"Início de login para o usuário {usuario.UserName}"
+            };
+            Contexto<Log>().Add(logLogin); // Adicionando log
 
             var result = await _signInManager.PasswordSignInAsync(usuario.UserName, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
 
@@ -237,6 +299,15 @@ namespace ehr_csharp.Controllers
                     _cache.Set("UsuarioLogado", UsuarioLogado, cacheEntryOptions);
                 }
 
+                // Log de sucesso no login
+                Log logLoginSuccess = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = $"Login bem-sucedido para o usuário {usuario.UserName}"
+                };
+                Contexto<Log>().Add(logLoginSuccess); // Adicionando log
+
                 return RedirectToAction("Index", "Consulta");
             }
 
@@ -249,6 +320,14 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError(string.Empty, "Login ou senha incorretos.");
             }
 
+            // Log de falha no login
+            Log logLoginFailure = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Usuario",
+                Alteracao = $"Falha no login para o usuário {usuario.UserName}. Motivo: {(result.IsLockedOut ? "Conta bloqueada" : "Login ou senha incorretos")}"
+            };
+            Contexto<Log>().Add(logLoginFailure); // Adicionando log
 
             return View("Views\\Login\\index.cshtml");
         }
@@ -256,6 +335,15 @@ namespace ehr_csharp.Controllers
 
         public void ValidarCamposUsuario(Usuario usuario, bool novo)
         {
+            // Log de início de validação de campos (equivalente ao início da edição de um usuário)
+            Log logValidacao = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Usuario",
+                Alteracao = $"Início de validação de campos para o usuário {usuario.UserName}. Novo: {novo}"
+            };
+            Contexto<Log>().Add(logValidacao); // Adicionando log
+
             if (string.IsNullOrEmpty(usuario.UserName))
                 ModelState.AddModelError("Login", "O campo Login é obrigatório");
             if (string.IsNullOrEmpty(usuario.Email))
