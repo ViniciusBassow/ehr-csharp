@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Globalization;
 
 
 namespace ehr_csharp.Controllers
@@ -121,8 +122,17 @@ namespace ehr_csharp.Controllers
                 pacienteBD.Antecedentes?.Clear();
                 pacienteBD = paciente;
             }
-            else
+            else {
+                paciente.DataCadastro = DateTime.Now;                
                 Contexto<Paciente>().Add(paciente);
+            }
+            //Log log = new Log()
+            //{
+            //    DataAlteracao = DateTime.Now,
+            //    TabelaReferencia = "Paciente",
+            //    Alteracao = ""
+            //};
+            //Contexto<Log>().Add(log);
 
             SaveChanges();
 
@@ -171,6 +181,7 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError("CEP", "O campo é obrigatório");
             if (string.IsNullOrEmpty(paciente.Endereco))
                 ModelState.AddModelError("Endereço", "O campo Endereço é obrigatório");
+        
         }
 
         [HttpPost]

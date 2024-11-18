@@ -38,6 +38,7 @@ namespace SQLApp.Data
         public DbSet<Paciente> Paciente { get; set; }
         public DbSet<Prescricao> Prescricao { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Log> Log { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

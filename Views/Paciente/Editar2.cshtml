@@ -111,7 +111,7 @@
                                             <span class="badge text-bg-primary"> @(Model.Ativo ? "ATIVO" : "Inativo")</span>
                                         </div>
                                     </div>
-                                    <div class="avatar avatar-xl rounded-circle h-50 w-50">
+                                    <div class="avatar avatar-xl h-50 w-50">
                                         <img src="data:image/jpeg;base64,@Model.ImagemBase64" alt="Imagem do usuário" />
                                     </div>
 
@@ -491,11 +491,11 @@
                 else
                 {
                     <div class="col-md-3 card">
-                       @*  <h3>Imagem</h3>
+                        @*  <h3>Imagem</h3>
 
-                        <div class="avatar avatar-xl rounded-circle h-50 w-50">
-                            <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
-                        </div> *@
+                <div class="avatar avatar-xl rounded-circle h-50 w-50">
+                <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
+                </div> *@
 
                         <div class="">
                             <a href="#" class="avatar avatar-lg bg-warning rounded-circle text-white"><img src="@Model.ImagemBase64" alt="..."></a> @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
@@ -689,19 +689,19 @@
                     }
                 </div>
             </div>
-            <div class="hstack gap-2 ms-auto align-items-end mt-5">
-                <div class="d-flex align-items-end justify-content-between">
-                    <div class="d-none d-md-flex gap-2">
-                        <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
-                        @if (novoPaciente)
-                        {
+            @if (novoPaciente)
+            {
+                <div class="hstack gap-2 ms-auto align-items-end mt-5">
+                    <div class="d-flex align-items-end justify-content-between">
+                        <div class="d-none d-md-flex gap-2">
+                            <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
                             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
-                        }
+
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            @if (!novoPaciente)
+            }
+            else
             {
                 <div class="row mt-4">
                     <div class="d-flex justify-content-between">
@@ -738,11 +738,11 @@
                     }
 
                 </div>
-             
+
             }
         </div>
 
-       
+
     }
 
 
@@ -1088,18 +1088,19 @@
 
 
 
-    @if(!novoPaciente){
-    <div class="hstack gap-2 ms-auto align-items-end mt-5">
-        <div class="d-flex align-items-end justify-content-between">
-            <div class="d-none d-md-flex gap-2">
-                <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
-                @if (consultaEmAndamento)
-                {
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Concluir Consulta</button>
-                }           
+    @if (!novoPaciente)
+    {
+        <div class="hstack gap-2 ms-auto align-items-end mt-5">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-none d-md-flex gap-2">
+                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
+                    @if (consultaEmAndamento)
+                    {
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Concluir Consulta</button>
+                    }
+                </div>
             </div>
         </div>
-    </div>
     }
 </main>
 
