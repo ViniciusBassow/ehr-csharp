@@ -10182,6 +10182,25 @@ progress {
     box-shadow: 0 1px 2px rgba(50,50,71,.08)
 }
 
+.form-control-sm {
+    color: var(--x-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--x-body-bg);
+    border: var(--x-border-width)solid var(--x-border-color);
+    border-radius: var(--x-border-radius);
+    background-clip: padding-box;
+    width: 100%;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.625;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    display: block;
+    box-shadow: 0 1px 2px rgba(50,50,71,.08)
+}
+
 @media (prefers-reduced-motion:reduce) {
     .form-control {
         transition: none
@@ -10445,6 +10464,29 @@ textarea.form-control-lg {
     .form-control-color.form-control-lg {
         height: calc(1.625em + 1.5rem + calc(var(--x-border-width)*2))
     }
+
+.form-select-sm {
+    --x-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%231e293b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    color: var(--x-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--x-body-bg);
+    background-image: var(--x-form-select-bg-img),var(--x-form-select-bg-icon,none);
+    border: var(--x-border-width)solid var(--x-border-color);
+    border-radius: var(--x-border-radius);
+    box-shadow: var(--x-box-shadow-inset);
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    width: 100%;
+    padding: .5rem 3rem .5rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.625;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    display: block
+}
 
 .form-select {
     --x-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%231e293b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");

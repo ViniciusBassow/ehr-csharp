@@ -108,6 +108,12 @@ namespace ehr_csharp.Controllers
             }
 
             Dictionary<string, string> errors = new Dictionary<string, string>();
+
+
+            if (paciente.File != null)
+                paciente.ImagemBase64 = Usuario.Helper.ConverterImagemEmString(paciente.File);
+
+
             var pacienteBD = await Contexto<Paciente>().Include(x => x.Antecedentes).FirstOrDefaultAsync(x => x.Id == paciente.Id);
 
             if (pacienteBD != null)
