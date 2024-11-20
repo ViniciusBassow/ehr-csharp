@@ -84,13 +84,19 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Paciente",
                 Alteracao = $"Início da edição do paciente com ID {Id}"
             };
-            Contexto<Log>().Add(logInicioEdicao); // Adicionando log
+            //Contexto<Log>().Add(logInicioEdicao); // Adicionando log
             SaveChanges();
 
             var paciente = Contexto<Paciente>()
-                .Include(x => x.Antecedentes)
-                .Include(x => x.Consultas).ThenInclude(x => x.Medico).ThenInclude(x => x.Usuario)
-                .FirstOrDefault(x => x.Id == Id);
+                            .Include(x => x.Antecedentes)
+                            .Include(x => x.Consultas)
+                                .ThenInclude(x => x.Medico)
+                                    .ThenInclude(x => x.Usuario)
+                            .Include(x => x.Consultas)
+                                .ThenInclude(x => x.Prescricao)
+                                .ThenInclude(x => x.Medicamentos)
+                            .FirstOrDefault(x => x.Id == Id);
+
             if (paciente == null)
                 paciente = new Paciente();
             if (paciente.Antecedentes == null)
@@ -104,12 +110,14 @@ namespace ehr_csharp.Controllers
             else
                 paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString() && x.Ativo).ToList();
 
-            if (paciente.Consultas != null && paciente.Consultas.Count > 0){
-
+            if (paciente.Consultas != null && paciente.Consultas.Count > 0)
+            {
                 var maiorIdConsulta = paciente.Consultas.OrderByDescending(x => x.Data).First().Id;
 
                 paciente.ultimaConsultaHemograma = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == maiorIdConsulta);
-               
+                paciente.ultimaConsulta = paciente.Consultas.OrderByDescending(x => x.Data).First();
+
+
             }
 
             if (paciente.ultimaConsultaHemograma == null)
@@ -146,8 +154,9 @@ namespace ehr_csharp.Controllers
                 pacienteBD.Antecedentes?.Clear();
                 pacienteBD = paciente;
             }
-            else {
-                paciente.DataCadastro = DateTime.Now;                
+            else
+            {
+                paciente.DataCadastro = DateTime.Now;
                 Contexto<Paciente>().Add(paciente);
             }
             // Log de criação ou atualização de paciente
@@ -157,7 +166,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Paciente",
                 Alteracao = pacienteBD == null ? "Criação de novo paciente" : $"Atualização do paciente com ID {paciente.Id}"
             };
-            Contexto<Log>().Add(logSalvarPaciente); // Adicionando log
+            //Contexto<Log>().Add(logSalvarPaciente); // Adicionando log
 
             SaveChanges();
 
@@ -210,86 +219,9 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError("CEP", "O campo é obrigatório");
             if (string.IsNullOrEmpty(paciente.Endereco))
                 ModelState.AddModelError("Endereço", "O campo Endereço é obrigatório");
-        
+
         }
 
-        [HttpPost]
-        public async Task<JsonResult> SalvarHemograma(Hemograma hemograma)
-        {
-            ModelState.Clear();
-            hemograma.Consulta = await Contexto<Consulta>().FirstOrDefaultAsync(x => x.Id == hemograma.IdConsulta);
-
-
-            var hemogramaDb = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == hemograma.IdConsulta);
-
-            if (hemogramaDb == null)
-            {
-                Contexto<Hemograma>().Add(hemograma);
-
-                // Log de criação de hemograma
-                Log logCriacaoHemograma = new Log()
-                {
-                    DataAlteracao = DateTime.Now,
-                    TabelaReferencia = "Hemograma",
-                    Alteracao = $"Criação de novo hemograma para consulta ID {hemograma.IdConsulta}"
-                };
-                Contexto<Log>().Add(logCriacaoHemograma); // Adicionando log
-
-            }
-            else
-            {
-                hemogramaDb.Eritrocitos = hemograma.Eritrocitos;
-                hemogramaDb.Hemoglobina = hemograma.Hemoglobina;
-                hemogramaDb.Hematocrito = hemograma.Hematocrito;
-                hemogramaDb.VCM = hemograma.VCM;
-                hemogramaDb.HCM = hemograma.HCM;
-                hemogramaDb.CHCM = hemograma.CHCM;
-                hemogramaDb.RDW = hemograma.RDW;
-                hemogramaDb.Leucocitos_Absoluto = hemograma.Leucocitos_Absoluto;
-                hemogramaDb.Leucocitos_Relativo = hemograma.Leucocitos_Relativo;
-                hemogramaDb.Bastonetes_Absoluto= hemograma.Bastonetes_Absoluto;
-                hemogramaDb.Bastonetes_Relativo = hemograma.Bastonetes_Relativo;
-                hemogramaDb.Segmentados_Absoluto = hemograma.Segmentados_Absoluto;
-                hemogramaDb.Segmentados_Relativo = hemograma.Segmentados_Relativo;
-                hemogramaDb.Eosinofilos_Relativo = hemograma.Eosinofilos_Relativo;
-                hemogramaDb.Eosinofilos_Absoluto = hemograma.Eosinofilos_Absoluto;
-                hemogramaDb.Basofilos_Absoluto = hemograma.Basofilos_Absoluto;
-                hemogramaDb.Basofilos_Relativo = hemograma.Basofilos_Relativo;
-                hemogramaDb.Linfocitos_Absoluto = hemograma.Linfocitos_Absoluto;
-                hemogramaDb.Linfocitos_Relativo = hemograma.Linfocitos_Relativo;
-                hemogramaDb.Monocitos_Relativo = hemograma.Monocitos_Relativo;
-                hemogramaDb.Monocitos_Absoluto = hemograma.Monocitos_Absoluto;
-                hemogramaDb.Plaquetas = hemograma.Plaquetas;
-                hemogramaDb.VPM = hemograma.VPM;
-                hemogramaDb.Glicemia = hemograma.Glicemia;
-                hemogramaDb.Creatinina = hemograma.Creatinina;
-                hemogramaDb.AcidoUrico = hemograma.AcidoUrico;
-                hemogramaDb.Prolactina = hemograma.Prolactina;
-                hemogramaDb.Testosterona = hemograma.Testosterona;
-                hemogramaDb.ColesterolTotal = hemograma.ColesterolTotal;
-                hemogramaDb.HDL = hemograma.HDL;
-                hemogramaDb.Triglicerides = hemograma.Triglicerides;
-                hemogramaDb.LDL = hemograma.LDL;
-                hemogramaDb.NaoHDL = hemograma.NaoHDL;
-
-                // Atualiza o registro no contexto
-                Contexto<Hemograma>().Update(hemogramaDb);
-
-                // Log de atualização de hemograma
-                Log logAtualizacaoHemograma = new Log()
-                {
-                    DataAlteracao = DateTime.Now,
-                    TabelaReferencia = "Hemograma",
-                    Alteracao = $"Atualização do hemograma para consulta ID {hemograma.IdConsulta}"
-                };
-                Contexto<Log>().Add(logAtualizacaoHemograma); // Adicionando log
-
-            }
-            SaveChanges();
-
-            DisplayMensagemSucesso();
-            return Json(new { success = true });
-        }
 
 
         [HttpPost]
@@ -326,7 +258,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Paciente",
                 Alteracao = $"Adição de arquivo '{nmArquivo}' ao paciente com ID {idPaciente}"
             };
-            Contexto<Log>().Add(logAdicaoArquivo); // Adicionando log
+            //Contexto<Log>().Add(logAdicaoArquivo); // Adicionando log
 
             return Json(new { success = true, anexo });
         }
@@ -343,7 +275,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Anexo",
                 Alteracao = $"Início de desativação do arquivo com ID {idAnexo}"
             };
-            Contexto<Log>().Add(logDesativacaoArquivo); // Adicionando log
+            //Contexto<Log>().Add(logDesativacaoArquivo); // Adicionando log
 
             anexo.Ativo = false;
             SaveChanges();
@@ -353,7 +285,7 @@ namespace ehr_csharp.Controllers
 
         [HttpPost]
         public IActionResult BaixarArquivo(int idAnexo)
-        {      
+        {
 
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
 
@@ -364,7 +296,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Anexo",
                 Alteracao = $"Download do arquivo com ID {idAnexo} solicitado"
             };
-            Contexto<Log>().Add(logDownloadArquivo); // Adicionando log
+            //Contexto<Log>().Add(logDownloadArquivo); // Adicionando log
 
             var mimeType = anexo.TipoArquivo switch
             {

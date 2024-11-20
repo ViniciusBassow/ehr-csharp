@@ -40,6 +40,20 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalSucessoAjax" tabindex="-1" aria-labelledby="depositLiquidityModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content overflow-hidden">
+                <div class="modal-header pb-0 border-0">
+                    <h1 class="modal-title h4" id="depositLiquidityModalLabel"><b>Registro salvo com sucesso!</b></h1>
+                </div>
+                <div class="modal-body undefined">
+
+                    <button type="button" onclick='$("#modalSucessoAjax").modal("hide");' class="btn btn-primary w-100">Concluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="modal fade" id="connectWalletModal" tabindex="-1" aria-labelledby="connectWalletModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -348,6 +362,9 @@
 
         function displayMensagemSucesso(mensagem) {
             $("#modalSucesso").modal("show");
+        }
+        function displayMensagemSucessoAjax(mensagem) {
+            $("#modalSucessoAjax").modal("show");
         }
     </script>
 </body>

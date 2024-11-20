@@ -50,10 +50,12 @@ namespace ehr_csharp.Models
         public virtual IList<Antecedente>? Antecedentes { get; set; }
         public ICollection<Consulta>? Consultas { get; set; }
         public ICollection<Diagnostico>? Diagnosticos { get; set; }
-        public ICollection<Prescricao>? Prescricoes { get; set; }
+        //public ICollection<Prescricao>? Prescricoes { get; set; }
 
         [NotMapped]
         public Hemograma ultimaConsultaHemograma { get; set; }
+        [NotMapped]
+        public Consulta ultimaConsulta { get; set; }
 
         [NotMapped]
         public List<Anexo> Anexos { get; set; }

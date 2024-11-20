@@ -22,7 +22,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Login",
                 Alteracao = "Início de acesso à página Index"
             };
-            Contexto<Log>().Add(logIndex); // Adicionando log
+            //Contexto<Log>().Add(logIndex); // Adicionando log
 
             return View();
         }
@@ -36,7 +36,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Login",
                 Alteracao = "Início de edição de usuário"
             };
-            Contexto<Log>().Add(logEditar); // Adicionando log
+            //Contexto<Log>().Add(logEditar); // Adicionando log
 
             return View();
         }
@@ -50,7 +50,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Login",
                 Alteracao = "Acesso à página de Privacidade"
             };
-            Contexto<Log>().Add(logPrivacy); // Adicionando log
+            //Contexto<Log>().Add(logPrivacy); // Adicionando log
 
             return View();
         }
@@ -65,7 +65,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Login",
                 Alteracao = "Erro no processo de login"
             };
-            Contexto<Log>().Add(logError); // Adicionando log
+            //Contexto<Log>().Add(logError); // Adicionando log
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
