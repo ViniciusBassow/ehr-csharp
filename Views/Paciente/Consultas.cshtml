@@ -1,6 +1,12 @@
-@* @model List<ehr_csharp.Models.Paciente>
+@using System.Globalization;
 
- *@
+@model ehr_csharp.Models.Paciente
+@{
+    var consultaEmAndamento = Model.Editar;
+    var novoPaciente = (Model.Id == 0);
+    var contador = 0;
+}
+
 <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
     <div class="mb-6 mb-xl-10">
         <div class="row g-3 align-items-center">
@@ -8,12 +14,6 @@
                 <h1 class="ls-tight">Consultas</h1>
             </div>
             <div class="col">
-                <div class="hstack gap-2 justify-content-end">
-                    <button class="btn btn-sm btn-neutral">
-                        <i class="bi bi-plus me-2 d-none d-sm-inline-block"></i>Nova Consulta
-                    </button>
-                    
-                </div>
             </div>
         </div>
     </div>
@@ -164,394 +164,73 @@
                 </div>
             </div>
         </div>
+        
+        
         <div class="vstack gap-3">
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
+           
+
+                @if (Model.Consultas == null || Model.Consultas.Count == 0)
+                {
+
+                    <div class="col-md-12 mt-3">
+                        <div class="visit-card">
+                            <p>Sem consultas por enquanto.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
+                }
+                else
+                {
+                    foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                    {
+                        if (contador < 3)
+                        {
+                        <div class="card border-primary-hover shadow-soft-3-hover">
+                            <div class="card-body p-4">
+                                <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="flex-none w-rem-10 h-rem-10">
+                                            <div class="w-100" alt="...">
+                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                    <i class="bi bi-calendar-check"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <h6>@consulta.Motivo</h6>
+                                            <span class="d-inline-block text-muted text-xs">
+                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Medico.Usuario.Name</span>
+                                        </div>
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Medico.Especialidade.Descricao</span>
+                                        </div>
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Data.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                        <div class="col-12 col-sm-auto col-xl-auto">
+                                            <button type="button"
+                                                    class="btn btn-xs btn-neutral w-100 w-sm-auto"
+                                                    data-bs-target="#depositLiquidityModal"
+                                                    data-bs-toggle="modal">
+                                                Visualizar
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
+
                         </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-primary-hover shadow-soft-3-hover">
-                <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="">
-                                <h6>Urgente</h6>
-                                <span class="d-inline-block text-muted text-xs">
-                                    Alta
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">Matheus Lima</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">Ortopedista</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">10/11/2024</span>
-                            </div>
-                            <div class="col-6 col-sm-auto col-xl-auto">
-                                <span class="d-block text-xs text-muted">Data de Vencimento</span> <span class="d-block text-heading text-sm fw-bold">20/12/2024</span>
-                            </div>
-                            <div class="col-12 col-sm-auto col-xl-auto">
-                                <button type="button"
-                                        class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                        data-bs-target="#depositLiquidityModal"
-                                        data-bs-toggle="modal">
-                                    Visualizar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            contador++;
+                        }
+                    }
+                }
+                
+            
 
             <div class="d-flex align-items-center justify-content-between mt-4">
                 <div>

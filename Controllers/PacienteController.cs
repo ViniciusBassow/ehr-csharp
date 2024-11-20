@@ -41,12 +41,27 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Perfil()
         {
-            return View();
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Especialidade)
+                                         .Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Usuario)
+                                         .FirstOrDefault(x => x.Id == 3);
+
+            return View(paciente);
         }
 
         public async Task<ActionResult> Consultas()
         {
-            return View();
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Especialidade)
+                                        .Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Usuario)
+                                        .FirstOrDefault(x => x.Id == 3);
+            return View(paciente);
         }
 
 
@@ -62,6 +77,15 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Editar(int Id)
         {
+            // Log de início de edição de paciente
+            Log logInicioEdicao = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Paciente",
+                Alteracao = $"Início da edição do paciente com ID {Id}"
+            };
+            Contexto<Log>().Add(logInicioEdicao); // Adicionando log
+            SaveChanges();
 
             var paciente = Contexto<Paciente>()
                 .Include(x => x.Antecedentes)
@@ -126,13 +150,14 @@ namespace ehr_csharp.Controllers
                 paciente.DataCadastro = DateTime.Now;                
                 Contexto<Paciente>().Add(paciente);
             }
-            //Log log = new Log()
-            //{
-            //    DataAlteracao = DateTime.Now,
-            //    TabelaReferencia = "Paciente",
-            //    Alteracao = ""
-            //};
-            //Contexto<Log>().Add(log);
+            // Log de criação ou atualização de paciente
+            Log logSalvarPaciente = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Paciente",
+                Alteracao = pacienteBD == null ? "Criação de novo paciente" : $"Atualização do paciente com ID {paciente.Id}"
+            };
+            Contexto<Log>().Add(logSalvarPaciente); // Adicionando log
 
             SaveChanges();
 
@@ -200,7 +225,16 @@ namespace ehr_csharp.Controllers
             if (hemogramaDb == null)
             {
                 Contexto<Hemograma>().Add(hemograma);
-                
+
+                // Log de criação de hemograma
+                Log logCriacaoHemograma = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Hemograma",
+                    Alteracao = $"Criação de novo hemograma para consulta ID {hemograma.IdConsulta}"
+                };
+                Contexto<Log>().Add(logCriacaoHemograma); // Adicionando log
+
             }
             else
             {
@@ -240,6 +274,16 @@ namespace ehr_csharp.Controllers
 
                 // Atualiza o registro no contexto
                 Contexto<Hemograma>().Update(hemogramaDb);
+
+                // Log de atualização de hemograma
+                Log logAtualizacaoHemograma = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Hemograma",
+                    Alteracao = $"Atualização do hemograma para consulta ID {hemograma.IdConsulta}"
+                };
+                Contexto<Log>().Add(logAtualizacaoHemograma); // Adicionando log
+
             }
             SaveChanges();
 
@@ -275,6 +319,15 @@ namespace ehr_csharp.Controllers
             Contexto<Anexo>().Add(anexo);
             SaveChanges();
 
+            // Log de adição de arquivo
+            Log logAdicaoArquivo = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Paciente",
+                Alteracao = $"Adição de arquivo '{nmArquivo}' ao paciente com ID {idPaciente}"
+            };
+            Contexto<Log>().Add(logAdicaoArquivo); // Adicionando log
+
             return Json(new { success = true, anexo });
         }
 
@@ -282,6 +335,16 @@ namespace ehr_csharp.Controllers
         public JsonResult DesativarArquivo(int idAnexo)
         {
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
+
+            // Log de início de desativação de arquivo
+            Log logDesativacaoArquivo = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Anexo",
+                Alteracao = $"Início de desativação do arquivo com ID {idAnexo}"
+            };
+            Contexto<Log>().Add(logDesativacaoArquivo); // Adicionando log
+
             anexo.Ativo = false;
             SaveChanges();
 
@@ -293,6 +356,16 @@ namespace ehr_csharp.Controllers
         {      
 
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
+
+            // Log de download de arquivo
+            Log logDownloadArquivo = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Anexo",
+                Alteracao = $"Download do arquivo com ID {idAnexo} solicitado"
+            };
+            Contexto<Log>().Add(logDownloadArquivo); // Adicionando log
+
             var mimeType = anexo.TipoArquivo switch
             {
                 "pdf" => "application/pdf",

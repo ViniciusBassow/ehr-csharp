@@ -1,17 +1,22 @@
-@* @model List<ehr_csharp.Models.Paciente>
+ @using System.Globalization;
+ @model ehr_csharp.Models.Paciente
+@{
+    var consultaEmAndamento = Model.Editar;
+    var novoPaciente = (Model.Id == 0);
+    var contador = 0;
+}
 
- *@
 
 <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
 
     <div class="mb-6 mb-xl-8">
         <div class="row g-3 align-items-center">
             <div class="col">
-                <h1 class="h2 ls-tight">Perfil - Geral</h1>
+                <h1 class="h2 ls-tight">Dashboard</h1>
             </div>
         </div>
     </div>
-
+   
 
     <div class="row g-8">
 
@@ -22,33 +27,32 @@
 
                     <div class="card-body d-flex flex-column col-lg-1">
 
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h3>Pedro Abel</h3>
-                            </div>
-
-                            <div>
-                                <span class="badge text-bg-primary">Ativo</span>
-                            </div>
-                        </div>
-                        <div class="avatar avatar-xl rounded-circle h-50 w-50">
+                        <div class="avatar avatar-xl rounded-circle h-75 w-75">
+                            @* @(!string.IsNullOrEmpty(@Model.ImagemBase64) ? Html.Raw($"<img src='{@Model.ImagemBase64}'/>") : Html.Raw("<i class='bi bi-file-fill'></i>"))
+ *@
                             <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
                         </div>
+
 
                         <div class="d-flex align-items-center justify-content-between mt-8">
                             <div class="">
                                 <div class="d-flex gap-3 align-items-center">
-                                    <span class="h6 fw-semibold text-muted">Próxima Consulta</span>
-                                </div>
-                                <div class="fw-bold text-heading mt-3">12/11/2024</div>
-                            </div>
-                            <span class="vr bg-dark bg-opacity-10"></span>
-                            <div class="">
-                                <div class="d-flex gap-3 align-items-center">
                                     <span class="h6 fw-semibold text-muted">Médico </span>
                                 </div>
-                                <div class="fw-bold text-heading mt-3">Jorge</div>
+                                <div class="fw-bold text-heading mt-3">
+                                    @(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Medico.Usuario.UserName : "Indefinido")
+                                </div>
                             </div>
+                            <div class="">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <span class="h6 fw-semibold text-muted">Próxima Consulta</span>
+                                </div>
+                                <div class="fw-bold text-heading mt-3">
+                                     @(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Data.ToString("dd/MM/yyyy HH:mm") : "Indefinido") 
+                                    </div>
+                            </div>
+                            <span class="vr bg-dark bg-opacity-10"></span>
+                            
                         </div>
 
 
@@ -59,7 +63,7 @@
 
                         <div class="d-flex justify-content-between align-items-center mb-5">
                             <div>
-                                <h2>Dados pessoais</h2>
+                                <h3>Dados pessoais</h3>
                             </div>
                             <div class="hstack align-items-center">
                                 <a href="#" class="text-muted">
@@ -72,38 +76,55 @@
                                 <div class="d-flex flex-column col-lg-8">
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Nome Completo:</h5>
-                                        <p>Pedro Augusto da Silva Abel</p>
+                                        <p>@Model.NomeCompleto</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Email:</h5>
-                                        <p>pedroabel@gmail.com</p>
+                                        <p>@Model.Email</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Telefone:</h5>
-                                        <p>(19) 98391-4162</p>
+                                        <p>@Model.Celular</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Ocupação:</h5>
-                                        <p>Estagiário</p>
+                                        <p>@Model.Profissao</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Endereço:</h5>
-                                        <p>Av Ipe Roxo, Sumaré-SP</p>
+                                        <p>@Model.Endereco</p>
                                     </div>
-                                </div>
-                                <div class="d-flex flex-column col-lg-3">
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Idade:</h5>
-                                        <p>22</p>
+                                        <p>
+                                            @{
+                                                var dataInicial = Model.DataNascimento; // Supondo que seja DateOnly
+                                                var dataFinal = DateOnly.FromDateTime(DateTime.Now); // Converter DateTime para DateOnly
+
+                                                // Calculando a idade
+                                                var idade = dataFinal.Year - dataInicial.Year;
+
+                                                // Ajusta se a data de nascimento ainda não ocorreu este ano
+                                                if (dataFinal < dataInicial.AddYears(idade))
+                                                {
+                                                    idade--;
+                                                }
+                                            }
+                                            @idade anos
+                                        </p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Data de Nascimento:</h5>
-                                        <p>21/04/2002</p>
+                                        <p>@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
                                     </div>
+
                                     <div class="d-flex align-items-center gap-2">
                                         <h5>Estado Cívil:</h5>
-                                        <p>Solteiro</p>
+                                        <p>@Model.EstadoCivil</p>
                                     </div>
+                                </div>
+                                <div class="d-flex flex-column col-lg-3">
+                                    
                                 </div>
                                 <div class="d-flex mx-n1"></div>
 
@@ -112,14 +133,12 @@
                             <div class="d-flex flex-column col-lg-8">
                                 <div class="d-flex align-items-center gap-2">
                                     <h5>Paciente desde:</h5>
-                                    <p>09/11/2024</p>
+                                    <p>@Model.DataCadastro</p>
                                 </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <h5>Tipo:</h5>
                                     <p>Particular</p>
                                 </div>
-
-
                             </div>
                         </div>
 
@@ -130,9 +149,6 @@
 
             </div>
 
-
-
-
             <div class="card">
                 <div class="card-body pb-3">
                     <h5 class="mb-3">Medicações</h5>
@@ -141,7 +157,7 @@
                             <div class="flex-none w-rem-10 h-rem-10">
                                 <div class="w-100" alt="...">
                                     <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
+                                        <i class="bi bi-capsule"></i>
                                     </span>
                                 </div>
                             </div>
@@ -422,81 +438,42 @@
                         </div>
                     </div>
                     <div class="vstack gap-6">
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Rotina - 12/12/2024</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Cardiologista</span>
+                        
+                        @if (Model.Consultas == null || Model.Consultas.Count == 0)
+                        {
+
+                            <div class="col-md-12 mt-3">
+                                <div class="visit-card">
+                                    <p>Sem consultas por enquanto.</p>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Especializada - 22/11/2024</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Dermatologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Especializada - 04/01/2024</h6>
-                                    <p class="text-muted text-xs">Cancelada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Neurologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Rotina - 02/08/2023</h6>
-                                    <p class="text-muted text-xs">Adiada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Cardiologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Completa - 01/05/2023</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Clínico Geral</span>
-                                </div>
-                            </div>
-                        </div>
+                        }
+                        else
+                        {
+                            foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                            {
+                                if (contador < 10)
+                                {
+                                    <div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="icon icon-shape flex-none text-base bg-body-secondary rounded-circle">
+                                                <i class="bi bi-calendar-event"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="progress-text mb-1 d-block">@consulta.Motivo - @consulta.Data.ToString("dd/MM/yyyy")</h6>
+                                                <p class="text-muted text-xs">
+                                                    @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                </p>
+                                            </div>
+                                            <div class="text-end ms-auto">
+                                                <span class="h6 text-sm">@consulta.Medico.Especialidade.Descricao</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    contador++;
+                                }
+                            }
+                        }
                     </div>
                 </div>
             </div>

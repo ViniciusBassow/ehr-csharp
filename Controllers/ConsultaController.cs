@@ -33,6 +33,15 @@ namespace ehr_csharp.Controllers
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).ToList());
             }
 
+            // Log de exibição da página de consultas
+            Log logExibirConsultas = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Consulta",
+                Alteracao = "Exibição da lista de consultas"
+            };
+            Contexto<Log>().Add(logExibirConsultas); // Adicionando log
+
             return View("Views\\Consulta\\Index.cshtml", consultas);
         }
 
@@ -57,6 +66,15 @@ namespace ehr_csharp.Controllers
 
                 }
                 SaveChanges();
+
+                // Log de exibição dos eventos do dia
+                Log logExibirEventosDia = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Consulta",
+                    Alteracao = "Exibição dos eventos do dia " + DataEvento.ToString("dd/MM/yyyy")
+                };
+                Contexto<Log>().Add(logExibirEventosDia); // Adicionando log
             }
 
             ViewBag.Pacientes = Contexto<Paciente>().ToList();
@@ -75,6 +93,17 @@ namespace ehr_csharp.Controllers
             {
                 return View("Views\\Consulta\\index.cshtml", new Consulta());
             }
+            // Log de criação ou atualização de consulta
+            Log logSalvarConsulta = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Consulta",
+                Alteracao = consulta.Id == 0 ?
+                           $"Criação de nova consulta para o paciente {consulta.IdPaciente}" :
+                           $"Atualização de consulta para o paciente {consulta.IdPaciente}"
+            };
+            Contexto<Log>().Add(logSalvarConsulta); // Adicionando log
+
             consulta.StatusConsulta = (int)StatusConsulta.AguardandoConfirmacao;
             consulta.Data = consulta.Data.AddHours(consulta.Hora.Hours);
             consulta.Data = consulta.Data.AddMinutes(consulta.Hora.Minutes);
@@ -96,6 +125,15 @@ namespace ehr_csharp.Controllers
             consulta.StatusConsulta = (int)StatusConsulta.Cancelado;
             consulta.MotivoCancelamento = motivoCancelamento;
 
+            // Log de cancelamento de consulta
+            Log logCancelarConsulta = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Consulta",
+                Alteracao = $"Consulta cancelada para o paciente {consulta.IdPaciente} - Motivo: {motivoCancelamento}"
+            };
+            Contexto<Log>().Add(logCancelarConsulta); // Adicionando log
+
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
         }
@@ -104,7 +142,16 @@ namespace ehr_csharp.Controllers
         public async Task<ActionResult> ConfirmarConsulta(int idConsulta)
         {
             var consulta = Contexto<Consulta>().FirstOrDefault(x => x.Id == idConsulta);
-            consulta.StatusConsulta = (int)StatusConsulta.Confirmada;            
+            consulta.StatusConsulta = (int)StatusConsulta.Confirmada;
+
+            // Log de confirmação de consulta
+            Log logConfirmarConsulta = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Consulta",
+                Alteracao = $"Consulta confirmada para o paciente {consulta.IdPaciente}"
+            };
+            Contexto<Log>().Add(logConfirmarConsulta); // Adicionando log
 
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
