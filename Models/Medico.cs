@@ -30,4 +30,12 @@ namespace ehr_csharp.Models
         public string Title { get; set; }
         public DateTime CurrentDate { get; set; }
     }
+    public class Agendamento
+    {
+        public string Data { get; set; }
+        public string Paciente { get; set; }
+        public string Status { get; set; }
+        public string Motivo { get; set; }
+        public bool Confirmado { get; set; }
+    }
 }
