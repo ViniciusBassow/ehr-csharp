@@ -82,7 +82,11 @@ namespace ehr_csharp.Controllers
             Contexto<Consulta>().Add(consulta);
 
             SaveChanges();
-            return View("Views\\Consulta\\Index.cshtml", consulta);
+
+            DisplayMensagemSucesso();
+            //return View("Views\\Consulta\\Index.cshtml", new List<Cons>consulta);
+
+            return RedirectToAction("Index", "Consulta");
         }
 
         [HttpPost]

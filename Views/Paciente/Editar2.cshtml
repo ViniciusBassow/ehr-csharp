@@ -176,7 +176,7 @@
                                                 {
                                                     <div class="d-flex align-items-center gap-2">
                                                         <h5>Idade:</h5>
-                                                        <p>@(DateTime.Now.Date - DateTime.Parse(Model.DataNascimento.ToString()))</p>
+                                                        <p>@((int)((DateTime.Now.Date - DateTime.Parse(Model.DataNascimento.ToString())).TotalDays / 365))</p>
                                                     </div>
                                                 }
                                                 <div class="d-flex align-items-center gap-2">
@@ -195,7 +195,7 @@
                                         <div class="d-flex flex-column col-lg-8">
                                             <div class="d-flex align-items-center gap-2">
                                                 <h5>Paciente desde:</h5>
-                                                <p>@Model.DataCadastro</p>
+                                                <p>@Model.DataCadastro.ToString("dd/MM/yyyy")</p>
                                             </div>
                                             <div class="d-flex align-items-center gap-2">
                                                 <h5>Tipo:</h5>
@@ -498,11 +498,13 @@
                 </div> *@
 
                         <div class="">
-                            <a href="#" class="avatar avatar-lg bg-warning rounded-circle text-white"><img src="@Model.ImagemBase64" alt="..."></a> @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
+                            <a href="#" class="avatar avatar-lg bg-warning text-white">
+                                <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
+                            </a> @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
                             <div class="hstack gap-2 ms-5">
                                 <label for="file_upload" class="btn btn-sm btn-neutral">
                                     <span>Selecionar</span>
-                                    <input type="file" name="File" id="file_upload" class="visually-hidden">
+                                    <input type="file" name="File" id="file_upload" class="visually-hidden FileInput">
                                 </label>
                             </div>
                         </div>
@@ -622,11 +624,11 @@
                                         <hr class="my-4">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <label class="form-label mb-0" for="Altura">* Altura</label>
+                                                <label class="form-label mb-0" for="Altura">* Altura (m)</label>
                                                 @Html.TextBox("Altura", Model.Altura, new { @class = "form-control-sm", id = "Altura" })
                                             </div>
                                             <div class="col-md-2">
-                                                <label class="form-label mb-0" for="Peso">* Peso</label>
+                                                <label class="form-label mb-0" for="Peso">* Peso (kg)</label>
                                                 @Html.TextBox("Peso", Model.Peso, new { @class = "form-control-sm", id = "Peso" })
                                             </div>
                                             <div class="col-md-12">
@@ -658,7 +660,7 @@
                             <div class="col-6">
                                 <div class="info-box">
                                     <div>
-                                        <h5>Altura</h5>
+                                        <h5>Altura (m)</h5>
                                         <p>@Model.Altura</p>
                                     </div>
                                 </div>
@@ -666,7 +668,7 @@
                             <div class="col-6">
                                 <div class="info-box">
                                     <div>
-                                        <h5>Peso</h5>
+                                        <h5>Peso (kg)</h5>
                                         <p>@Model.Peso</p>
                                     </div>
                                 </div>
@@ -749,7 +751,8 @@
 
 
     <div id="divConsulta" style="display:none">
-
+        @using (Html.BeginForm("SalvarConsulta", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "SalvarConsultaForm" }))
+        {
         <div class="row">
             <!-- Insurance Information -->
             <div class="col-md-6">
@@ -757,8 +760,7 @@
                     <div class="card-body">
                         <h6>* Queixa</h6>
                         <div class="row mt-2">
-                            <textarea rows="8" class="form-control ml-2"> 
-                            </textarea>
+                            <textarea rows="6" class="form-control ml-2" name="QueixaPrincipal"></textarea>
                             <div class="col-6">
                             </div>
                         </div>
@@ -770,90 +772,101 @@
                     <div class="card-body">
                         <h6>Historico da doença atual</h6>
                         <div class="row mt-2">
-                            <textarea rows="8" class="form-control ml-2"> 
-
-                            </textarea>
+                            <textarea rows="6" class="form-control ml-2" name="HistoricoDoencaAtual"></textarea>
                             <div class="col-6">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
                         <h6>Orientações</h6>
                         <div class="row mt-2">
-                            <textarea rows="8" class="form-control ml-2"> 
-                            </textarea>
+                            <textarea rows="6" class="form-control ml-2" name="Orientacoes"></textarea>
                             <div class="col-6">
                             </div>
                         </div>
 
-                        <div class="col-md-2 mt-2">
-                            <h6>Data do retorno:</h6>
-                            <input class="form-control Data" data-val="true" data-val-required="The DataNascimento field is required." id="DataNascimento" name="DataNascimento" type="Date" value="01/01/0001">
-                        </div>
+
 
                     </div>
-
-
                 </div>
-
             </div>
-            <!-- Patient Info -->
             <div class="col-md-6">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="info-box">
-                            <div>
-                                <h5>Height</h5>
-                                <p>5'0"</p>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Hipótese Diagnóstica</h6>
+                        <div class="row mt-2">
+                            <textarea rows="6" class="form-control ml-2" name="HipoteseDiagnostica"></textarea>
+                            <div class="col-6">
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-6">
-                        <div class="info-box">
-                            <div>
-                                <h5>Weight</h5>
-                                <p>130 lbs</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>Exames Solicitados</h6>
+                        <div class="row mt-2">
+                            <textarea rows="6" class="form-control ml-2" name="ExamesSolicitados"></textarea>
+                            <div class="col-6">
                             </div>
+                        </div>
+                        </br>
+
+                        <h6>Data do retorno:</h6>
+                        <div class="row mt-2">
+                            <input class="form-control Data" data-val="true" id="RetornoConsulta" name="RetornoConsulta" type="Date" value="01/01/0001">
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="info-box">
-                            <div>
-                                <h5>BMI</h5>
-                                <p>25.32</p>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <label class="form-label" for="Medicamentos">PRESCRIÇÃO</label>
+                        <div class="row align-items-center">
+                            <div class="col-md-11 row" style="align-self: normal;">
+                                <div class="col-md-3">
+                                    <label class="form-label" for="MedicamentoDesc">Nome do Medicamento:</label>
+                                    <input class="form-control" id="MedicamentoInput" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="DosagemDesc">Dosagem:</label>
+                                    <input class="form-control" id="DosagemInput" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="IntervaloDesc">Intervalo:</label>
+                                    <input class="form-control" id="IntervaloInput" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="IntervaloDesc">Duração:</label>
+                                    <input class="form-control" id="DuracaoInput" />
+                                </div>
+                            </div>
+
+                            </br>
+                            <div class="col-md-1" style="padding-top: 2rem;">
+                                <button type="button" onclick="AdicionarMedicamento()" class="btn btn-sm btn-primary">+</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="info-box">
-                            <div>
-                                <h5>Blood Pressure</h5>
-                                <p>120 mmHg / 80 mmHg</p>
-                            </div>
+
+                        <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="info-box">
-                            <div>
-                                <h5>Convênio</h5>
-                                <p>N/A</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
 
 
         </div>
-
+        }
     </div>
 
     <div id="divHemograma" style="display:none">
@@ -1039,9 +1052,8 @@
     <div id="divDocumentos" style="display:none">
         @using (Html.BeginForm("AdicionarArquivo", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
         {
-            <label for="file">Selecione um arquivo para adicionar a ficha do paciente: </label>
             <div class="col-md-4">
-                <label class="form-label" for="nmArquivo">Nome:</label>
+                <label class="form-label" for="nmArquivo">* Nome do Arquivo:</label>
                 <input class="form-control" id="nmArquivo">
             </div>
             <br>
@@ -1126,7 +1138,7 @@
         }
 
 
-        var novaDiv = $('<div class="col-md-10" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">-</button> </div>');
+        var novaDiv = $('<div class="col-md-11" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">-</button> </div>');
 
 
         $('<input>').attr({
@@ -1145,6 +1157,73 @@
         $("#idAntecedenteBtn" + id).remove();
         $("input[name='Antecedentes[" + id + "].Descricao']").remove();
     }
+
+
+    let contadorMedicamento = 0;
+    function AdicionarMedicamento() {
+        var nomeMedicamento = $('#MedicamentoInput').val();
+        var dosagemMedicamento = $('#DosagemInput').val();
+        var intervaloMedicamento = $('#IntervaloInput').val();
+        var duracaoMedicamento = $('#DuracaoInput').val();
+
+        if (nomeMedicamento == '') {
+            alert("Por favor, insira o medicamento.");
+            return;
+        }
+        if (dosagemMedicamento == '') {
+            alert("Por favor, insira a dosagem.");
+            return;
+        }
+        if (intervaloMedicamento == '') {
+            alert("Por favor, insira o intervalo de medicação.");
+            return;
+        }
+
+        var novaDiv = $('</br> <div class="col-md-11 row" id="idMedicamentoContainer' + contadorMedicamento + '" style="padding-top: 1rem;"> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + nomeMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + dosagemMedicamento + '" /></div>  <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + intervaloMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + duracaoMedicamento + '" /></div>   </div> <div class="col - md - 1" style="padding-top: 0.15rem; " id="idMedicamentoBtn' + contadorMedicamento + '"> <button type="button" onclick="RemoverMedicamento(' + contadorMedicamento + ')" class="btn btn-sm btn-primary">-</button> </div>');
+
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Medicamento[' + contadorMedicamento + '].Medicacao',
+            value: nomeMedicamento
+        }).appendTo('#divMedicamentosAdicionados');
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Medicamento[' + contadorMedicamento + '].Dosagem',
+            value: dosagemMedicamento
+        }).appendTo('#divMedicamentosAdicionados');
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Medicamento[' + contadorMedicamento + '].Intervalo',
+            value: intervaloMedicamento
+        }).appendTo('#divMedicamentosAdicionados');
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Medicamento[' + contadorMedicamento + '].Duracao',
+            value: duracaoMedicamento
+        }).appendTo('#divMedicamentosAdicionados');
+
+        $('#divMedicamentosAdicionados').append(novaDiv);
+
+        contadorMedicamento++;
+
+        $('#MedicamentoInput').val('');
+        $('#DosagemInput').val('');
+        $('#IntervaloInput').val('');
+        $('#DuracaoInput').val('');
+    }
+
+    function RemoverMedicamento(id) {
+        $("#idMedicamentoContainer" + id).remove();
+        $("#idMedicamentoBtn" + id).remove();
+
+        $("input[name='Medicamento[" + id + "].Medicacao']").remove();
+        $("input[name='Medicamento[" + id + "].Dosagem']").remove();
+        $("input[name='Medicamento[" + id + "].Intervalo']").remove();
+        $("input[name='Medicamento[" + id + "].Duracao']").remove();
+    }
+
 
     function MudarAba(aba) {
         if (aba == 'Principal') {

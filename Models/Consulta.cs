@@ -20,7 +20,7 @@ namespace ehr_csharp.Models
         public string? ExameFisico { get; set; }         
         public string? HipoteseDiagnostica { get; set; } 
         public string? ExamesSolicitados { get; set; }   
-        public string? Prescricao { get; set; }          
+        //public string? Prescricao { get; set; }          
         public string? Orientacoes { get; set; }         
         public string? Observacoes { get; set; }         
         public DateTime? RetornoConsulta { get; set; }  
@@ -40,6 +40,9 @@ namespace ehr_csharp.Models
         public int IdMedico { get; set; }
         [ForeignKey(nameof(IdMedico))]
         public Medico Medico { get; set; }
+        public int? IdPrescricao { get; set; }
+        [ForeignKey(nameof(IdPrescricao))]
+        public Prescricao? Prescricao { get; set; }
         #endregion
 
     }

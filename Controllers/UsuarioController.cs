@@ -15,6 +15,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 
 namespace ehr_csharp.Controllers
@@ -96,21 +98,23 @@ namespace ehr_csharp.Controllers
         }
 
 
-        public async Task<ActionResult> Editar(string Id)
+        public async Task<ActionResult> Editar(Usuario usuario)
         {
-            var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == Id);
-            if (usuario == null)
-                usuario = new Usuario();
+            ModelState.Clear();
+            RestoreModelStateFromTempData();
+
+            var usuarioBD = Contexto<Usuario>().FirstOrDefault(x => x.Id == usuario.Id);
+            if (usuarioBD == null)
+                usuarioBD = new Usuario();
             else
             {
-                var roles = await _userManager.GetRolesAsync(usuario);
-                usuario.Role = roles.FirstOrDefault();
+                var roles = await _userManager.GetRolesAsync(usuarioBD);
+                usuarioBD.Role = roles.FirstOrDefault();
             }
 
             ViewBag.Especialidades = Contexto<Especialidade>().ToList();
-
-            ModelState.Clear();
-            return View(usuario);
+            
+            return View(usuarioBD);
         }
 
         [HttpPost]
@@ -120,18 +124,14 @@ namespace ehr_csharp.Controllers
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var usuarioBD = await Contexto<Usuario>().FirstOrDefaultAsync(x => x.Id == usuario.Id);
 
-            if (usuario.File != null)
-                usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
-
             ValidarCamposUsuario(usuario, usuarioBD == null);
-
-
-
-
             if (!ModelState.IsValid)
             {
-                return View("Views\\Usuario\\editar.cshtml", new Usuario());
+                return RedirectToAction("Editar", "usuario", null);
             }
+
+            if (usuario.File != null)
+                usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
 
             if (usuarioBD != null)
             {
@@ -163,8 +163,10 @@ namespace ehr_csharp.Controllers
                 return View("Erro");
             }
 
+            DisplayMensagemSucesso();
 
-            return View("Views\\Usuario\\editar.cshtml", usuario);
+            return RedirectToAction("Index", "usuario");
+            //return View("Views\\Usuario\\editar.cshtml", usuario);
         }
 
         [HttpPost]
@@ -217,7 +219,7 @@ namespace ehr_csharp.Controllers
             if (string.IsNullOrEmpty(usuario.Password))
                 ModelState.AddModelError(string.Empty, "O campo senha é obrigatório.");
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View("Views\\Login\\index.cshtml");
 
 
@@ -267,7 +269,12 @@ namespace ehr_csharp.Controllers
             if (novo)
             {
                 if (string.IsNullOrEmpty(usuario.Password))
+                {
                     ModelState.AddModelError("Senha", "O campo Senha é obrigatório");
+
+                }
+                else if (Regex.IsMatch(usuario.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$"))
+                    ModelState.AddModelError("Senha", "O campo Senha deve conter ao menos 8 digitos, sendo eles: 1 caractere maisculo, 1 caractere minúsculo, 1 letra, 1 caractere especial");
             }
             if (usuario.Role == "Medico")
             {
@@ -278,6 +285,13 @@ namespace ehr_csharp.Controllers
                     ModelState.AddModelError("Especialidade", "O campo Especialidade é obrigatório");
             }
 
+
+            var modelStateDict = ModelState.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
+            );
+
+            TempData["ModelState"] = JsonConvert.SerializeObject(modelStateDict);
         }
 
     }

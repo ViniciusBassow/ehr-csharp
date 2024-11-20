@@ -17,9 +17,8 @@ namespace ehr_csharp.Models
 
         //Relações
         public int IdPrescricao { get; set; }
-        public Prescricao Prescricao { get; set; }
-
-
+        [ForeignKey(nameof(IdPrescricao))]
+        public Prescricao Prescricao { get; set; }             
 
     }
 }

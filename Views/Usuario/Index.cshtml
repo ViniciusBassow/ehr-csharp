@@ -106,15 +106,9 @@
             dataType: 'html',
             success: function (data) {
                 $("#bodyUsuario").html(data);
-<<<<<<< Updated upstream
 
-                debugger
-                if (role == 'Admin') {
-=======
-                    
                 // debugger
-                if(role == 'Admin'){
->>>>>>> Stashed changes
+                if (role == 'Admin') {
                     $("#navAdmin").addClass("active");
                     $("#navMedico").removeClass("active");
                     $("#navTodos").removeClass("active");

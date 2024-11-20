@@ -156,7 +156,11 @@ namespace ehr_csharp.Controllers
             }
 
             SaveChanges();
-            return View("Views\\Paciente\\editar2.cshtml", paciente);
+
+            DisplayMensagemSucesso();
+
+            return RedirectToAction("Index", "Paciente");
+            //return View("Views\\Paciente\\editar2.cshtml", paciente);
         }
 
         public void ValidarCamposPaciente(Paciente paciente)
@@ -239,7 +243,7 @@ namespace ehr_csharp.Controllers
             }
             SaveChanges();
 
-
+            DisplayMensagemSucesso();
             return Json(new { success = true });
         }
 
@@ -286,7 +290,8 @@ namespace ehr_csharp.Controllers
 
         [HttpPost]
         public IActionResult BaixarArquivo(int idAnexo)
-        {
+        {      
+
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
             var mimeType = anexo.TipoArquivo switch
             {
