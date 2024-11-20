@@ -753,119 +753,99 @@
     <div id="divConsulta" style="display:none">
         @using (Html.BeginForm("SalvarConsulta", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "SalvarConsultaForm" }))
         {
-        <div class="row">
-            <!-- Insurance Information -->
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6>* Queixa</h6>
-                        <div class="row mt-2">
-                            <textarea rows="6" class="form-control ml-2" name="QueixaPrincipal"></textarea>
-                            <div class="col-6">
+            <div class="row">
+                <!-- Insurance Information -->
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>* Queixa</h6>
+                            <div class="row mt-2">
+                                <textarea rows="6" class="form-control ml-2" name="QueixaPrincipal"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6>Historico da doença atual</h6>
-                        <div class="row mt-2">
-                            <textarea rows="6" class="form-control ml-2" name="HistoricoDoencaAtual"></textarea>
-                            <div class="col-6">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Historico da doença atual</h6>
+                            <div class="row mt-2">
+                                <textarea rows="6" class="form-control ml-2" name="HistoricoDoencaAtual"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6>Orientações</h6>
-                        <div class="row mt-2">
-                            <textarea rows="6" class="form-control ml-2" name="Orientacoes"></textarea>
-                            <div class="col-6">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Orientações</h6>
+                            <div class="row mt-2">
+                                <textarea rows="6" class="form-control ml-2" name="Orientacoes"></textarea>
                             </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6>Hipótese Diagnóstica</h6>
-                        <div class="row mt-2">
-                            <textarea rows="6" class="form-control ml-2" name="HipoteseDiagnostica"></textarea>
-                            <div class="col-6">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6>Exames Solicitados</h6>
-                        <div class="row mt-2">
-                            <textarea rows="6" class="form-control ml-2" name="ExamesSolicitados"></textarea>
-                            <div class="col-6">
-                            </div>
-                        </div>
-                        </br>
-
-                        <h6>Data do retorno:</h6>
-                        <div class="row mt-2">
-                            <input class="form-control Data" data-val="true" id="RetornoConsulta" name="RetornoConsulta" type="Date" value="01/01/0001">
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-8">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <label class="form-label" for="Medicamentos">PRESCRIÇÃO</label>
-                        <div class="row align-items-center">
-                            <div class="col-md-11 row" style="align-self: normal;">
-                                <div class="col-md-3">
-                                    <label class="form-label" for="MedicamentoDesc">Nome do Medicamento:</label>
-                                    <input class="form-control" id="MedicamentoInput" />
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Hipótese Diagnóstica</h6>
+                            <div class="row mt-2">
+                                <textarea rows="6" class="form-control ml-2" name="HipoteseDiagnostica"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6>Exames Solicitados</h6>
+                            <div class="row mt-2">
+                                <textarea rows="6" class="form-control ml-2" name="ExamesSolicitados"></textarea>
+                            </div>
+                            <br />
+                            <h6>Data do retorno:</h6>
+                            <div class="row mt-2">
+                                <input class="form-control Data" data-val="true" id="RetornoConsulta" name="RetornoConsulta" type="date" value="01/01/0001" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <label class="form-label" for="Medicamentos">PRESCRIÇÃO</label>
+                            <div class="row align-items-center">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="MedicamentoDesc">Nome do Medicamento:</label>
+                                            <input class="form-control" id="MedicamentoInput" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="DosagemDesc">Dosagem:</label>
+                                            <input class="form-control" id="DosagemInput" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="IntervaloDesc">Intervalo:</label>
+                                            <input class="form-control" id="IntervaloInput" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label" for="DuracaoDesc">Duração:</label>
+                                            <input class="form-control" id="DuracaoInput" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="form-label" for="DosagemDesc">Dosagem:</label>
-                                    <input class="form-control" id="DosagemInput" />
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label" for="IntervaloDesc">Intervalo:</label>
-                                    <input class="form-control" id="IntervaloInput" />
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label" for="IntervaloDesc">Duração:</label>
-                                    <input class="form-control" id="DuracaoInput" />
+                                <div class="col-md-1" style="padding-top: 2rem;">
+                                    <button type="button" onclick="AdicionarMedicamento()" class="btn btn-sm btn-primary">+</button>
                                 </div>
                             </div>
-
-                            </br>
-                            <div class="col-md-1" style="padding-top: 2rem;">
-                                <button type="button" onclick="AdicionarMedicamento()" class="btn btn-sm btn-primary">+</button>
+                            <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
                             </div>
                         </div>
-
-                        <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
-                        </div>
-
                     </div>
                 </div>
             </div>
 
-
-        </div>
         }
     </div>
 

@@ -7,6 +7,8 @@ namespace SQLApp.Data
     public class AppDbContext : IdentityDbContext<Usuario>
 
     {
+        internal object Medicos;
+
         public IConfiguration _config { get; set; }
         public AppDbContext(IConfiguration config)
         {

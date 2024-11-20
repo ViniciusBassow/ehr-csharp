@@ -11,23 +11,23 @@ namespace ehr_csharp.Models
         public int Id { get; set; }
         public string CRM { get; set; }
 
-        //Relações
+        // Relações
         public string IdUsuario { get; set; }
         [ForeignKey(nameof(IdUsuario))]
         public Usuario Usuario { get; set; }
-
-  
 
         public int IdEspecialidade { get; set; }
         [ForeignKey(nameof(IdEspecialidade))]
         public Especialidade Especialidade { get; set; }
 
-
         public ICollection<Consulta> Consultas { get; set; }
         public ICollection<Diagnostico> Diagnosticos { get; set; }
         public ICollection<Prescricao> Prescricoes { get; set; }
+    }
 
-
-
+    public class DashModel
+    {
+        public string Title { get; set; }
+        public DateTime CurrentDate { get; set; }
     }
 }

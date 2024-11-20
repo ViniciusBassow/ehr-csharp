@@ -1,0 +1,140 @@
+﻿@model ehr_csharp.Models.Medico
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+            <p class="text-muted mb-4"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Appointments</h5>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Type</th>
+                                <th>Appointment</th>
+                                <th>Doctor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Melissa Charles</td>
+                                <td>Consultation</td>
+                                <td>04/10/2020</td>
+                                <td>Willie Parker</td>
+                            </tr>
+                            <tr>
+                                <td>Jimmy Chu</td>
+                                <td>Surgery</td>
+                                <td>04/10/2020</td>
+                                <td>Roy Jones</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Patients</h5>
+                    <canvas id="patientsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Labs</h5>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Test</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Melissa Charles</td>
+                                <td>Prolactin</td>
+                                <td>26</td>
+                            </tr>
+                            <tr>
+                                <td>Jimmy Chu</td>
+                                <td>Testosterone</td>
+                                <td>5.98</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Billings</h5>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Claim ID</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04/09/2020</td>
+                                <td>Melissa Charles</td>
+                                <td>6785HG</td>
+                                <td>$70.00</td>
+                            </tr>
+                            <tr>
+                                <td>04/09/2020</td>
+                                <td>Jimmy Chu</td>
+                                <td>8957FJ</td>
+                                <td>$40.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('patientsChart').getContext('2d');
+    var patientsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Patients',
+                data: [200, 400, 600, 300, 357, 450],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
