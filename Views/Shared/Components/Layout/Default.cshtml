@@ -12,7 +12,9 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#"><i class="bi bi-gear me-3"></i>Settings </a><a class="dropdown-item" href="#"><i class="bi bi-image me-3"></i>Media </a><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-up me-3"></i>Share</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"><i class="bi bi-person me-3"></i>Login</a>
+                <form asp-action="LogOff" asp-controller="Usuario" method="post">
+                <button type="submit" class="dropdown-item" href="#"><i class="bi bi-box-arrow-left"> </i> Sair</button>
+                </form>
             </div>
         </div>
         // Adicione outras informações que você deseja exibir

@@ -36,7 +36,8 @@ namespace ehr_csharp.Controllers
             _cache = cache;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [CustomAuthorize("s")]
         public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
             List<Usuario> usuarios = Contexto<Usuario>().Where(x => x.UserName != "root").ToList();
@@ -113,7 +114,7 @@ namespace ehr_csharp.Controllers
             }
 
             ViewBag.Especialidades = Contexto<Especialidade>().ToList();
-            
+
             return View(usuarioBD);
         }
 
@@ -332,7 +333,6 @@ namespace ehr_csharp.Controllers
             return View("Views\\Login\\index.cshtml");
         }
 
-
         public void ValidarCamposUsuario(Usuario usuario, bool novo)
         {
             // Log de início de validação de campos (equivalente ao início da edição de um usuário)
@@ -380,6 +380,31 @@ namespace ehr_csharp.Controllers
             TempData["ModelState"] = JsonConvert.SerializeObject(modelStateDict);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var usuarioLogado = await _userManager.FindByIdAsync(userId);
+
+            if (usuarioLogado != null)
+            {
+                _cache.Remove("UsuarioLogado");   
+                SaveChanges();
+            }
+
+
+            await _signInManager.SignOutAsync();
+
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult AcessoNegado()
+        {
+
+            return View();
+        }
     }
 
 

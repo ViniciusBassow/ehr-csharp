@@ -1,5 +1,6 @@
 //using ehr_csharp.Data;
 using ehr_csharp.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SQLApp.Data;
@@ -28,6 +29,12 @@ builder.Services.AddScoped<AppDbContext>();
 
 builder.Services.AddTransient<IEmailSender<Usuario>, EmailSender>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Usuario/Login"; 
+        options.AccessDeniedPath = "/Usuario/AcessoNegado"; 
+    });
 
 var app = builder.Build();
 
@@ -49,6 +56,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapIdentityApi<Usuario>();
@@ -61,5 +69,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllers();
 
 app.Run();
