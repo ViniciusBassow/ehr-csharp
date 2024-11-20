@@ -14,10 +14,17 @@ namespace ehr_csharp.Models
 
         public bool Ativo { get; set; }        
 
+        public string Status { get; set; }
+
+        public string TipoDocumento { get; set; }
+
 
 
         public string IdTabelaReferencia { get; set; }
         public string NmTabelaReferencia { get; set; }
+
+
+
 
 
     }

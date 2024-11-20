@@ -23,6 +23,7 @@ namespace ehr_csharp.Models
         public ICollection<Consulta> Consultas { get; set; }
         public ICollection<Diagnostico> Diagnosticos { get; set; }
         public ICollection<Prescricao> Prescricoes { get; set; }
+
     }
 
     public class DashModel

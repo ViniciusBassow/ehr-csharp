@@ -850,35 +850,40 @@
                                 </div>
 
                                 <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
-                                    @foreach (var item in Model.ultimaConsulta.Prescricao?.Medicamentos)
+                                    @if(Model.ultimaConsulta.Prescricao != null)
                                     {
-                                        var indexItem = Model.ultimaConsulta.Prescricao.Medicamentos.IndexOf(item);
+                                        @foreach (var item in Model.ultimaConsulta.Prescricao.Medicamentos)
+                                        {
+                                            var indexItem = Model.ultimaConsulta.Prescricao.Medicamentos.IndexOf(item);
 
-                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Medicacao" value="@item.Medicacao">
-                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Dosagem" value="@item.Dosagem">
-                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Intervalo" value="@item.Intervalo">
-                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Duracao" value="@item.Duracao">
-                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Id" id="Medicamento@(indexItem)Id" value="@item.Id">
+                                            <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Medicacao" value="@item.Medicacao">
+                                            <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Dosagem" value="@item.Dosagem">
+                                            <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Intervalo" value="@item.Intervalo">
+                                            <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Duracao" value="@item.Duracao">
+                                            <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Id" id="Medicamento@(indexItem)Id" value="@item.Id">
 
-                                        <div class="col-md-11 row" id="idMedicamentoContainer@(indexItem)" style="padding-top: 1rem;">
-                                            <div class="col-md-3">
-                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Medicacao">
+                                            <div class="col-md-11 row" id="idMedicamentoContainer@(indexItem)" style="padding-top: 1rem;">
+                                                <div class="col-md-3">
+                                                    <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Medicacao">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Dosagem">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Intervalo">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Duracao">
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Dosagem">
+                                            <div class="col-md-1" style="padding-top: 0.15rem; " id="idMedicamentoBtn@(indexItem)">
+                                                <button type="button" onclick="RemoverMedicamento(@indexItem, false)" class="btn btn-sm btn-primary">-</button>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Intervalo">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Duracao">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1" style="padding-top: 0.15rem; " id="idMedicamentoBtn@(indexItem)">
-                                            <button type="button" onclick="RemoverMedicamento(@indexItem, false)" class="btn btn-sm btn-primary">-</button>
-                                        </div>
-                                    }
+                                        }
+                                    } 
 
+                                   
+ 
                                 </div>
                             </div>
                         </div>

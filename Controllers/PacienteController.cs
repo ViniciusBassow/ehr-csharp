@@ -47,6 +47,9 @@ namespace ehr_csharp.Controllers
                                          .Include(x => x.Consultas)
                                          .ThenInclude(x => x.Medico)
                                          .ThenInclude(x => x.Usuario)
+                                         .Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Prescricao)
+                                         .ThenInclude(x => x.Medicamentos)
                                          .FirstOrDefault(x => x.Id == 3);
 
             return View(paciente);
@@ -72,7 +75,15 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Medicacoes()
         {
-            return View();
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Prescricao)
+                                                    .ThenInclude(x => x.Medicamentos)
+                                                    .Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Medico)
+                                                    .ThenInclude(x => x.Usuario)
+                                                    .FirstOrDefault(x => x.Id == 3);
+
+            return View(paciente);
         }
 
         public async Task<ActionResult> Editar(int Id)
@@ -222,7 +233,7 @@ namespace ehr_csharp.Controllers
 
         }
 
-
+        
 
         [HttpPost]
         public JsonResult AdicionarArquivo(IFormFile file, int idPaciente, string nmArquivo)
