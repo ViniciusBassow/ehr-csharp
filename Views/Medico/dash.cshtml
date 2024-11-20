@@ -1,110 +1,199 @@
-﻿@model ehr_csharp.Models.Medico
-@{
-    ViewData["Title"] = "Dashboard";
+﻿@{
+    ViewData["Title"] = "Painel de Controle";
 }
 
-<div class="container-fluid">
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <h2>@ViewData["Title"]</h2>
-            <p class="text-muted mb-4"></p>
-        </div>
-    </div>
+<div class="container-fluid px-4 py-4">
+    <h1 class="mb-4">Painel de Controle</h1>
+
     <div class="row">
+        <!-- Consultas -->
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Appointments</h5>
-                    <table class="table table-hover">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Consultas</h5>
+                    <button class="btn btn-sm btn-primary">Ver Todas</button>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Patient Name</th>
-                                <th>Type</th>
-                                <th>Appointment</th>
-                                <th>Doctor</th>
+                                <th>Nome do Paciente</th>
+                                <th>Tipo</th>
+                                <th>Data</th>
+                                <th>Convênio</th>
+                                <th>Status</th>
+                                <th>Médico</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Melissa Charles</td>
-                                <td>Consultation</td>
+                                <td>Vash the Stampede</td>
+                                <td>Consulta</td>
                                 <td>04/10/2020</td>
-                                <td>Willie Parker</td>
+                                <td>100267</td>
+                                <td><span class="badge bg-warning">Não Visto</span></td>
+                                <td>Tony Tony Chopper</td>
                             </tr>
                             <tr>
-                                <td>Jimmy Chu</td>
-                                <td>Surgery</td>
+                                <td>Naruto Uzumaki</td>
+                                <td>Cirurgia</td>
                                 <td>04/10/2020</td>
+                                <td>100765</td>
+                                <td><span class="badge bg-warning">Não Visto</span></td>
                                 <td>Roy Jones</td>
                             </tr>
+                            <tr>
+                                <td>Goku Son</td>
+                                <td>Consulta</td>
+                                <td>05/11/2020</td>
+                                <td>101234</td>
+                                <td><span class="badge bg-success">Visto</span></td>
+                                <td>Bulma Brief</td>
+                            </tr>
+                            <tr>
+                                <td>Shrek</td>
+                                <td>Cirurgia</td>
+                                <td>06/12/2020</td>
+                                <td>102345</td>
+                                <td><span class="badge bg-danger">Cancelado</span></td>
+                                <td>Dr. Donkey</td>
+                            </tr>
+                            <tr>
+                                <td>Jiraiya</td>
+                                <td>Consulta</td>
+                                <td>07/01/2021</td>
+                                <td>103456</td>
+                                <td><span class="badge bg-warning">Não Visto</span></td>
+                                <td>Minato Namikaze</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+        <!-- Gráfico de Pacientes -->
         <div class="col-md-6">
-            <div class="card">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Pacientes</h5>
+                </div>
                 <div class="card-body">
-                    <h5>Patients</h5>
-                    <canvas id="patientsChart"></canvas>
+                    <canvas id="graficoPacientes" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Labs</h5>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Test</th>
-                                <th>Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Melissa Charles</td>
-                                <td>Prolactin</td>
-                                <td>26</td>
-                            </tr>
-                            <tr>
-                                <td>Jimmy Chu</td>
-                                <td>Testosterone</td>
-                                <td>5.98</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+    <div class="row">
+        <!-- Exames -->
+        <div class="col-md-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Exames</h5>
+                    <button class="btn btn-sm btn-primary">Ver Todos</button>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Billings</h5>
-                    <table class="table table-hover">
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Patient</th>
-                                <th>Claim ID</th>
-                                <th>Amount</th>
+                                <th>Nome</th>
+                                <th>Exame</th>
+                                <th>Resultado</th>
+                                <th>Data</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>Vash the Stampede</td>
+                                <td>Prolactina</td>
+                                <td>26</td>
                                 <td>04/09/2020</td>
-                                <td>Melissa Charles</td>
-                                <td>6785HG</td>
-                                <td>$70.00</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">Visualizar</a></li>
+                                            <li><a class="dropdown-item" href="#">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td>04/09/2020</td>
-                                <td>Jimmy Chu</td>
-                                <td>8957FJ</td>
-                                <td>$40.00</td>
+                                <td>Naruto Uzumaki</td>
+                                <td>Hemograma</td>
+                                <td>Normal</td>
+                                <td>05/10/2020</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">Visualizar</a></li>
+                                            <li><a class="dropdown-item" href="#">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Goku Son</td>
+                                <td>Ultrassom</td>
+                                <td>Normal</td>
+                                <td>10/11/2020</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">Visualizar</a></li>
+                                            <li><a class="dropdown-item" href="#">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Shrek</td>
+                                <td>Ressonância</td>
+                                <td>Alterado</td>
+                                <td>15/12/2020</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">Visualizar</a></li>
+                                            <li><a class="dropdown-item" href="#">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jiraiya</td>
+                                <td>Eletrocardiograma</td>
+                                <td>Normal</td>
+                                <td>20/01/2021</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-muted" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" href="#">Visualizar</a></li>
+                                            <li><a class="dropdown-item" href="#">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#">Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -116,22 +205,41 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('patientsChart').getContext('2d');
-    var patientsChart = new Chart(ctx, {
+    // Configuração do gráfico
+    const ctx = document.getElementById('graficoPacientes').getContext('2d');
+    const graficoPacientes = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
             datasets: [{
-                label: 'Patients',
-                data: [200, 400, 600, 300, 357, 450],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                label: 'Pacientes Mensais',
+                data: [200, 300, 400, 600, 500, 357],
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.4
             }]
         },
         options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                }
+            },
             scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                },
                 y: {
+                    title: {
+                        display: true,
+                        text: 'Pacientes'
+                    },
                     beginAtZero: true
                 }
             }
