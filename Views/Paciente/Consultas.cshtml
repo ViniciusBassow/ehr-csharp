@@ -7,183 +7,61 @@
     var contador = 0;
 }
 
+
 <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
-    <div class="mb-6 mb-xl-10">
+    <div class="mb-2 ">
         <div class="row g-3 align-items-center">
             <div class="col">
                 <h1 class="ls-tight">Consultas</h1>
             </div>
-            <div class="col">
-            </div>
+            
+
         </div>
     </div>
-    <div class="mt-6">
+    <hr class="">
+    <div class="mt-3">
         <div class="row align-items-center g-6 mt-0 mb-6">
             <div class="col-sm-6">
                 <div class="d-flex flex-wrap gap-2">
                     <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
-                        <span class="input-group-text"><i class="bi bi-search me-2"></i> 
-                            </span><input type="search" class="form-control ps-0" placeholder="Procurar" aria-label="Search">
-                    </div>
-                    <div class="dropdown">
-                        <div class="dropdown-menu">
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkStatus1">
-                                </div>
-                                <div class="ms-3 me-5"><label for="checkStatus1">Backlog</label></div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkStatus2">
-                                </div>
-                                <div class="ms-3 me-5"><label for="checkStatus2">Todo</label></div>
-                                <div class="ms-auto">
-                                    <span class="badge rounded-pill bg-opacity-25 bg-success text-success">23</span>
-                                </div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkStatus3">
-                                </div>
-                                <div class="ms-3 me-5">
-                                    <label for="checkStatus3">In Progress</label>
-                                </div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkStatus4">
-                                </div>
-                                <div class="ms-3 me-5"><label for="checkStatus4">Done</label></div>
-                                <div class="ms-auto">
-                                    <span class="badge rounded-pill bg-opacity-25 bg-warning text-warning">190</span>
-                                </div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkStatus5">
-                                </div>
-                                <div class="ms-3 me-5"><label for="checkStatus5">Cancelled</label></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-neutral"
-                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                aria-expanded="false">
-                            <i class="bi bi-plus-circle"></i> <span class="ms-2">Prioridade</span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkPriority1">
-                                </div>
-                                <div class="ms-3 me-5">
-                                    <label class="d-flex align-items-center"
-                                           for="checkPriority1">
-                                        <span class="w-rem-2 h-rem-2 me-2 bg-success rounded-circle"></span>
-                                        <span>Baixa</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkPriority2">
-                                </div>
-                                <div class="ms-3 me-5">
-                                    <label class="d-flex align-items-center"
-                                           for="checkPriority2">
-                                        <span class="w-rem-2 h-rem-2 me-2 bg-warning rounded-circle"></span>
-                                        <span>Média</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="dropdown-item py-1 px-2 d-flex align-items-center">
-                                <div class="text-lg">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="checkPriority3">
-                                </div>
-                                <div class="ms-3 me-5">
-                                    <label class="d-flex align-items-center"
-                                           for="checkPriority3">
-                                        <span class="w-rem-2 h-rem-2 me-2 bg-danger rounded-circle"></span>
-                                        <span>Alta</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="input-group-text">
+                            <i class="bi bi-search me-2"></i>
+                        </span><input type="search" class="form-control ps-0" placeholder="Procurar" aria-label="Search">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="hstack justify-content-end gap-2">
                     <div class="d-flex align-items-center justify-content-end gap-2">
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-neutral flex-none d-flex align-items-center gap-2 py-1 px-2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Especialidade</span> <i class="bi bi-chevron-down text-xs me-1"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-sm">
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                       href="#">
-                                        <span>Urgente</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                       href="#">
-                                        <span>Rotina</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                       href="#">
-                                        <span>Novo Sintoma</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                       href="#">
-                                        <span>Avaliação Anual</span>
-                                    </a>
-                                </li>
-
-                                
-                            </ul>
+                        <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-md-flex"
+                             role="button">
+                            <i class="bi bi-x me-1"></i> <span>Limpar Filtros</span>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-        
-        
+
+
         <div class="vstack gap-3">
-           
 
-                @if (Model.Consultas == null || Model.Consultas.Count == 0)
-                {
 
-                    <div class="col-md-12 mt-3">
-                        <div class="visit-card">
-                            <p>Sem consultas por enquanto.</p>
-                        </div>
+            @if (Model.Consultas == null || Model.Consultas.Count == 0)
+            {
+
+                <div class="col-md-12 mt-3">
+                    <div class="visit-card">
+                        <p>Sem consultas por enquanto.</p>
                     </div>
-                }
-                else
+                </div>
+            }
+            else
+            {
+                foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
                 {
-                    foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                    if (contador < 3)
                     {
-                        if (contador < 3)
-                        {
                         <div class="card border-primary-hover shadow-soft-3-hover">
                             <div class="card-body p-4">
                                 <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
@@ -213,10 +91,9 @@
                                             <span class="d-block text-xs text-muted">Data do Pedido</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Data.ToString("dd/MM/yyyy")</span>
                                         </div>
                                         <div class="col-12 col-sm-auto col-xl-auto">
-                                            <button type="button"
+                                            <button type="button" onclick="abrirModal(@consulta.Id)"
                                                     class="btn btn-xs btn-neutral w-100 w-sm-auto"
-                                                    data-bs-target="#depositLiquidityModal"
-                                                    data-bs-toggle="modal">
+                                                    data-bs-target="#consultaModal" data-bs-toggle="modal">
                                                 Visualizar
                                             </button>
                                         </div>
@@ -224,13 +101,112 @@
                                 </div>
                             </div>
 
+                            <div class="modal fade" id="consultaModal@(consulta.Id)" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content overflow-hidden">
+                                        <div class="modal-header pb-0 border-0">
+                                            <h1 class="modal-title h4" id="consultaModalLabel">Consulta</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-0 border-bottom">
+                                            <div class=" pt-2 border-bottom">
+                                            </div>
+                                            <div class="p-2">
+                                                <div class="vstack m-4">
+                                                    <h3 class="mb-2">Detalhes da Consulta</h3>
+                                                    <div class="d-flex flex-column ">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Motivo:</h5>
+                                                            <p>@consulta.Motivo</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Data:</h5>
+                                                            <p>@consulta.Data</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Queixa:</h5>
+                                                            <p>@consulta.QueixaPrincipal Dor na Coluna</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Orientações:</h5>
+                                                            <p>@consulta.Orientacoes Evitar bebidas alcoolicas</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Observações:</h5>
+                                                            <p>@consulta.Observacoes Seguir orientações do Médico</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h5>Exame Solicitado:</h5>
+                                                        <p>@consulta.ExamesSolicitados</p>
+                                                        
+                                                    </div>
+                                                    <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
+                                                        <div>
+                                                            <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                                                <i class="bi bi-droplet-half"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="ms-3 ms-md-4 flex-fill">
+                                                            <div class="text-limit text-sm text-heading fw-semibold">
+                                                                Hemograma
+                                                            </div>
+                                                            <div class="d-block text-xs gap-2 mt-1">
+                                                                <span>Especialista: Clínico Geral</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-none d-sm-block ms-auto text-end">
+                                                            <span class="badge bg-body-secondary text-danger">Pendente</span>
+                                                            
+                                                        </div>
+                                                        <div class="d-md-flex gap-2 mx-3">
+                                                            <button type="button" class="btn btn-sm btn-dark" >
+                                                                <i class="bi bi-upload h4"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="">
+
+                                                    <div class="d-flex flex-column col-lg-8">
+                                                        <h3 class="mb-2">Médico</h3>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Medico:</h5>
+                                                            <p>@consulta.Medico.Usuario.Name</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>CRM:</h5>
+                                                            <p>@consulta.Medico.CRM</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Especialidade:</h5>
+                                                            <p>@consulta.Medico.Especialidade.Descricao</p>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="px-6 py-5 bg-body-secondary d-flex justify-content-center">
+                                                <button type="button" class="btn btn-danger text-white">Cancelar Consulta</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                            contador++;
-                        }
+                        contador++;
                     }
                 }
-                
-            
+            }
+
+
 
             <div class="d-flex align-items-center justify-content-between mt-4">
                 <div>
@@ -260,3 +236,9 @@
     </div>
 </main>
 
+
+<script>
+    function abrirModal(consulta) {
+        $("#consultaModal"+consulta).modal("show");
+    }
+</script>

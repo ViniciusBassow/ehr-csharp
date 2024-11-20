@@ -40,29 +40,30 @@ namespace ehr_csharp.Controllers
         [CustomAuthorize("s")]
         public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
-            List<Usuario> usuarios = Contexto<Usuario>().Where(x => x.UserName != "root").ToList();
+            // Obtém usuários do banco, exceto "root"
+            var usuariosQuery = Contexto<Usuario>().Where(x => x.UserName != "root");
 
-            if (!String.IsNullOrEmpty(searchString))
+            // Pesquisa case-insensitive
+            if (!string.IsNullOrEmpty(searchString))
             {
-                usuarios = usuarios.Where(u => u.UserName.Contains(searchString) || u.Email.Contains(searchString)).ToList();
+                searchString = searchString.ToLower(); // Transforma a entrada para lowercase
+                usuariosQuery = usuariosQuery.Where(u =>
+                    u.UserName.ToLower().Contains(searchString) ||
+                    u.Email.ToLower().Contains(searchString)
+                );
             }
 
-            switch (sortOrder)
+            // Ordenação
+            usuariosQuery = sortOrder switch
             {
-                case "name_desc":
-                    usuarios = usuarios.OrderByDescending(u => u.UserName).ToList();
-                    break;
-                case "email":
-                    usuarios = usuarios.OrderBy(u => u.Email).ToList();
-                    break;
-                case "email_desc":
-                    usuarios = usuarios.OrderByDescending(u => u.Email).ToList();
-                    break;
-                default:
-                    usuarios = usuarios.OrderBy(u => u.UserName).ToList();
-                    break;
-            }
+                "name_desc" => usuariosQuery.OrderByDescending(u => u.UserName),
+                "email" => usuariosQuery.OrderBy(u => u.Email),
+                "email_desc" => usuariosQuery.OrderByDescending(u => u.Email),
+                _ => usuariosQuery.OrderBy(u => u.UserName),
+            };
 
+            // Materializa a lista e associa roles
+            var usuarios = usuariosQuery.ToList();
             foreach (var usuario in usuarios)
             {
                 var roles = await _userManager.GetRolesAsync(usuario);
@@ -71,6 +72,7 @@ namespace ehr_csharp.Controllers
 
             return View(usuarios);
         }
+
 
         public async Task<ActionResult> FiltrarUsuarios(string role)
         {

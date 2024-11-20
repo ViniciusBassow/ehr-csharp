@@ -270,7 +270,7 @@ namespace ehr_csharp.Controllers
                 if (consultaBd.Prescricao == null || consultaBd.Prescricao.Id != abaConsulta.Prescricao.Id)
                 {
                     Contexto<Prescricao>().Add(abaConsulta.Prescricao);
-                    consultaBd.IdPrescricao = abaConsulta.Prescricao.Id;
+                    
                 }
                 else
                 {

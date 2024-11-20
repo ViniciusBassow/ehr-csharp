@@ -29,7 +29,22 @@
                         <span class="input-group-text">
                             <i class="bi bi-search me-2"></i>
                         </span>
-                        <input type="search" name="SearchString" class="form-control ps-0" placeholder="Procurar" aria-label="Search" />
+                        <input type="search" name="SearchString" class="form-control ps-0 pl-2" placeholder="Procurar" aria-label="Search" />
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="hstack justify-content-end gap-2">
+                    <div class="d-flex align-items-center justify-content-end gap-2">
+                        <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-md-flex"
+                             role="button">
+                            <a href="@Url.Action("Index", "Usuario")" class="text-decoration-none text-reset">
+                                <i class="bi bi-x me-1"></i> <span>Limpar Filtros</span>
+                            </a>
+                        </div>
+
                     </div>
 
                 </div>
@@ -46,7 +61,7 @@
     <button type="button" class="btn btn-xs btn-neutral text-xs"><i class="bi bi-plus-circle-fill opacity-70 me-2"></i>Status</button>
     <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-none d-md-flex" role="button"><i class="bi bi-x me-1"></i> <span>Clear filters</span></div>
     </div> *@
-    <div class="table-responsive">
+    <div class="table-responsive border-top">
         <table class="table table-hover table-striped table-sm table-nowrap">
             <thead>
                 <tr>
