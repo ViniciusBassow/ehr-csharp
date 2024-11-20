@@ -131,7 +131,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = usuarioBD == null ? $"Início de criação do usuário com ID {usuario.Id}" : $"Início de edição do usuário com ID {usuario.Id}"
             };
-            Contexto<Log>().Add(logIniciarEdicao); // Adicionando log
+            //Contexto<Log>().Add(logIniciarEdicao); // Adicionando log
 
             if (usuario.File != null)
                 usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(usuario.File);
@@ -163,7 +163,7 @@ namespace ehr_csharp.Controllers
                     TabelaReferencia = "Usuario",
                     Alteracao = $"Atualização do usuário com ID {usuario.Id}"
                 };
-                Contexto<Log>().Add(logAtualizarUsuario); // Adicionando log
+                //Contexto<Log>().Add(logAtualizarUsuario); // Adicionando log
 
             }
             else
@@ -185,7 +185,7 @@ namespace ehr_csharp.Controllers
                     TabelaReferencia = "Usuario",
                     Alteracao = $"Criação de novo usuário com ID {usuario.Id}"
                 };
-                Contexto<Log>().Add(logCriarUsuario); // Adicionando log
+                //Contexto<Log>().Add(logCriarUsuario); // Adicionando log
             }
             SaveChanges();
 
@@ -215,7 +215,7 @@ namespace ehr_csharp.Controllers
                     TabelaReferencia = "Usuario",
                     Alteracao = usuario.Id == null ? $"Início de criação do usuário com nome {usuario.UserName}" : $"Início de edição do usuário com ID {usuario.Id}"
                 };
-                Contexto<Log>().Add(logIniciar); // Adicionando log
+                //Contexto<Log>().Add(logIniciar); // Adicionando log
 
                 // Log de adição de arquivo ao usuário (caso tenha arquivo)
                 if (usuario.File != null)
@@ -226,7 +226,7 @@ namespace ehr_csharp.Controllers
                         TabelaReferencia = "Usuario",
                         Alteracao = $"Adição de arquivo ao usuário com ID {usuario.Id}"
                     };
-                    Contexto<Log>().Add(logAdicionarArquivo); // Adicionando log
+                    //Contexto<Log>().Add(logAdicionarArquivo); // Adicionando log
                 }
 
                 var result = await _userManager.CreateAsync(usuario, usuario.Password);
@@ -281,7 +281,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = $"Início de login para o usuário {usuario.UserName}"
             };
-            Contexto<Log>().Add(logLogin); // Adicionando log
+            //Contexto<Log>().Add(logLogin); // Adicionando log
 
             var result = await _signInManager.PasswordSignInAsync(usuario.UserName, usuario.Password, usuario.RememberMe, lockoutOnFailure: false);
 
@@ -306,7 +306,7 @@ namespace ehr_csharp.Controllers
                     TabelaReferencia = "Usuario",
                     Alteracao = $"Login bem-sucedido para o usuário {usuario.UserName}"
                 };
-                Contexto<Log>().Add(logLoginSuccess); // Adicionando log
+                //Contexto<Log>().Add(logLoginSuccess); // Adicionando log
 
                 return RedirectToAction("Index", "Consulta");
             }
@@ -327,7 +327,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = $"Falha no login para o usuário {usuario.UserName}. Motivo: {(result.IsLockedOut ? "Conta bloqueada" : "Login ou senha incorretos")}"
             };
-            Contexto<Log>().Add(logLoginFailure); // Adicionando log
+            //Contexto<Log>().Add(logLoginFailure); // Adicionando log
 
             return View("Views\\Login\\index.cshtml");
         }
@@ -342,7 +342,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = $"Início de validação de campos para o usuário {usuario.UserName}. Novo: {novo}"
             };
-            Contexto<Log>().Add(logValidacao); // Adicionando log
+            //Contexto<Log>().Add(logValidacao); // Adicionando log
 
             if (string.IsNullOrEmpty(usuario.UserName))
                 ModelState.AddModelError("Login", "O campo Login é obrigatório");

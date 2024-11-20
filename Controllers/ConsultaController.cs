@@ -40,7 +40,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Consulta",
                 Alteracao = "Exibição da lista de consultas"
             };
-            Contexto<Log>().Add(logExibirConsultas); // Adicionando log
+            //Contexto<Log>().Add(logExibirConsultas); // Adicionando log
 
             return View("Views\\Consulta\\Index.cshtml", consultas);
         }
@@ -57,9 +57,9 @@ namespace ehr_csharp.Controllers
                 else if (UsuarioLogado.Role == "Admin")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento).ToList());
 
-                foreach(var item in consultas)
+                foreach (var item in consultas)
                 {
-                    if(item.StatusConsulta == (int)StatusConsulta.Confirmada && item.Data <= DateTime.Now)
+                    if (item.StatusConsulta == (int)StatusConsulta.Confirmada && item.Data <= DateTime.Now)
                     {
                         item.StatusConsulta = (int)StatusConsulta.EmAndamento;
                     }
@@ -68,13 +68,13 @@ namespace ehr_csharp.Controllers
                 SaveChanges();
 
                 // Log de exibição dos eventos do dia
-                Log logExibirEventosDia = new Log()
-                {
-                    DataAlteracao = DateTime.Now,
-                    TabelaReferencia = "Consulta",
-                    Alteracao = "Exibição dos eventos do dia " + DataEvento.ToString("dd/MM/yyyy")
-                };
-                Contexto<Log>().Add(logExibirEventosDia); // Adicionando log
+                //Log logExibirEventosDia = new Log()
+                //{
+                //    DataAlteracao = DateTime.Now,
+                //    TabelaReferencia = "Consulta",
+                //    Alteracao = "Exibição dos eventos do dia " + DataEvento.ToString("dd/MM/yyyy")
+                //};
+                ////Contexto<Log>().Add(logExibirEventosDia); // Adicionando log
             }
 
             ViewBag.Pacientes = Contexto<Paciente>().ToList();
@@ -102,7 +102,7 @@ namespace ehr_csharp.Controllers
                            $"Criação de nova consulta para o paciente {consulta.IdPaciente}" :
                            $"Atualização de consulta para o paciente {consulta.IdPaciente}"
             };
-            Contexto<Log>().Add(logSalvarConsulta); // Adicionando log
+            //Contexto<Log>().Add(logSalvarConsulta); // Adicionando log
 
             consulta.StatusConsulta = (int)StatusConsulta.AguardandoConfirmacao;
             consulta.Data = consulta.Data.AddHours(consulta.Hora.Hours);
@@ -132,7 +132,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Consulta",
                 Alteracao = $"Consulta cancelada para o paciente {consulta.IdPaciente} - Motivo: {motivoCancelamento}"
             };
-            Contexto<Log>().Add(logCancelarConsulta); // Adicionando log
+            //Contexto<Log>().Add(logCancelarConsulta); // Adicionando log
 
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
@@ -151,7 +151,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Consulta",
                 Alteracao = $"Consulta confirmada para o paciente {consulta.IdPaciente}"
             };
-            Contexto<Log>().Add(logConfirmarConsulta); // Adicionando log
+            //Contexto<Log>().Add(logConfirmarConsulta); // Adicionando log
 
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
@@ -169,5 +169,145 @@ namespace ehr_csharp.Controllers
                 ModelState.AddModelError("Horário da Consulta", "O campo é obrigatório");
 
         }
+
+        [HttpPost]
+        public async Task<JsonResult> SalvarAbaHemograma(Hemograma hemograma)
+        {
+            ModelState.Clear();
+            hemograma.Consulta = await Contexto<Consulta>().FirstOrDefaultAsync(x => x.Id == hemograma.IdConsulta);
+
+
+            var hemogramaDb = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == hemograma.IdConsulta);
+
+            if (hemogramaDb == null)
+            {
+                Contexto<Hemograma>().Add(hemograma);
+
+                // Log de criação de hemograma
+                Log logCriacaoHemograma = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Hemograma",
+                    Alteracao = $"Criação de novo hemograma para consulta ID {hemograma.IdConsulta}"
+                };
+                //Contexto<Log>().Add(logCriacaoHemograma); // Adicionando log
+
+            }
+            else
+            {
+                hemogramaDb.Eritrocitos = hemograma.Eritrocitos;
+                hemogramaDb.Hemoglobina = hemograma.Hemoglobina;
+                hemogramaDb.Hematocrito = hemograma.Hematocrito;
+                hemogramaDb.VCM = hemograma.VCM;
+                hemogramaDb.HCM = hemograma.HCM;
+                hemogramaDb.CHCM = hemograma.CHCM;
+                hemogramaDb.RDW = hemograma.RDW;
+                hemogramaDb.Leucocitos_Absoluto = hemograma.Leucocitos_Absoluto;
+                hemogramaDb.Leucocitos_Relativo = hemograma.Leucocitos_Relativo;
+                hemogramaDb.Bastonetes_Absoluto = hemograma.Bastonetes_Absoluto;
+                hemogramaDb.Bastonetes_Relativo = hemograma.Bastonetes_Relativo;
+                hemogramaDb.Segmentados_Absoluto = hemograma.Segmentados_Absoluto;
+                hemogramaDb.Segmentados_Relativo = hemograma.Segmentados_Relativo;
+                hemogramaDb.Eosinofilos_Relativo = hemograma.Eosinofilos_Relativo;
+                hemogramaDb.Eosinofilos_Absoluto = hemograma.Eosinofilos_Absoluto;
+                hemogramaDb.Basofilos_Absoluto = hemograma.Basofilos_Absoluto;
+                hemogramaDb.Basofilos_Relativo = hemograma.Basofilos_Relativo;
+                hemogramaDb.Linfocitos_Absoluto = hemograma.Linfocitos_Absoluto;
+                hemogramaDb.Linfocitos_Relativo = hemograma.Linfocitos_Relativo;
+                hemogramaDb.Monocitos_Relativo = hemograma.Monocitos_Relativo;
+                hemogramaDb.Monocitos_Absoluto = hemograma.Monocitos_Absoluto;
+                hemogramaDb.Plaquetas = hemograma.Plaquetas;
+                hemogramaDb.VPM = hemograma.VPM;
+                hemogramaDb.Glicemia = hemograma.Glicemia;
+                hemogramaDb.Creatinina = hemograma.Creatinina;
+                hemogramaDb.AcidoUrico = hemograma.AcidoUrico;
+                hemogramaDb.Prolactina = hemograma.Prolactina;
+                hemogramaDb.Testosterona = hemograma.Testosterona;
+                hemogramaDb.ColesterolTotal = hemograma.ColesterolTotal;
+                hemogramaDb.HDL = hemograma.HDL;
+                hemogramaDb.Triglicerides = hemograma.Triglicerides;
+                hemogramaDb.LDL = hemograma.LDL;
+                hemogramaDb.NaoHDL = hemograma.NaoHDL;
+
+                // Atualiza o registro no contexto
+                Contexto<Hemograma>().Update(hemogramaDb);
+
+                // Log de atualização de hemograma
+                Log logAtualizacaoHemograma = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Hemograma",
+                    Alteracao = $"Atualização do hemograma para consulta ID {hemograma.IdConsulta}"
+                };
+                //Contexto<Log>().Add(logAtualizacaoHemograma); // Adicionando log
+
+            }
+            SaveChanges();
+
+            DisplayMensagemSucesso();
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> SalvarAbaConsulta(Consulta abaConsulta)
+        {
+            var consultaBd = Contexto<Consulta>().Include(x => x.Prescricao).ThenInclude(x => x.Medicamentos).FirstOrDefault(x => x.Id == abaConsulta.Id);
+
+            consultaBd.QueixaPrincipal = abaConsulta.QueixaPrincipal;
+            consultaBd.HistoricoDoencaAtual = abaConsulta.HistoricoDoencaAtual;
+            consultaBd.Orientacoes = abaConsulta.Orientacoes;
+            consultaBd.HipoteseDiagnostica = abaConsulta.HipoteseDiagnostica;
+            consultaBd.ExamesSolicitados = abaConsulta.ExamesSolicitados;
+            consultaBd.RetornoConsulta = abaConsulta.RetornoConsulta;
+
+
+
+
+            if (abaConsulta.Prescricao != null)
+            {
+                abaConsulta.Prescricao.IdConsulta = abaConsulta.Id;
+                if (consultaBd.Prescricao == null || consultaBd.Prescricao.Id != abaConsulta.Prescricao.Id)
+                {
+                    Contexto<Prescricao>().Add(abaConsulta.Prescricao);
+                    consultaBd.IdPrescricao = abaConsulta.Prescricao.Id;
+                }
+                else
+                {
+                    foreach (var item in abaConsulta.Prescricao.Medicamentos)
+                    {
+                        if (!consultaBd.Prescricao.Medicamentos.Any(x => x.Id == item.Id))
+                        {
+                            item.IdPrescricao = consultaBd.Prescricao.Id;
+                            Contexto<Medicamento>().Add(item);
+                        }
+                    }
+                }
+
+            }
+
+
+
+            SaveChanges();
+            consultaBd.IdPrescricao = abaConsulta.Prescricao.Id;
+            SaveChanges();
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ExcluirMedicamentoPrescricao(int Id)
+        {
+            var MedicamentoBd = Contexto<Medicamento>().FirstOrDefault(x => x.Id == Id);
+            if (MedicamentoBd != null)
+                Contexto<Medicamento>().Remove(MedicamentoBd);
+            //registrarLog
+
+            SaveChanges();
+            ModelState.Clear();
+
+            return Json(new { success = true });
+        }
+
     }
 }

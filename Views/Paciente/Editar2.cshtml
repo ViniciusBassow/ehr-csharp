@@ -751,72 +751,81 @@
 
 
     <div id="divConsulta" style="display:none">
-        @using (Html.BeginForm("SalvarConsulta", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "SalvarConsultaForm" }))
+        @if (Model.Consultas != null && Model.Consultas.Count > 0)
         {
-            <div class="row">
-                <!-- Insurance Information -->
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>* Queixa</h6>
-                            <div class="row mt-2">
-                                <textarea rows="6" class="form-control ml-2" name="QueixaPrincipal"></textarea>
+            <form id="formAbaConsulta">
+                <input class="form-control" type="hidden" id="idConsulta" name="Id" value="@Model.ultimaConsulta.Id">
+                <input class="form-control" type="hidden" id="idPrescricao" name="Prescricao.Id" value="@Model.ultimaConsulta.Prescricao?.Id">
+
+                <div class="row">
+                    <!-- Insurance Information -->
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>* Queixa</h6>
+                                <div class="row mt-2">
+                                    @Html.TextArea("QueixaPrincipal", Model.ultimaConsulta.QueixaPrincipal, new { @class = "form-control", rows = "6" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>Historico da doença atual</h6>
-                            <div class="row mt-2">
-                                <textarea rows="6" class="form-control ml-2" name="HistoricoDoencaAtual"></textarea>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>Historico da doença atual</h6>
+                                <div class="row mt-2">
+                                    @Html.TextArea("HistoricoDoencaAtual", Model.ultimaConsulta.HistoricoDoencaAtual, new { @class = "form-control", rows = "6" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>Orientações</h6>
-                            <div class="row mt-2">
-                                <textarea rows="6" class="form-control ml-2" name="Orientacoes"></textarea>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>Orientações</h6>
+                                <div class="row mt-2">
+                                    @Html.TextArea("Orientacoes", Model.ultimaConsulta.Orientacoes, new { @class = "form-control", rows = "6" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>Hipótese Diagnóstica</h6>
-                            <div class="row mt-2">
-                                <textarea rows="6" class="form-control ml-2" name="HipoteseDiagnostica"></textarea>
+
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>Hipótese Diagnóstica</h6>
+                                <div class="row mt-2">
+                                    @Html.TextArea("HipoteseDiagnostica", Model.ultimaConsulta.HipoteseDiagnostica, new { @class = "form-control", rows = "6" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h6>Exames Solicitados</h6>
-                            <div class="row mt-2">
-                                <textarea rows="6" class="form-control ml-2" name="ExamesSolicitados"></textarea>
-                            </div>
-                            <br />
-                            <h6>Data do retorno:</h6>
-                            <div class="row mt-2">
-                                <input class="form-control Data" data-val="true" id="RetornoConsulta" name="RetornoConsulta" type="date" value="01/01/0001" />
+
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6>Exames Solicitados</h6>
+                                <div class="row mt-2">
+                                    @Html.TextArea("ExamesSolicitados", Model.ultimaConsulta.ExamesSolicitados, new { @class = "form-control", rows = "6" })
+                                </div>
+                                <br />
+
+                                <h6>Data do retorno:</h6>
+                                <div class="row mt-2">
+                                    @Html.TextBox("RetornoConsulta", Model.ultimaConsulta.RetornoConsulta, new { @class = "form-control Data", type = "Date" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <label class="form-label" for="Medicamentos">PRESCRIÇÃO</label>
-                            <div class="row align-items-center">
-                                <div class="col-md-11">
-                                    <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <label class="form-label" for="Medicamentos">PRESCRIÇÃO</label>
+                                <div class="row align-items-center">
+                                    <div class="col-md-11 row" style="align-self: normal;">
                                         <div class="col-md-3">
                                             <label class="form-label" for="MedicamentoDesc">Nome do Medicamento:</label>
                                             <input class="form-control" id="MedicamentoInput" />
@@ -830,24 +839,59 @@
                                             <input class="form-control" id="IntervaloInput" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="form-label" for="DuracaoDesc">Duração:</label>
+                                            <label class="form-label" for="IntervaloDesc">Duração:</label>
                                             <input class="form-control" id="DuracaoInput" />
                                         </div>
                                     </div>
+
+                                    <div class="col-md-1" style="padding-top: 2rem;">
+                                        <button type="button" onclick="AdicionarMedicamento()" class="btn btn-sm btn-primary">+</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-1" style="padding-top: 2rem;">
-                                    <button type="button" onclick="AdicionarMedicamento()" class="btn btn-sm btn-primary">+</button>
+
+                                <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
+                                    @foreach (var item in Model.ultimaConsulta.Prescricao?.Medicamentos)
+                                    {
+                                        var indexItem = Model.ultimaConsulta.Prescricao.Medicamentos.IndexOf(item);
+
+                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Medicacao" value="@item.Medicacao">
+                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Dosagem" value="@item.Dosagem">
+                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Intervalo" value="@item.Intervalo">
+                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Duracao" value="@item.Duracao">
+                                        <input type="hidden" name="Prescricao.Medicamentos[@(indexItem)].Id" id="Medicamento@(indexItem)Id" value="@item.Id">
+
+                                        <div class="col-md-11 row" id="idMedicamentoContainer@(indexItem)" style="padding-top: 1rem;">
+                                            <div class="col-md-3">
+                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Medicacao">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Dosagem">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Intervalo">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input readonly="" name="Medicamentos@(indexItem)" class="form-control col-md-3" value="@item.Duracao">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="padding-top: 0.15rem; " id="idMedicamentoBtn@(indexItem)">
+                                            <button type="button" onclick="RemoverMedicamento(@indexItem, false)" class="btn btn-sm btn-primary">-</button>
+                                        </div>
+                                    }
+
                                 </div>
-                            </div>
-                            <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
+                </div>
+                <br>
+                <button type="button" onclick="salvarAbaConsulta()" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+                <br>
+            </form>
         }
     </div>
+
 
     <div id="divHemograma" style="display:none">
         @if (Model.Consultas != null && Model.Consultas.Count > 0)
@@ -1024,7 +1068,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarHemograma()">Salvar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
             </form>
         }
     </div>
@@ -1139,7 +1183,10 @@
     }
 
 
-    let contadorMedicamento = 0;
+    let contadorMedicamento = @(Model.ultimaConsulta?.Prescricao?.Medicamentos != null
+        ? Model.ultimaConsulta.Prescricao.Medicamentos.Count()
+        : 0);
+
     function AdicionarMedicamento() {
         var nomeMedicamento = $('#MedicamentoInput').val();
         var dosagemMedicamento = $('#DosagemInput').val();
@@ -1159,28 +1206,28 @@
             return;
         }
 
-        var novaDiv = $('</br> <div class="col-md-11 row" id="idMedicamentoContainer' + contadorMedicamento + '" style="padding-top: 1rem;"> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + nomeMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + dosagemMedicamento + '" /></div>  <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + intervaloMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + duracaoMedicamento + '" /></div>   </div> <div class="col - md - 1" style="padding-top: 0.15rem; " id="idMedicamentoBtn' + contadorMedicamento + '"> <button type="button" onclick="RemoverMedicamento(' + contadorMedicamento + ')" class="btn btn-sm btn-primary">-</button> </div>');
+        var novaDiv = $('</br> <div class="col-md-11 row" id="idMedicamentoContainer' + contadorMedicamento + '" style="padding-top: 1rem;"> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + nomeMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + dosagemMedicamento + '" /></div>  <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + intervaloMedicamento + '" /></div> <div class="col - md - 3">  <input readonly name="Medicamentos' + contadorMedicamento + '" class="form - control col - md - 3" value="' + duracaoMedicamento + '" /></div>   </div> <div class="col - md - 1" style="padding-top: 0.15rem; " id="idMedicamentoBtn' + contadorMedicamento + '"> <button type="button" onclick="RemoverMedicamento(' + contadorMedicamento + ', true)" class="btn btn-sm btn-primary">-</button> </div>');
 
 
         $('<input>').attr({
             type: 'hidden',
-            name: 'Medicamento[' + contadorMedicamento + '].Medicacao',
+            name: 'Prescricao.Medicamentos[' + contadorMedicamento + '].Medicacao',
             value: nomeMedicamento
         }).appendTo('#divMedicamentosAdicionados');
 
         $('<input>').attr({
             type: 'hidden',
-            name: 'Medicamento[' + contadorMedicamento + '].Dosagem',
+            name: 'Prescricao.Medicamentos[' + contadorMedicamento + '].Dosagem',
             value: dosagemMedicamento
         }).appendTo('#divMedicamentosAdicionados');
         $('<input>').attr({
             type: 'hidden',
-            name: 'Medicamento[' + contadorMedicamento + '].Intervalo',
+            name: 'Prescricao.Medicamentos[' + contadorMedicamento + '].Intervalo',
             value: intervaloMedicamento
         }).appendTo('#divMedicamentosAdicionados');
         $('<input>').attr({
             type: 'hidden',
-            name: 'Medicamento[' + contadorMedicamento + '].Duracao',
+            name: 'Prescricao.Medicamentos[' + contadorMedicamento + '].Duracao',
             value: duracaoMedicamento
         }).appendTo('#divMedicamentosAdicionados');
 
@@ -1194,14 +1241,41 @@
         $('#DuracaoInput').val('');
     }
 
-    function RemoverMedicamento(id) {
-        $("#idMedicamentoContainer" + id).remove();
-        $("#idMedicamentoBtn" + id).remove();
+    function RemoverMedicamento(id, novo) {
+        if (novo) {
+            $("#idMedicamentoContainer" + id).remove();
+            $("#idMedicamentoBtn" + id).remove();
 
-        $("input[name='Medicamento[" + id + "].Medicacao']").remove();
-        $("input[name='Medicamento[" + id + "].Dosagem']").remove();
-        $("input[name='Medicamento[" + id + "].Intervalo']").remove();
-        $("input[name='Medicamento[" + id + "].Duracao']").remove();
+            $("input[name='Medicamento[" + id + "].Medicacao']").remove();
+            $("input[name='Medicamento[" + id + "].Dosagem']").remove();
+            $("input[name='Medicamento[" + id + "].Intervalo']").remove();
+            $("input[name='Medicamento[" + id + "].Duracao']").remove();
+        }
+        else {
+            if (!confirm("Tem certeza de que deseja remover esta Medicação? \nEsta ação não poderá ser desfeita!")) return;
+
+            var medicamentoId = $("#Medicamento"+id+"Id").val();
+
+            $.ajax({
+                url: '@Url.Action("ExcluirMedicamentoPrescricao", "Consulta")',
+                type: 'POST',
+                data: { "Id": medicamentoId },
+                success: function (data) {
+                    $("#idMedicamentoContainer" + id).remove();
+                    $("#idMedicamentoBtn" + id).remove();
+
+                    $("input[name='Medicamento[" + id + "].Medicacao']").remove();
+                    $("input[name='Medicamento[" + id + "].Dosagem']").remove();
+                    $("input[name='Medicamento[" + id + "].Intervalo']").remove();
+                    $("input[name='Medicamento[" + id + "].Duracao']").remove();
+
+                    displayMensagemSucessoAjax();
+                },
+                error: function (xhr, status, error) {
+                    alert("Ocorreu um erro ao excluir prescrição");
+                }
+            });
+        }
     }
 
 
@@ -1404,17 +1478,36 @@
         });
     }
 
-    function salvarHemograma() {
+    function salvarAbaHemograma() {
         var formData = new FormData($('#formHemograma')[0]);
 
         $.ajax({
-            url: '@Url.Action("SalvarHemograma", "Paciente")',
+            url: '@Url.Action("SalvarAbaHemograma", "Consulta")',
             type: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
-                alert("Salvo");
+                displayMensagemSucessoAjax();
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulário:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
+    }
+
+    function salvarAbaConsulta() {
+        var formData = new FormData($('#formAbaConsulta')[0]);
+
+        $.ajax({
+            url: '@Url.Action("SalvarAbaConsulta", "Consulta")',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                displayMensagemSucessoAjax();
             },
             error: function (xhr, status, error) {
                 console.error("Erro ao enviar o formulário:", error);

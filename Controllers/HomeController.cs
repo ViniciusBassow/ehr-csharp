@@ -21,7 +21,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = "Início de acesso à página Index"
             };
-            Contexto<Log>().Add(logIndex); // Adicionando log
+            //Contexto<Log>().Add(logIndex); // Adicionando log
 
             var paciente = Contexto<Paciente>().FirstOrDefault(p => p.Id == 1);
 
@@ -37,7 +37,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = "Acesso à página de Privacidade"
             };
-            Contexto<Log>().Add(logPrivacy); // Adicionando log
+            //Contexto<Log>().Add(logPrivacy); // Adicionando log
 
             return View();
         }
@@ -52,7 +52,7 @@ namespace ehr_csharp.Controllers
                 TabelaReferencia = "Usuario",
                 Alteracao = "Erro no processo"
             };
-            Contexto<Log>().Add(logError); // Adicionando log
+            //Contexto<Log>().Add(logError); // Adicionando log
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

@@ -19,7 +19,7 @@ namespace ehr_csharp.Models
         //public Medico Medico { get; set; }
 
 
-        public ICollection<Medicamento> Medicamentos { get; set; }
+        public IList<Medicamento> Medicamentos { get; set; }
 
         //Exemplo: public ICollection<Post> Posts { get; } = new List<Post>(); // Collection navigation containing dependents
 
