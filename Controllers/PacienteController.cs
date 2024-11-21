@@ -322,6 +322,21 @@ namespace ehr_csharp.Controllers
 
             return File(anexo.ArquivoData, mimeType, anexo.NomeArquivo);
         }
+
+        public async Task<ActionResult> FiltrarPacientes(bool somenteComConsulta)
+        {
+
+            List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).ToList();
+            var retorno = new List<Paciente>();
+
+            if (somenteComConsulta)
+                retorno.AddRange(pacientes.Where(x => x.Consultas.Any(y => y.StatusConsulta == (int)StatusConsulta.EmAndamento)).ToList());
+            else
+                retorno.AddRange(pacientes);
+
+            return PartialView("~/Views/Paciente/_ListaPaciente.cshtml",retorno);
+
+        }
     }
 
 

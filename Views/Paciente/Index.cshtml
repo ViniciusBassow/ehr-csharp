@@ -1,7 +1,7 @@
 @model List<ehr_csharp.Models.Paciente>
 
 
-<main class="container-fluid p-0">
+<main class="container-fluid p-0" id="mainPaciente">
     <div class="px-6 px-lg-7 pt-8 border-bottom">
         <div class="d-flex align-items-center">
             <h1>Pacientes</h1>
@@ -15,8 +15,8 @@
         <br />
         <label class="form-label"><b>Atenção:</b> Apenas pacientes com consultas em andamento podem ser editados.</label>
         <ul class="nav nav-tabs nav-tabs-flush gap-8 overflow-x border-0 mt-4">
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Todos')" class="nav-link active">Todos</button></li>
-            <li class="nav-item"><button onclick="FiltrarUsuarios('Admin')" class="nav-link">Com Consulta</button></li>            
+            <li class="nav-item"><button id="navTodos" onclick="FiltrarPacientes(false)" class="nav-link active">Todos</button></li>
+            <li class="nav-item"><button id="navComConsulta" onclick="FiltrarPacientes(true)" class="nav-link">Com Consulta</button></li>
         </ul>
     </div>
     @using (Html.BeginForm())
@@ -85,18 +85,24 @@
     <script>
         var role = "";
 
-        function FiltrarUsuarios(nivelAcesso) {
-            
-            role = nivelAcesso;
-
+    function FiltrarPacientes(somenteComConsulta) {
+                        
             $.ajax({
-                url: '/Usuario/FiltrarUsuarios',
+            url: '/Paciente/FiltrarPacientes',
                 type: 'GET',
-                data: { "role": role },
+            data: { somenteComConsulta },
             dataType: 'html',
                 success: function (data) {
                 $("#bodyUsuario").html(data);
                     
+                    if (somenteComConsulta) {
+                        $("#navComConsulta").addClass("active");
+                        $("#navTodos").removeClass("active");
+                    }
+                    else{
+                    $("#navTodos").addClass("active");
+                    $("#navComConsulta").removeClass("active");
+                    }
                 },
                 error: function () {
                     

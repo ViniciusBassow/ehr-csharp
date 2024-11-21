@@ -901,6 +901,13 @@
     <div id="divHemograma" style="display:none">
         @if (Model.Consultas != null && Model.Consultas.Count > 0)
         {
+             @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
+        {
+            <label for="file">Importar arquivo de exame:</label>
+            <input type="file" id="file" name="file" />
+            <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
+        }
+
             <form id="formHemograma">
                 <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
 
@@ -1072,7 +1079,7 @@
                         @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "form-control", id = "NaoHDL" })
                     </div>
                 </div>
-
+                <br />
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
             </form>
         }

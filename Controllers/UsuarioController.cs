@@ -37,7 +37,7 @@ namespace ehr_csharp.Controllers
         }
 
         //[Authorize(Roles = "Admin")]
-        [CustomAuthorize("s")]
+        [CustomAuthorize("Admin")]
         public async Task<ActionResult> Index(string sortOrder, string searchString)
         {
             // Obtém usuários do banco, exceto "root"
