@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Configurações do Sistema";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row">
+        <!-- Barra Lateral -->
+        <div class="col-md-3">
+            <div class="list-group shadow-sm rounded">
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white fw-bold">
+                    <i class="fas fa-lock me-2"></i>Roles e Permissões
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-calendar-alt me-2"></i>Lista de Turnos
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-hospital me-2"></i>Unidades
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-file-alt me-2"></i>Relatório de Notas
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-chart-line me-2"></i>Relatório de Resultados
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-tasks me-2"></i>Lista de Atividades
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-users me-2"></i>Lista de Funcionários
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-folder me-2"></i>Documentos
+                </a>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="col-md-9">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Configurações do Sistema</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-3">Permissões</h5>
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Permissão</th>
+                                <th class="text-center">Admin</th>
+                                <th class="text-center">Auxiliar</th>
+                                <th class="text-center">Auxiliar Sênior</th>
+                                <th class="text-center">Enfermeiro Sênior</th>
+                                <th class="text-center">Médico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Criar atividades</td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Deletar atividades</td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Visualizar lista de atividades</td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Atualizar atividades</td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                            </tr>
+                            <tr>
+                                <td>Criar eventos adversos</td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox"></td>
+                                <td class="text-center"><input type="checkbox" checked></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionais -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .list-group-item.active {
+        background-color: #007bff !important;
+        border-color: #007bff !important;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet" />

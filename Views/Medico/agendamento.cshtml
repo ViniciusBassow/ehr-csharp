@@ -1,9 +1,7 @@
 ﻿@model ehr_csharp.Models.Medico
-
 @{
-    ViewData["Title"] = "Configuração de Agendamentos";
+    ViewData["Title"] = "Agendamentos";
 }
-
 <main class="container-fluid px-4 py-4">
     <div class="px-6 px-lg-7 pt-8 border-bottom">
         <div class="d-flex align-items-center justify-content-between">
@@ -12,50 +10,21 @@
                 <i class="bi bi-plus-lg me-2"></i> Novo Agendamento
             </button>
         </div>
-        <ul class="nav nav-tabs nav-tabs-flush gap-4 border-0 mt-4">
-            <li class="nav-item"><a href="#" class="nav-link active">Todos</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Semana Atual</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Mês Atual</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Mês Passado</a></li>
+        <ul class="nav nav-tabs nav-tabs-flush gap-4 border-0 mt-4" id="filter-tabs">
+            <li class="nav-item"><a href="#" class="nav-link active" data-filter="all">Todos</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-filter="week">Semana Atual</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-filter="month">Mês Atual</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-filter="next-month">Próximo Mês</a></li>
         </ul>
     </div>
     <div class="table-responsive mt-4">
         <table class="table table-striped table-hover table-sm table-nowrap">
-            <thead class="bg-custom">
-                <tr>
-                    <th>Data</th>
-                    <th>Paciente</th>
-                    <th>Status</th>
-                    <th>Nome do Médico</th>
-                    <th>Motivo</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
             <tbody>
-                <tr>
-                    <td>28/05/2020 09:00</td>
-                    <td>Naruto Uzumaki</td>
+                <tr data-date="2024-11-20">
+                    <td>20/11/2024 09:00</td>
+                    <td>Lucas Ferreira</td>
                     <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Infecção de Ouvido</td>
-                    <td>
-                        <div class="dropdown">
-                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#!" class="dropdown-item">Visualizar</a>
-                                <a href="#!" class="dropdown-item">Editar</a>
-                                <a href="#!" class="dropdown-item">Excluir</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>28/05/2020 10:00</td>
-                    <td>Sasuke Uchiha</td>
-                    <td><span class="badge bg-warning">Pendente</span></td>
-                    <td>Tony Tony Chopper</td>
+                    <td>Dr. Carlos Mendes</td>
                     <td>Consulta de Rotina</td>
                     <td>
                         <div class="dropdown">
@@ -70,30 +39,11 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 11:00</td>
-                    <td>Monkey D. Luffy</td>
-                    <td><span class="badge bg-danger">Cancelado</span></td> 
-                    <td>Tony Tony Chopper</td>
-                    <td>Luxação no Braço</td>
-                    <td>
-                        <div class="dropdown">
-                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#!" class="dropdown-item">Visualizar</a>
-                                <a href="#!" class="dropdown-item">Editar</a>
-                                <a href="#!" class="dropdown-item">Excluir</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>28/05/2020 12:00</td>
-                    <td>Goku</td>
-                    <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
+                <tr data-date="2024-11-22">
+                    <td>22/11/2024 10:00</td>
+                    <td>Fernanda Oliveira</td>
+                    <td><span class="badge bg-warning">Pendente</span></td>
+                    <td>Dr. Alice Farias</td>
                     <td>Exame de Sangue</td>
                     <td>
                         <div class="dropdown">
@@ -108,12 +58,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 13:00</td>
-                    <td>Yusuke Urameshi</td>
-                    <td><span class="badge bg-warning">Pendente</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                <tr data-date="2024-11-25">
+                    <td>25/11/2024 14:30</td>
+                    <td>João Silva</td>
+                    <td><span class="badge bg-danger">Cancelado</span></td>
+                    <td>Dr. Pedro Moreira</td>
+                    <td>Luxação no Braço</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,11 +77,11 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 14:00</td>
-                    <td>Edward Elric</td>
+                <tr data-date="2024-11-27">
+                    <td>27/11/2024 16:00</td>
+                    <td>Camila Santos</td>
                     <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
+                    <td>Dr. Carlos Mendes</td>
                     <td>Consulta de Rotina</td>
                     <td>
                         <div class="dropdown">
@@ -146,12 +96,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 15:00</td>
-                    <td>Hinata Hyuga</td>
+                <tr data-date="2024-12-01">
+                    <td>01/12/2024 08:15</td>
+                    <td>Marcos Lima</td>
                     <td><span class="badge bg-warning">Pendente</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                    <td>Dr. Alice Farias</td>
+                    <td>Exame de Sangue</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -165,12 +115,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 16:00</td>
-                    <td>Akira Fudo</td>
+                <tr data-date="2024-12-05">
+                    <td>05/12/2024 11:00</td>
+                    <td>Ana Paula</td>
                     <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                    <td>Dr. Pedro Moreira</td>
+                    <td>Dor de Cabeça</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -184,12 +134,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 17:00</td>
-                    <td>Vash the Stampede</td>
+                <tr data-date="2024-12-08">
+                    <td>08/12/2024 14:30</td>
+                    <td>Renato Souza</td>
                     <td><span class="badge bg-warning">Pendente</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                    <td>Dr. Carlos Mendes</td>
+                    <td>Consulta Dermatológica</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -203,12 +153,31 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 18:00</td>
-                    <td>Lelouch Lamperouge</td>
+                <tr data-date="2024-12-10">
+                    <td>10/12/2024 16:00</td>
+                    <td>Juliana Castro</td>
+                    <td><span class="badge bg-danger">Cancelado</span></td>
+                    <td>Dr. Alice Farias</td>
+                    <td>Acompanhamento Pré-Natal</td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a href="#!" class="dropdown-item">Visualizar</a>
+                                <a href="#!" class="dropdown-item">Editar</a>
+                                <a href="#!" class="dropdown-item">Excluir</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-date="2024-12-12">
+                    <td>12/12/2024 09:30</td>
+                    <td>Gabriel Costa</td>
                     <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                    <td>Dr. Pedro Moreira</td>
+                    <td>Consulta Pós-Cirúrgica</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -222,12 +191,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 19:00</td>
-                    <td>Shinji Ikari</td>
-                    <td><span class="badge bg-warning">Pendente</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                <tr data-date="2024-12-15">
+                    <td>15/12/2024 11:45</td>
+                    <td>Sofia Almeida</td>
+                    <td><span class="badge bg-danger">Cancelado</span></td>
+                    <td>Dr. Carlos Mendes</td>
+                    <td>Exame Cardíaco</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,12 +210,12 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>28/05/2020 20:00</td>
-                    <td>Gon Freecss</td>
+                <tr data-date="2024-12-18">
+                    <td>18/12/2024 14:00</td>
+                    <td>Pedro Costa</td>
                     <td><span class="badge bg-success">Atendido</span></td>
-                    <td>Tony Tony Chopper</td>
-                    <td>Consulta de Rotina</td>
+                    <td>Dr. Alice Farias</td>
+                    <td>Consulta Neurológica</td>
                     <td>
                         <div class="dropdown">
                             <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -264,7 +233,7 @@
         </table>
     </div>
     <div class="modal fade" id="novoAgendamentoModal" tabindex="-1" aria-labelledby="novoAgendamentoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="novoAgendamentoModalLabel">Novo Agendamento</h5>
@@ -273,47 +242,73 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="horarioConsulta" class="form-label"> Horário da Consulta</label>
-                            <input type="time" id="horarioConsulta" class="form-control" required>
+                            <label for="dataAgendamento" class="form-label">Data</label>
+                            <input type="datetime-local" class="form-control" id="dataAgendamento" required>
                         </div>
                         <div class="mb-3">
-                            <label for="paciente" class="form-label"> Paciente</label>
-                            <select id="paciente" class="form-select" required>
-                                <option selected disabled>Selecione</option>
-                                <option>Naruto Uzumaki</option>
-                                <option>Sasuke Uchiha</option>
-                                <option>Monkey D. Luffy</option>
-                                <option>Zoro Roronoa</option>
-                                <option>Sakura Haruno</option>
-                                <option>Ichigo Kurosaki</option>
-                                <option>Hinata Hyuga</option>
-                                <option>Edward Elric</option>
-                                <option>Yusuke Urameshi</option>
-                                <option>Akira Fudo</option>
-                                <option>Vash the Stampede</option>
-                                <option>Lelouch Lamperouge</option>
-                                <option>Shinji Ikari</option>
-                                <option>Gon Freecss</option>
+                            <label for="paciente" class="form-label">Paciente</label>
+                            <input type="text" class="form-control" id="paciente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medico" class="form-label">Médico</label>
+                            <select class="form-select" id="medico">
+                                <option>Dr. Pedro Moreira</option>
+                                <option>Dr. Alice Farias</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="motivo" class="form-label"> Motivo</label>
-                            <input type="text" id="motivo" class="form-control" required>
+                            <label for="motivo" class="form-label">Motivo</label>
+                            <textarea class="form-control" id="motivo" rows="3" required></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="medico" class="form-label"> Médico</label>
-                            <select id="medico" class="form-select" required>
-                                <option selected>Tony Tony Chopper</option>
-                            </select>
-                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>
     </div>
-</main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterTabs = document.querySelector("#filter-tabs");
+            const rows = document.querySelectorAll("tbody tr");
 
+            function isInCurrentWeek(date) {
+                const now = new Date();
+                const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+                const endOfWeek = new Date(now.setDate(startOfWeek.getDate() + 6));
+                return date >= startOfWeek && date <= endOfWeek;
+            }
+
+            function isInCurrentMonth(date) {
+                const now = new Date();
+                return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+            }
+
+            function isInNextMonth(date) {
+                const now = new Date();
+                const nextMonth = new Date(now.setMonth(now.getMonth() + 1));
+                return date.getMonth() === nextMonth.getMonth() && date.getFullYear() === nextMonth.getFullYear();
+            }
+
+            filterTabs.addEventListener("click", function (e) {
+                e.preventDefault();
+                const filter = e.target.getAttribute("data-filter");
+
+                filterTabs.querySelectorAll(".nav-link").forEach(link => link.classList.remove("active"));
+                e.target.classList.add("active");
+
+                rows.forEach(row => {
+                    const rowDate = new Date(row.getAttribute("data-date"));
+                    row.style.display = "none";
+
+                    if (
+                        filter === "all" ||
+                        (filter === "week" && isInCurrentWeek(rowDate)) ||
+                        (filter === "month" && isInCurrentMonth(rowDate)) ||
+                        (filter === "next-month" && isInNextMonth(rowDate))
+                    ) {
+                        row.style.display = "";
+                    }
+                });
+            });
+        });
+    </script>
