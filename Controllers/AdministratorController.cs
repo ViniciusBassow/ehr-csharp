@@ -42,5 +42,20 @@ namespace ehr_csharp.Controllers
             return View();
         }
 
+        public async Task<ActionResult> dash()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> reports()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> configurações_do_sistema()
+        {
+            return View();
+        }
+        
     }
 }

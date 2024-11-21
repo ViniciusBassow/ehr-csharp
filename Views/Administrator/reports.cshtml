@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "Relatórios";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3">Relatórios</h1>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-calendar-alt fa-2x text-purple mb-2"></i>
+                <h5>Agendamentos hoje</h5>
+                <h2 class="text-purple">42</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-tasks fa-2x text-purple mb-2"></i>
+                <h5>Tarefas atribuídas</h5>
+                <h2 class="text-purple">5</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-envelope fa-2x text-purple mb-2"></i>
+                <h5>Mensagens não lidas</h5>
+                <h2 class="text-purple">11</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-smile fa-2x text-purple mb-2"></i>
+                <h5>Satisfação do paciente</h5>
+                <h2 class="text-success">95%</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-file-prescription fa-2x text-purple mb-2"></i>
+                <h5>Receitas prontas</h5>
+                <h2 class="text-purple">10</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-redo fa-2x text-purple mb-2"></i>
+                <h5>Receitas reenviadas</h5>
+                <h2 class="text-purple">8</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-id-card fa-2x text-purple mb-2"></i>
+                <h5>Plano de Saúde</h5>
+                <h2 class="text-purple">14,241</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center p-3">
+                <i class="fas fa-users fa-2x text-purple mb-2"></i>
+                <h5>Total de pacientes</h5>
+                <h2 class="text-purple">23,454</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-4">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Pacientes por Divisão</h5>
+                <canvas id="patientsByDivision"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Tempo de resposta de exames</h5>
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Exame</th>
+                            <th>Média</th>
+                            <th>Meta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Amilase</td>
+                            <td>31 hr</td>
+                            <td>24 hr</td>
+                        </tr>
+                        <tr>
+                            <td>ANA</td>
+                            <td>180 hr</td>
+                            <td>164 hr</td>
+                        </tr>
+                        <tr>
+                            <td>aPTT</td>
+                            <td>78 hr</td>
+                            <td>72 hr</td>
+                        </tr>
+                        <tr>
+                            <td>Painel Metabólico Básico</td>
+                            <td>23 hr</td>
+                            <td>24 hr</td>
+                        </tr>
+                        <tr>
+                            <td>Painel de Eletrólitos</td>
+                            <td>23 hr</td>
+                            <td>24 hr</td>
+                        </tr>
+                        <tr>
+                            <td>Taxa de Sedimentação</td>
+                            <td>94 hr</td>
+                            <td>96 hr</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('patientsByDivision').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Cardiologia', 'Oncologia', 'Gastroenterologia', 'ENT', 'Cirurgia Geral', 'Ginecologia', 'Hematologia', 'Neonatal', 'Neurologia'],
+            datasets: [{
+                label: 'Pacientes',
+                data: [2000, 3500, 1500, 1200, 3000, 2800, 1400, 4000, 3000],
+                backgroundColor: '#6f42c1',
+                barThickness: 20
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#ffffff' // Letras em branco
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#ffffff' // Letras em branco
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .text-purple {
+        color: #6f42c1;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .card i {
+        color: #f8f9fa;
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />

@@ -1,0 +1,287 @@
+﻿@{
+    ViewData["Title"] = "Configurações do Sistema";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group shadow-sm rounded">
+                <a href="#" id="rolesPermissoes" class="list-group-item list-group-item-action bg-primary text-white fw-bold">
+                    <i class="fas fa-lock me-2"></i>Roles e Permissões
+                </a>
+                <a href="#" id="listaTurnos" class="list-group-item list-group-item-action">
+                    <i class="fas fa-calendar-alt me-2"></i>Lista de Turnos
+                </a>
+                <a href="#" id="unidades" class="list-group-item list-group-item-action">
+                    <i class="fas fa-hospital me-2"></i>Unidades
+                </a>
+                <a href="#" id="relatorioNotas" class="list-group-item list-group-item-action">
+                    <i class="fas fa-file-alt me-2"></i>Relatório de Notas
+                </a>
+                <a href="#" id="relatorioResultados" class="list-group-item list-group-item-action">
+                    <i class="fas fa-chart-line me-2"></i>Relatório de Resultados
+                </a>
+                <a href="#" id="listaAtividades" class="list-group-item list-group-item-action">
+                    <i class="fas fa-tasks me-2"></i>Lista de Atividades
+                </a>
+                <a href="#" id="listaFuncionarios" class="list-group-item list-group-item-action">
+                    <i class="fas fa-users me-2"></i>Lista de Funcionários
+                </a>
+                <a href="#" id="documentos" class="list-group-item list-group-item-action">
+                    <i class="fas fa-folder me-2"></i>Documentos
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Configurações do Sistema</h4>
+                </div>
+                <div class="card-body" id="conteudoPrincipal">
+                    <h5 class="mb-3">Bem-vindo!</h5>
+                    <p>Selecione um item no menu lateral para visualizar o conteúdo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const conteudoPrincipal = document.getElementById('conteudoPrincipal');
+        const conteudos = {
+            rolesPermissoes: `
+                <h5 class="mb-3">Roles e Permissões</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Permissão</th>
+                            <th class="text-center">Administrador</th>
+                            <th class="text-center">Paciente</th>
+                            <th class="text-center">Médico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Criar atividades</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Deletar atividades</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            listaTurnos: `
+                <h5 class="mb-3">Lista de Turnos</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Turno</th>
+                            <th class="text-center">Administrador</th>
+                            <th class="text-center">Paciente</th>
+                            <th class="text-center">Médico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Turno manhã</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Turno noite</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            unidades: `
+                <h5 class="mb-3">Unidades</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Unidade</th>
+                            <th class="text-center">Administrador</th>
+                            <th class="text-center">Paciente</th>
+                            <th class="text-center">Médico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unidade A</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                        <tr>
+                            <td>Unidade B</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            listaFuncionarios: `
+                <h5 class="mb-3">Lista de Funcionários</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nome</th>
+                            <th class="text-center">Administrador</th>
+                            <th class="text-center">Paciente</th>
+                            <th class="text-center">Médico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>João Silva</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Maria Oliveira</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>Carlos Souza</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            documentos: `
+                <h5 class="mb-3">Documentos</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tipo de Documento</th>
+                            <th class="text-center">Disponível</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Relatório Médico</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                        <tr>
+                            <td>Receita</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            relatorioNotas: `
+                <h5 class="mb-3">Relatório de Notas</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Relatório</th>
+                            <th class="text-center">Disponível</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Relatório de Notas do Paciente</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                        <tr>
+                            <td>Relatório de Notas Médicas</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            relatorioResultados: `
+                <h5 class="mb-3">Relatório de Resultados</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Relatório</th>
+                            <th class="text-center">Disponível</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Relatório de Resultados Clínicos</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                        <tr>
+                            <td>Relatório de Resultados Laboratoriais</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            listaAtividades: `
+                <h5 class="mb-3">Lista de Atividades</h5>
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Atividade</th>
+                            <th class="text-center">Realizada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Atividade 1</td>
+                            <td class="text-center"><input type="checkbox" checked></td>
+                        </tr>
+                        <tr>
+                            <td>Atividade 2</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `
+        };
+        document.querySelectorAll('.list-group-item').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Evita recarregar a página
+                document.querySelectorAll('.list-group-item').forEach(item => {
+                    item.classList.remove('bg-primary', 'text-white', 'fw-bold');
+                });
+                link.classList.add('bg-primary', 'text-white', 'fw-bold');
+
+                const id = link.id;
+                conteudoPrincipal.innerHTML = conteudos[id] || '<p>Conteúdo não encontrado.</p>';
+            });
+        });
+    });
+</script>
+<style>
+    .list-group-item.active {
+        background-color: #007bff !important;
+        border-color: #007bff !important;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .container-fluid {
+        margin-top: 20px;
+    }
+
+    .card-header h4 {
+        margin-bottom: 0;
+    }
+
+    .fw-bold {
+        font-weight: 700;
+    }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
