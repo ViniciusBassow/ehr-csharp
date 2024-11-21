@@ -104,6 +104,9 @@ namespace ehr_csharp.Controllers
                                 .ThenInclude(x => x.Medico)
                                     .ThenInclude(x => x.Usuario)
                             .Include(x => x.Consultas)
+                                .ThenInclude(x => x.Medico)
+                                    .ThenInclude(x => x.Especialidade)
+                            .Include(x => x.Consultas)
                                 .ThenInclude(x => x.Prescricao)
                                 .ThenInclude(x => x.Medicamentos)
                             .FirstOrDefault(x => x.Id == Id);

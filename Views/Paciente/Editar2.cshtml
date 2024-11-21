@@ -73,19 +73,23 @@
 
     @Html.HiddenFor(x => x.Id, new { @id = "idPaciente" })
     <!-- Tabs -->
-    <ul class="nav nav-pills mb-4">
-        <li class="nav-item" onclick="MudarAba('Principal')">
-            <a class="nav-link active" id="navPrincipal" href="#">Principal</a>
-        </li>
-        <li class="nav-item" onclick="MudarAba('Consulta')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
-            <a class="nav-link" id="navConsulta" href="#">Consulta</a>
-        </li>
-        <li class="nav-item" onclick="MudarAba('Hemograma')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
-            <a class="nav-link" id="navHemograma" href="#">Hemograma</a>
-        </li>
-        <li class="nav-item" onclick="MudarAba('Documentos')" style="@(Model.Id > 0 ? "": "display: none")">
-            <a class="nav-link" id="navDocumentos" href="#">Documentos</a>
-        </li>
+    <ul class="nav nav-pills mb-4 gap-1">
+        @if (!novoPaciente)
+        {
+            <li class="nav-item" onclick="MudarAba('Principal')">
+                <a class="nav-link active" id="navPrincipal" href="#">Principal</a>
+            </li>
+            <li class="nav-item" onclick="MudarAba('Consulta')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
+                <a class="nav-link" id="navConsulta" href="#">Consulta</a>
+            </li>
+            <li class="nav-item" onclick="MudarAba('Hemograma')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
+                <a class="nav-link" id="navHemograma" href="#">Hemograma</a>
+            </li>
+            <li class="nav-item" onclick="MudarAba('Documentos')" style="@(Model.Id > 0 ? "": "display: none")">
+                <a class="nav-link" id="navDocumentos" href="#">Documentos</a>
+            </li>
+        }
+        
 
     </ul>
 
@@ -136,77 +140,77 @@
 
 
                                 <div class="card-body d-flex flex-column col-lg-5">
-
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <div>
-                                            <h2>Dados pessoais</h2>
-                                        </div>
-                                        <div class="hstack align-items-center">
-                                            <a href="#" class="text-muted">
-                                                <i class="bi bi-arrow-repeat"></i>
-                                            </a>
-                                        </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <h2>Dados pessoais</h2>
+                                        <a href="#" class="text-muted">
+                                            <i class="bi bi-arrow-repeat"></i>
+                                        </a>
                                     </div>
-                                    <div>
-                                        <div class="d-flex gap-3 mb-5">
-                                            <div class="d-flex flex-column col-lg-8">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Nome Completo:</h5>
-                                                    <p>@Model.NomeCompleto</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Email:</h5>
-                                                    <p>@Model.Email</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Telefone:</h5>
-                                                    <p class="TelefoneFixo">@Model.TelefoneFixo</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Ocupação:</h5>
-                                                    <p>@Model.Profissao</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Endereço:</h5>
-                                                    <p>@Model.Endereco</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-column col-lg-3">
-                                                @if (Model.Id > 0)
-                                                {
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <h5>Idade:</h5>
-                                                        <p>@((int)((DateTime.Now.Date - DateTime.Parse(Model.DataNascimento.ToString())).TotalDays / 365))</p>
-                                                    </div>
-                                                }
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Data de Nascimento:</h5>
-                                                    <p>@Model.DataNascimento</p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <h5>Estado Cívil:</h5>
-                                                    <p>@Model.EstadoCivil</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex mx-n1"></div>
 
+                                    <div class="row mb-4">
+                                        <!-- Coluna principal -->
+                                        <div class="col-12 col-md-8">
+                                            <div class="mb-3">
+                                                <strong>Nome Completo:</strong> <span>@Model.NomeCompleto</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Email:</strong> <span>@Model.Email</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Telefone:</strong> <span class="TelefoneFixo">@Model.TelefoneFixo</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Ocupação:</strong> <span>@Model.Profissao</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Endereço:</strong> <span>@Model.Endereco</span>
+                                            </div>
                                         </div>
-                                        <hr class="my-4">
-                                        <div class="d-flex flex-column col-lg-8">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <h5>Paciente desde:</h5>
-                                                <p>@Model.DataCadastro.ToString("dd/MM/yyyy")</p>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <h5>Tipo:</h5>
-                                                <p>Particular</p>
-                                            </div>
 
-
+                                        <!-- Coluna secundária -->
+                                        <div class="col-12 col-md-4">
+                                            @if (Model.Id > 0)
+                                            {
+                                                <div class="mb-3">
+                                                    <strong>Idade:</strong> <span>@((int)((DateTime.Now.Date - DateTime.Parse(Model.DataNascimento.ToString())).TotalDays / 365))</span>
+                                                </div>
+                                            }
+                                            <div class="mb-3">
+                                                <strong>Data de Nascimento:</strong> <span>@Model.DataNascimento</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Estado Civil:</strong> <span>
+                                                    @{
+                                                        string estadoCivilTexto = Model.EstadoCivil switch
+                                                        {
+                                                            "1" => "Casado(a)",
+                                                            "2" => "Solteiro(a)",
+                                                            "3" => "Divorciado(a)",
+                                                            "4" => "Viúvo(a)",
+                                                            "5" => "União Estável",
+                                                            _ => "Não informado"
+                                                        };
+                                                    }
+                                                    @estadoCivilTexto
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
 
+                                    <hr class="my-4">
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="mb-3">
+                                                <strong>Paciente desde:</strong> <span>@Model.DataCadastro.ToString("dd/MM/yyyy")</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Tipo:</strong> <span>Particular</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
 
 
@@ -214,7 +218,7 @@
                         </div>
 
 
-                        <div class="card">
+                        <div class="card mt-4">
                             <div class="card-body pb-3">
                                 <h5 class="mb-3">Medicações</h5>
                                 <div class="list-group list-group-flush">
@@ -350,138 +354,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -490,17 +363,13 @@
                 }
                 else
                 {
-                    <div class="col-md-3 card">
-                        @*  <h3>Imagem</h3>
 
-                <div class="avatar avatar-xl rounded-circle h-50 w-50">
-                <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
-                </div> *@
+                    <div class="col-md-3 card">
 
                         <div class="">
                             <a href="#" class="avatar avatar-lg bg-warning text-white">
                                 <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
-                            </a> @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
+                            </a> 
                             <div class="hstack gap-2 ms-5">
                                 <label for="file_upload" class="btn btn-sm btn-neutral">
                                     <span>Selecionar</span>
@@ -596,14 +465,14 @@
                                                 <div class="col-md-2">
                                                     <label class="form-label mb-0" for="EstadoCivil">* Estado Civil</label>
                                                     @Html.DropDownListFor(model => model.EstadoCivil, new List<SelectListItem>
-                                            {
-                                            new SelectListItem { Text = "Selecionar", Value = "" },
-                                            new SelectListItem { Text = "Casado(a)", Value = "1" },
-                                            new SelectListItem { Text = "Solteiro(a)", Value = "2" },
-                                            new SelectListItem { Text = "Divorciado(a)", Value = "3" },
-                                            new SelectListItem { Text = "Viúvo(a)", Value = "4" },
-                                            new SelectListItem { Text = "União Estável", Value = "5" },
-                                            }, new { @class = "form-select-sm", @id = "EstadoCivil" })
+                                                     {
+                                                     new SelectListItem { Text = "Selecionar", Value = "" },
+                                                     new SelectListItem { Text = "Casado(a)", Value = "1" },
+                                                     new SelectListItem { Text = "Solteiro(a)", Value = "2" },
+                                                     new SelectListItem { Text = "Divorciado(a)", Value = "3" },
+                                                     new SelectListItem { Text = "Viúvo(a)", Value = "4" },
+                                                     new SelectListItem { Text = "União Estável", Value = "5" },
+                                                     }, new { @class = "form-select-sm", @id = "EstadoCivil" })
                                                 </div>
 
                                                 <div class="col-md-2">
@@ -616,8 +485,7 @@
                                                 </div>
 
                                             </div>
-                                            @*  <div class="d-flex flex-column col-lg-3">
-                                    </div> *@
+                                           
                                             <div class="d-flex mx-n1"></div>
 
                                         </div>
@@ -656,39 +524,142 @@
                 <div class="col-md-5">
                     @if (!novoPaciente)
                     {
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="info-box">
-                                    <div>
-                                        <h5>Altura (m)</h5>
-                                        <p>@Model.Altura</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="info-box">
-                                    <div>
-                                        <h5>Peso (kg)</h5>
-                                        <p>@Model.Peso</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="info-box">
-                                    <div>
-                                        <h5>Carteirinha</h5>
-                                        <p>@Model.Carteirinha</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
+                        <div class="row col-13">
+                            <div class="d-flex gap-2">
 
+                                <div class="card bg-tertiary bg-opacity-10 border-tertiary border-opacity-40 col-6">
+                                    <div class="card-body d-flex flex-column p-4 ">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="flex-none w-rem-10 h-rem-10">
+                                                <div class="w-100" alt="...">
+                                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                        <i class="bi bi-rulers"></i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h6>Altura</h6>
+                                        </div>
+                                        <div class="">
+                                            <div class="text-xs mt-2">Metros(m)</div>
+                                            <div class="text-xl fw-semibold">@Model.Altura</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card bg-tertiary bg-opacity-10 border-tertiary border-opacity-40 col-6">
+                                    <div class="card-body d-flex flex-column p-4 ">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="flex-none w-rem-10 h-rem-10">
+                                                <div class="w-100" alt="...">
+                                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                        <i class="bi bi-database-fill"></i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h6>Peso</h6>
+                                        </div>
+                                        <div class="">
+                                            <div class="text-xs mt-2">Quilogramas(kg)</div>
+                                            <div class="text-xl fw-semibold">@Model.Peso</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <div class="card bg-tertiary bg-opacity-10 border-tertiary border-opacity-40 ">
+                                    <div class="card-body d-flex flex-column p-4 ">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="flex-none w-rem-10 h-rem-10">
+                                                <div class="w-100" alt="...">
+                                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                        <i class="bi bi-postcard-heart-fill"></i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h6>Convênio</h6>
+                                        </div>
+                                        <div class="">
+                                            <div class="text-xs mt-2">Carteirinha</div>
+                                            <div class="text-xl fw-semibold">@Model.Carteirinha</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-5">
+                                    <div>
+                                        <h5>Consultas Agendadas</h5>
+                                    </div>
+                                    <div class="hstack align-items-center">
+                                        <a href="#" class="text-muted">
+                                            <i class="bi bi-arrow-repeat"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="vstack gap-6">
+
+                                    @if (Model.Consultas == null || Model.Consultas.Count == 0)
+                                    {
+
+                                        <div class="col-md-12 mt-3">
+                                            <div class="visit-card">
+                                                <p>Sem consultas por enquanto.</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
+                                        {
+                                            if (contador < 10)
+                                            {
+                                                <div>
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="icon icon-shape flex-none text-base bg-body-secondary rounded-circle">
+                                                            <i class="bi bi-calendar-event"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="progress-text mb-1 d-block">@consulta.Motivo - @consulta.Data.ToString("dd/MM/yyyy")</h6>
+                                                            <p class="text-muted text-xs">
+                                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                            </p>
+                                                        </div>
+                                                        <div class="text-end ms-auto">
+                                                            <span class="h6 text-sm"> @consulta.Medico.Especialidade.Descricao </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                contador++;
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     }
+
+                    @if (novoPaciente)
+                    {
+                        <div class="hstack gap-2 ms-auto align-items-end mt-5">
+                            <div class="d-flex align-items-end justify-content-between">
+                                <div class="d-none d-md-flex gap-2">
+                                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                    
                 </div>
             </div>
             @if (novoPaciente)
@@ -703,51 +674,10 @@
                     </div>
                 </div>
             }
-            else
-            {
-                <div class="row mt-4">
-                    <div class="d-flex justify-content-between">
-                        <h3>Consultas</h3>
-                        @* <button class="btn btn-new-visit">New Visit</button> *@
-                    </div>
-                    @if (Model.Consultas == null || Model.Consultas.Count == 0)
-                    {
-
-                        <div class="col-md-12 mt-3">
-                            <div class="visit-card">
-                                <p>Sem consultas por enquanto.</p>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        foreach (var consulta in Model.Consultas.OrderByDescending(x => x.Data))
-                        {
-                            if (contador < 3)
-                            {
-                                <div class="col-md-4 mt-3">
-                                    <div class="visit-card">
-                                        <p class="text-muted">@consulta.Data.ToString("dddd", new CultureInfo("pt-BR")), @consulta.Data</p>
-                                        <h6>@consulta.Motivo</h6>
-                                        <p class="@(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ?"text-success" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "text-danger" : "text-info")) ">
-                                            @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
-                                        </p>
-                                    </div>
-                                </div>
-                                contador++;
-                            }
-                        }
-                    }
-
-                </div>
-
-            }
+            
         </div>
 
-
     }
-
-
 
 
     <div id="divConsulta" style="display:none">
@@ -910,9 +840,6 @@
 
             <form id="formHemograma">
                 <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
-
-
-
                 <div class="row">
                     <div class="col-md-4">
                         <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
