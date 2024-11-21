@@ -388,7 +388,7 @@
             </div>
             </div>
             </header> *@
-                    <div class="row align-items-center g-3">
+                    @* <div class="row align-items-center g-3">
                         <div class="col-md-4">
                             <label class="form-label">Dados Pessoais</label>
                             <p class="text-sm text-muted">
@@ -562,7 +562,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="my-6">
+                    <hr class="my-6"> *@
                    
 
 
@@ -853,18 +853,7 @@
                         </div>
                     }
 
-                    @if (novoPaciente)
-                    {
-                        <div class="hstack gap-2 ms-auto align-items-end mt-5">
-                            <div class="d-flex align-items-end justify-content-between">
-                                <div class="d-none d-md-flex gap-2">
-                                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
-                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    }
+                  
 
 
                 </div>
@@ -888,7 +877,7 @@
 
 
     <div id="divConsulta" style="display:none">
-        @if (Model.Consultas != null && Model.Consultas.Count > 0)
+        @if (Model.Consultas != null && Model.Consultas.Count > 0 && Model.ultimaConsulta != null)
         {
             <form id="formAbaConsulta">
                 <input class="form-control" type="hidden" id="idConsulta" name="Id" value="@Model.ultimaConsulta.Id">
@@ -986,8 +975,8 @@
                                     </div>
                                 </div>
 
-                                <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
-                                    @if (Model.ultimaConsulta.Prescricao != null)
+                                <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">                                    
+                                    @if(Model.ultimaConsulta != null && Model.ultimaConsulta.Prescricao != null)
                                     {
                                         @foreach (var item in Model.ultimaConsulta.Prescricao.Medicamentos)
                                         {
@@ -1045,6 +1034,7 @@
                 <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
             }
 
+        @if(Model.ultimaConsulta != null){
             <form id="formHemograma">
                 <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
                 <div class="row">
@@ -1216,6 +1206,7 @@
                 <br />
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
             </form>
+            }
         }
     </div>
 
@@ -1278,7 +1269,7 @@
                     <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
                     @if (consultaEmAndamento)
                     {
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Concluir Consulta</button>
+                        <button type="button" class="btn btn-secondary" onclick="ConcluirConsulta(@Model.ultimaConsulta.Id)" data-bs-dismiss="modal">Concluir Consulta</button>
                     }
                 </div>
             </div>
@@ -1654,6 +1645,23 @@
             contentType: false,
             success: function (data) {
                 displayMensagemSucessoAjax();
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulário:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
+    }
+
+    function ConcluirConsulta(idConsulta) {        
+         if (!confirm("Tem certeza de que deseja concluir esta Consulta? \nOs dados não poderão ser alterados futuramente!")) return;
+
+        $.ajax({
+            url: '@Url.Action("ConcluirConsulta", "Consulta")',
+            type: 'POST',
+             data: { 'idConsulta': idConsulta},
+            success: function (data) {
+                displayMensagemSucesso();
             },
             error: function (xhr, status, error) {
                 console.error("Erro ao enviar o formulário:", error);

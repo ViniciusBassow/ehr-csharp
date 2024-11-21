@@ -129,7 +129,7 @@ namespace ehr_csharp.Controllers
                 var maiorIdConsulta = paciente.Consultas.OrderByDescending(x => x.Data).First().Id;
 
                 paciente.ultimaConsultaHemograma = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == maiorIdConsulta);
-                paciente.ultimaConsulta = paciente.Consultas.OrderByDescending(x => x.Data).First();
+                paciente.ultimaConsulta = paciente.Consultas.OrderByDescending(x => x.Data).FirstOrDefault(x => x.StatusConsulta == (int)StatusConsulta.EmAndamento);
 
 
             }

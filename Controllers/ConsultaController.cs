@@ -309,5 +309,18 @@ namespace ehr_csharp.Controllers
             return Json(new { success = true });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> ConcluirConsulta(int idConsulta)
+        {
+            var consulta = Contexto<Consulta>().FirstOrDefault(x => x.Id == idConsulta);
+
+            if (consulta != null)
+                consulta.StatusConsulta = (int)StatusConsulta.Finalizada;            
+
+            SaveChanges();
+            ModelState.Clear();
+
+            return Json(new { success = true });
+        }
     }
 }
