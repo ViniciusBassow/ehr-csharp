@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  avita:
+    container_name: avita
+    restart: unless-stopped
+    image: avita
+    expose:
+      - 8080
+    networks:
+      - proxiable
+
+networks:
+  proxiable:
+    external: true
