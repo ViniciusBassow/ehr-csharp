@@ -17,30 +17,35 @@ namespace ehr_csharp.Controllers
             _cache = cache;
             _userManager = userManager;
         }
-
         //wwwroot\Calendar\fullcalendar\packages\core\main.js           -> CONTROLE CALENDARIUO
         //wwwroot\Calendar\fullcalendar\packages\core\main.css          -> ESTILOS
         public ActionResult Index()
         {
             List<Consulta> consultas = new List<Consulta>();
-            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
             {
-                UsuarioLogado.Role = _userManager.GetRolesAsync(UsuarioLogado).Result.FirstOrDefault();
+                usuarioLogado.Role = _userManager.GetRolesAsync(usuarioLogado).Result.FirstOrDefault();
 
-                if (UsuarioLogado.Medico != null)
-                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == UsuarioLogado.Medico.Id).ToList());
-                else if (UsuarioLogado.Role == "Admin")
+                if (usuarioLogado.Medico != null)
+                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == usuarioLogado.Medico.Id).ToList());
+                else if (usuarioLogado.Role == "Admin")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).ToList());
             }
 
             // Log de exibição da página de consultas
-            Log logExibirConsultas = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoLog))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Consulta",
-                Alteracao = "Exibição da lista de consultas"
-            };
-            //Contexto<Log>().Add(logExibirConsultas); // Adicionando log
+                Log logExibirConsultas = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Consulta",
+                    Alteracao = "Exibição da lista de consultas",
+                    IdUsuarioAlteracao = usuarioLogadoLog.Id
+                };
+
+                Contexto<Log>().Add(logExibirConsultas); // Adicionando log
+                SaveChanges();
+            }
 
             return View("Views\\Consulta\\Index.cshtml", consultas);
         }
@@ -48,13 +53,13 @@ namespace ehr_csharp.Controllers
         public async Task<ActionResult> ExibirEventosDia(DateTime DataEvento)
         {
             List<Consulta> consultas = new List<Consulta>();
-            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
             {
-                UsuarioLogado.Role = _userManager.GetRolesAsync(UsuarioLogado).Result.FirstOrDefault();
+                usuarioLogado.Role = _userManager.GetRolesAsync(usuarioLogado).Result.FirstOrDefault();
 
-                if (UsuarioLogado.Medico != null)
-                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == UsuarioLogado.Medico.Id && x.Data.Date == DataEvento).ToList());
-                else if (UsuarioLogado.Role == "Admin")
+                if (usuarioLogado.Medico != null)
+                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == usuarioLogado.Medico.Id && x.Data.Date == DataEvento).ToList());
+                else if (usuarioLogado.Role == "Admin")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento).ToList());
 
                 foreach (var item in consultas)
@@ -63,25 +68,29 @@ namespace ehr_csharp.Controllers
                     {
                         item.StatusConsulta = (int)StatusConsulta.EmAndamento;
                     }
-
                 }
+
                 SaveChanges();
 
-                // Log de exibição dos eventos do dia
-                //Log logExibirEventosDia = new Log()
-                //{
-                //    DataAlteracao = DateTime.Now,
-                //    TabelaReferencia = "Consulta",
-                //    Alteracao = "Exibição dos eventos do dia " + DataEvento.ToString("dd/MM/yyyy")
-                //};
-                ////Contexto<Log>().Add(logExibirEventosDia); // Adicionando log
+                if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoEventos))
+                {
+                    Log logExibirEventosDia = new Log()
+                    {
+                        DataAlteracao = DateTime.Now,
+                        TabelaReferencia = "Consulta",
+                        Alteracao = $"Exibição dos eventos do dia {DataEvento:dd/MM/yyyy}",
+                        IdUsuarioAlteracao = usuarioLogadoEventos.Id
+                    };
+
+                    Contexto<Log>().Add(logExibirEventosDia); // Adicionando log
+                    SaveChanges();
+                }
             }
 
             ViewBag.Pacientes = Contexto<Paciente>().ToList();
             ViewBag.Medicos = Contexto<Medico>().Include(x => x.Usuario).ToList();
             return PartialView("Views\\Consulta\\_EventosDia.cshtml", consultas);
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Salvar(Consulta consulta)
@@ -94,16 +103,21 @@ namespace ehr_csharp.Controllers
                 return View("Views\\Consulta\\index.cshtml", new Consulta());
             }
             // Log de criação ou atualização de consulta
-            Log logSalvarConsulta = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Consulta",
-                Alteracao = consulta.Id == 0 ?
-                           $"Criação de nova consulta para o paciente {consulta.IdPaciente}" :
-                           $"Atualização de consulta para o paciente {consulta.IdPaciente}"
-            };
-            //Contexto<Log>().Add(logSalvarConsulta); // Adicionando log
+                Log logSalvarConsulta = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Consulta",
+                    Alteracao = consulta.Id == 0
+                        ? $"Criação de nova consulta para o paciente {consulta.IdPaciente}"
+                        : $"Atualização de consulta para o paciente {consulta.IdPaciente}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
 
+                Contexto<Log>().Add(logSalvarConsulta); // Adicionando log
+                SaveChanges();
+            }
             consulta.StatusConsulta = (int)StatusConsulta.AguardandoConfirmacao;
             consulta.Data = consulta.Data.AddHours(consulta.Hora.Hours);
             consulta.Data = consulta.Data.AddMinutes(consulta.Hora.Minutes);
@@ -126,14 +140,19 @@ namespace ehr_csharp.Controllers
             consulta.MotivoCancelamento = motivoCancelamento;
 
             // Log de cancelamento de consulta
-            Log logCancelarConsulta = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Consulta",
-                Alteracao = $"Consulta cancelada para o paciente {consulta.IdPaciente} - Motivo: {motivoCancelamento}"
-            };
-            //Contexto<Log>().Add(logCancelarConsulta); // Adicionando log
+                Log logCancelarConsulta = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Consulta",
+                    Alteracao = $"Consulta cancelada para o paciente {consulta.IdPaciente} - Motivo: {motivoCancelamento}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
 
+                Contexto<Log>().Add(logCancelarConsulta); // Adicionando log
+                SaveChanges();
+            }
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
         }
@@ -145,13 +164,20 @@ namespace ehr_csharp.Controllers
             consulta.StatusConsulta = (int)StatusConsulta.Confirmada;
 
             // Log de confirmação de consulta
-            Log logConfirmarConsulta = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Consulta",
-                Alteracao = $"Consulta confirmada para o paciente {consulta.IdPaciente}"
-            };
-            //Contexto<Log>().Add(logConfirmarConsulta); // Adicionando log
+                Log logConfirmarConsulta = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Consulta",
+                    Alteracao = $"Consulta confirmada para o paciente {consulta.IdPaciente}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logConfirmarConsulta); // Adicionando log
+                SaveChanges();
+            }
+
 
             SaveChanges();
             return View("Views\\Consulta\\Index.cshtml", consulta);
@@ -183,15 +209,19 @@ namespace ehr_csharp.Controllers
             {
                 Contexto<Hemograma>().Add(hemograma);
 
-                // Log de criação de hemograma
-                Log logCriacaoHemograma = new Log()
+                if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
                 {
-                    DataAlteracao = DateTime.Now,
-                    TabelaReferencia = "Hemograma",
-                    Alteracao = $"Criação de novo hemograma para consulta ID {hemograma.IdConsulta}"
-                };
-                //Contexto<Log>().Add(logCriacaoHemograma); // Adicionando log
+                    Log logCriacaoHemograma = new Log()
+                    {
+                        DataAlteracao = DateTime.Now,
+                        TabelaReferencia = "Hemograma",
+                        Alteracao = $"Criação de novo hemograma para consulta ID {hemograma.IdConsulta}",
+                        IdUsuarioAlteracao = UsuarioLogado.Id
+                    };
 
+                    Contexto<Log>().Add(logCriacaoHemograma); // Adicionando log
+                    SaveChanges();
+                }
             }
             else
             {
@@ -233,13 +263,19 @@ namespace ehr_csharp.Controllers
                 Contexto<Hemograma>().Update(hemogramaDb);
 
                 // Log de atualização de hemograma
-                Log logAtualizacaoHemograma = new Log()
+                if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
                 {
-                    DataAlteracao = DateTime.Now,
-                    TabelaReferencia = "Hemograma",
-                    Alteracao = $"Atualização do hemograma para consulta ID {hemograma.IdConsulta}"
-                };
-                //Contexto<Log>().Add(logAtualizacaoHemograma); // Adicionando log
+                    Log logAtualizacaoHemograma = new Log()
+                    {
+                        DataAlteracao = DateTime.Now,
+                        TabelaReferencia = "Hemograma",
+                        Alteracao = $"Atualização do hemograma para consulta ID {hemograma.IdConsulta}",
+                        IdUsuarioAlteracao = UsuarioLogado.Id
+                    };
+
+                    Contexto<Log>().Add(logAtualizacaoHemograma); // Adicionando log
+                    SaveChanges();
+                }
 
             }
             SaveChanges();
@@ -270,7 +306,7 @@ namespace ehr_csharp.Controllers
                 if (consultaBd.Prescricao == null || consultaBd.Prescricao.Id != abaConsulta.Prescricao.Id)
                 {
                     Contexto<Prescricao>().Add(abaConsulta.Prescricao);
-                    
+
                 }
                 else
                 {
@@ -314,7 +350,8 @@ namespace ehr_csharp.Controllers
         {
             var consulta = Contexto<Consulta>().FirstOrDefault(x => x.Id == idConsulta);
 
-            if (consulta != null) { 
+            if (consulta != null)
+            {
                 consulta.StatusConsulta = (int)StatusConsulta.Finalizada;
                 consulta.DataConclusao = DateTime.Now;
             }

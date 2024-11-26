@@ -1,6 +1,7 @@
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory; // Importando o namespace para IMemoryCache
 using SQLApp.Data;
 using System.Diagnostics;
 
@@ -8,20 +9,30 @@ namespace ehr_csharp.Controllers
 {
     public class HomeController : GlobalController
     {
-        public HomeController(AppDbContext context) : base(context)
+        private readonly IMemoryCache _cache; // Declarando o cache
+
+        // Injeta a dependência de IMemoryCache no construtor
+        public HomeController(AppDbContext context, IMemoryCache cache) : base(context)
         {
+            _cache = cache; // Inicializa o cache
         }
 
         public ActionResult Index()
         {
             // Log de início de acesso à página Index
-            Log logIndex = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Usuario",
-                Alteracao = "Início de acesso à página Index"
-            };
-            //Contexto<Log>().Add(logIndex); // Adicionando log
+                Log logIndex = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = "Início de acesso à página Index",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logIndex); // Adicionando log
+                SaveChanges();
+            }
 
             var paciente = Contexto<Paciente>().FirstOrDefault(p => p.Id == 1);
 
@@ -31,13 +42,19 @@ namespace ehr_csharp.Controllers
         public IActionResult Privacy()
         {
             // Log de acesso à página Privacy
-            Log logPrivacy = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Usuario",
-                Alteracao = "Acesso à página de Privacidade"
-            };
-            //Contexto<Log>().Add(logPrivacy); // Adicionando log
+                Log logPrivacy = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = "Acesso à página de Privacidade",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logPrivacy); // Adicionando log
+                SaveChanges();
+            }
 
             return View();
         }
@@ -46,13 +63,19 @@ namespace ehr_csharp.Controllers
         public IActionResult Error()
         {
             // Log de erro
-            Log logError = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Usuario",
-                Alteracao = "Erro no processo"
-            };
-            //Contexto<Log>().Add(logError); // Adicionando log
+                Log logError = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = "Erro no processo",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logError); // Adicionando log
+                SaveChanges();
+            }
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

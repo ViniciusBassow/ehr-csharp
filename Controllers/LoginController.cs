@@ -1,6 +1,7 @@
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory; // Importar o namespace para o IMemoryCache
 using SQLApp.Data;
 using System.Diagnostics;
 
@@ -8,21 +9,30 @@ namespace ehr_csharp.Controllers
 {
     public class LoginController : GlobalController
     {
-        public LoginController(AppDbContext context) : base(context)
+        private readonly IMemoryCache _cache; // Declarando a dependência de cache
+
+        // Injeta a dependência de IMemoryCache no construtor
+        public LoginController(AppDbContext context, IMemoryCache cache) : base(context)
         {
+            _cache = cache; // Inicializando o cache
         }
 
         public ActionResult Index()
         {
-
             // Log de início de acesso à página Index
-            Log logIndex = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Login",
-                Alteracao = "Início de acesso à página Index"
-            };
-            //Contexto<Log>().Add(logIndex); // Adicionando log
+                Log logIndex = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Login",
+                    Alteracao = "Início de acesso à página Index",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logIndex); // Adicionando log
+                SaveChanges();
+            }
 
             return View();
         }
@@ -30,13 +40,19 @@ namespace ehr_csharp.Controllers
         public ActionResult Editar()
         {
             // Log de início de edição de usuário
-            Log logEditar = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Login",
-                Alteracao = "Início de edição de usuário"
-            };
-            //Contexto<Log>().Add(logEditar); // Adicionando log
+                Log logEditar = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Login",
+                    Alteracao = "Início de edição de usuário",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logEditar); // Adicionando log
+                SaveChanges();
+            }
 
             return View();
         }
@@ -44,13 +60,19 @@ namespace ehr_csharp.Controllers
         public IActionResult Privacy()
         {
             // Log de acesso à página Privacy
-            Log logPrivacy = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Login",
-                Alteracao = "Acesso à página de Privacidade"
-            };
-            //Contexto<Log>().Add(logPrivacy); // Adicionando log
+                Log logPrivacy = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Login",
+                    Alteracao = "Acesso à página de Privacidade",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logPrivacy); // Adicionando log
+                SaveChanges();
+            }
 
             return View();
         }
@@ -59,13 +81,19 @@ namespace ehr_csharp.Controllers
         public IActionResult Error()
         {
             // Log de erro
-            Log logError = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Login",
-                Alteracao = "Erro no processo de login"
-            };
-            //Contexto<Log>().Add(logError); // Adicionando log
+                Log logError = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Login",
+                    Alteracao = "Erro no processo de login",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logError); // Adicionando log
+                SaveChanges();
+            }
 
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

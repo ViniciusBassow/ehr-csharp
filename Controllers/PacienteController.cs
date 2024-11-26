@@ -89,14 +89,20 @@ namespace ehr_csharp.Controllers
         public async Task<ActionResult> Editar(int Id)
         {
             // Log de início de edição de paciente
-            Log logInicioEdicao = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Paciente",
-                Alteracao = $"Início da edição do paciente com ID {Id}"
-            };
-            //Contexto<Log>().Add(logInicioEdicao); // Adicionando log
-            SaveChanges();
+                // Criando o log de início de edição do paciente
+                Log logInicioEdicaoCache = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Paciente",
+                    Alteracao = $"Início da edição do paciente com ID {Id}",
+                    IdUsuarioAlteracao = usuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logInicioEdicaoCache);
+                SaveChanges();
+            }
 
             var paciente = Contexto<Paciente>()
                             .Include(x => x.Antecedentes)
@@ -116,10 +122,22 @@ namespace ehr_csharp.Controllers
             if (paciente.Antecedentes == null)
                 paciente.Antecedentes = new List<Antecedente>();
 
-            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
-                UsuarioLogado.Role = _userManager.GetRolesAsync(UsuarioLogado).Result.FirstOrDefault();
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoFinal))
+                usuarioLogadoFinal.Role = _userManager.GetRolesAsync(usuarioLogadoFinal).Result.FirstOrDefault();
 
-            if (UsuarioLogado.Role == "Admin")
+            // Criando o log de início de edição do paciente (fora do bloco if)
+            Log logInicioEdicaoFinal = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = "Paciente",
+                Alteracao = $"Início da edição do paciente com ID {Id}",
+                IdUsuarioAlteracao = usuarioLogadoFinal.Id
+            };
+
+            Contexto<Log>().Add(logInicioEdicaoFinal); // Adicionando log
+            SaveChanges();
+
+            if (usuarioLogadoFinal.Role == "Admin")
                 paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString()).ToList();
             else
                 paciente.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Paciente" && x.IdTabelaReferencia == Id.ToString() && x.Ativo).ToList();
@@ -130,8 +148,6 @@ namespace ehr_csharp.Controllers
 
                 paciente.ultimaConsultaHemograma = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == maiorIdConsulta);
                 paciente.ultimaConsulta = paciente.Consultas.OrderByDescending(x => x.Data).FirstOrDefault(x => x.StatusConsulta == (int)StatusConsulta.EmAndamento);
-
-
             }
 
             if (paciente.ultimaConsultaHemograma == null)
@@ -142,6 +158,7 @@ namespace ehr_csharp.Controllers
             else
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
         }
+
 
         [HttpPost]
         public async Task<ActionResult> Salvar(Paciente paciente)
@@ -174,15 +191,20 @@ namespace ehr_csharp.Controllers
                 Contexto<Paciente>().Add(paciente);
             }
             // Log de criação ou atualização de paciente
-            Log logSalvarPaciente = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Paciente",
-                Alteracao = pacienteBD == null ? "Criação de novo paciente" : $"Atualização do paciente com ID {paciente.Id}"
-            };
-            //Contexto<Log>().Add(logSalvarPaciente); // Adicionando log
+                Log logSalvarPaciente = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Paciente",
+                    Alteracao = pacienteBD == null ? "Criação de novo paciente" : $"Atualização do paciente com ID {paciente.Id}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
 
-            SaveChanges();
+                Contexto<Log>().Add(logSalvarPaciente); // Adicionando log
+                SaveChanges();
+            }
+
 
             int contadorHeader = 0;
             while (true)
@@ -236,7 +258,7 @@ namespace ehr_csharp.Controllers
 
         }
 
-        
+
 
         [HttpPost]
         public JsonResult AdicionarArquivo(IFormFile file, int idPaciente, string nmArquivo)
@@ -266,13 +288,20 @@ namespace ehr_csharp.Controllers
             SaveChanges();
 
             // Log de adição de arquivo
-            Log logAdicaoArquivo = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Paciente",
-                Alteracao = $"Adição de arquivo '{nmArquivo}' ao paciente com ID {idPaciente}"
-            };
-            //Contexto<Log>().Add(logAdicaoArquivo); // Adicionando log
+                Log logAdicaoArquivo = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Paciente",
+                    Alteracao = $"Adição de arquivo '{nmArquivo}' ao paciente com ID {idPaciente}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logAdicaoArquivo); // Adicionando log
+                SaveChanges();
+            }
+
 
             return Json(new { success = true, anexo });
         }
@@ -283,13 +312,20 @@ namespace ehr_csharp.Controllers
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
 
             // Log de início de desativação de arquivo
-            Log logDesativacaoArquivo = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Anexo",
-                Alteracao = $"Início de desativação do arquivo com ID {idAnexo}"
-            };
-            //Contexto<Log>().Add(logDesativacaoArquivo); // Adicionando log
+                Log logDesativacaoArquivo = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Anexo",
+                    Alteracao = $"Início de desativação do arquivo com ID {idAnexo}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logDesativacaoArquivo); // Adicionando log
+                SaveChanges();
+            }
+
 
             anexo.Ativo = false;
             SaveChanges();
@@ -304,13 +340,20 @@ namespace ehr_csharp.Controllers
             var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
 
             // Log de download de arquivo
-            Log logDownloadArquivo = new Log()
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
             {
-                DataAlteracao = DateTime.Now,
-                TabelaReferencia = "Anexo",
-                Alteracao = $"Download do arquivo com ID {idAnexo} solicitado"
-            };
-            //Contexto<Log>().Add(logDownloadArquivo); // Adicionando log
+                Log logDownloadArquivo = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Anexo",
+                    Alteracao = $"Download do arquivo com ID {idAnexo} solicitado",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logDownloadArquivo); // Adicionando log
+                SaveChanges();
+            }
+
 
             var mimeType = anexo.TipoArquivo switch
             {
@@ -337,7 +380,7 @@ namespace ehr_csharp.Controllers
             else
                 retorno.AddRange(pacientes);
 
-            return PartialView("~/Views/Paciente/_ListaPaciente.cshtml",retorno);
+            return PartialView("~/Views/Paciente/_ListaPaciente.cshtml", retorno);
 
         }
     }
