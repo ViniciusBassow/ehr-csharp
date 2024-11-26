@@ -88,6 +88,9 @@
             <li class="nav-item" onclick="MudarAba('Documentos')" style="@(Model.Id > 0 ? "": "display: none")">
                 <a class="nav-link" id="navDocumentos" href="#">Documentos</a>
             </li>
+            <li class="nav-item" onclick="MudarAba('HistoricoConsultas')" style="@(Model.Id > 0 ? "": "display: none")">
+                <a class="nav-link" id="navHistoricoConsultas" href="#">Consultas Anteriores</a>
+            </li>
         }
 
 
@@ -1175,7 +1178,235 @@
         </table>
     </div>
 
+    @if (Model.Consultas != null && Model.Consultas.Count > 0)
+    {
+        <div id="divHistoricoConsultas" style="display:none">
+            <div class="mt-3">
+                <div class="row align-items-center g-6 mt-0 mb-6">
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="input-group input-group-sm input-group-inline w-100 w-md-50">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search me-2"></i>
+                                </span>
+                                <input class="form-control Data" id="RetornoConsulta" name="RetornoConsulta" type="Date" value="12/01/2024 00:00:00" placeholder="Procurar">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hstack justify-content-end gap-2">
+                            <div class="d-flex align-items-center justify-content-end gap-2">
+                                <div class="align-items-center ms-auto text-sm text-muted text-primary-hover fw-semibold d-md-flex" role="button">
+                                    <i class="bi bi-x me-1"></i> <span>Limpar Filtros</span>
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="vstack gap-3">
+                    @foreach (var item in Model.Consultas.OrderByDescending(x => x.Data))
+                    {
+                        <div class="card border-primary-hover shadow-soft-3-hover">
+                            <div class="card-body p-4">
+                                <div class="d-flex flex-column flex-xl-row gap-10 justify-content-xl-between align-items-xl-center">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="flex-none w-rem-10 h-rem-10">
+                                            <div class="w-100" alt="...">
+                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                    <i class=" @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "bi bi-calendar-check" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "bi-calendar-x" : "bi-calendar"))"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <h6>@item.Motivo</h6>
+                                            <span class="d-inline-block text-muted text-xs">
+                                                @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">@item.Medico.Usuario.Name</span>
+                                        </div>
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">@item.Medico.Especialidade.Descricao</span>
+                                        </div>
+                                        <div class="col-6 col-sm-auto col-xl-auto">
+                                            <span class="d-block text-xs text-muted">Data Agendada</span> <span class="d-block text-heading text-sm fw-bold">@item.Data.ToString("dd/MM/yyyy HH:mm")</span>
+                                        </div>
+                                        <div class="col-12 col-sm-auto col-xl-auto">
+                                            <button type="button" onclick="ExibirConsulta(@item.Id)" class="btn btn-xs btn-neutral w-100 w-sm-auto" data-bs-target="#exibirConsultaModal@(item.Id)" data-bs-toggle="modal">
+                                                Visualizar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exibirConsultaModal@(item.Id)" tabindex="-1" aria-labelledby="exibirConsultaModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content overflow-hidden">
+                                        <div class="modal-header pb-0 border-0">
+                                            <h1 class="modal-title h4" id="exibirConsultaModalLabel">@item.Data.ToString("dd/MM/yyyy HH:mm")</h1>
+                                            @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+                                        </div>
+                                        <div class="modal-body p-0 border-bottom">
+                                            <div class=" pt-2 border-bottom">
+                                            </div>
+                                            <div class="p-2">
+                                                <div class="vstack m-4">
+                                                    <h3 class="mb-2">Detalhes da Consulta</h3>
+                                                    <div class="d-flex flex-column ">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Motivo:</h5>
+                                                            <p>@item.Motivo</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Data:</h5>
+                                                            <p>@item.Data.ToString("dd/MM/yyyy HH:mm")</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Status:</h5>
+                                                            <p>  @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5 class="col-md-2">Queixa:</h5>
+                                                            <p>@item.QueixaPrincipal</p>
+                                                        </div>
+                                                        <br />
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5 class="col-md-2">Histórico da doença atual:</h5>
+                                                            <p>@item.HistoricoDoencaAtual</p>
+                                                        </div>
+                                                        <br />
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5 class="col-md-2">Orientações:</h5>
+                                                            <p>@item.Orientacoes</p>
+                                                        </div>
+                                                        <br />
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5 class="col-md-2">Hipótese diagnóstica:</h5>
+                                                            <p>@item.HipoteseDiagnostica</p>
+                                                        </div>
+                                                        @if(!string.IsNullOrEmpty(item.Observacoes)){
+                                                        <br />
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5 class="col-md-2">Observações:</h5>
+                                                            <p>@item.Observacoes</p>
+                                                        </div>
+                                                        }
+                                                    </div>
+
+                                                    <hr class="">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <h5>Exame Solicitado:</h5>
+                                                        <p></p>
+                                                    </div>
+                                                    <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
+                                                        <div>
+                                                            <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                                                <i class="bi bi-droplet-half"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="ms-3 ms-md-4 flex-fill">
+                                                            <div class="text-limit text-sm text-heading fw-semibold">
+                                                                Hemograma
+                                                            </div>
+                                                            <div class="d-block text-xs gap-2 mt-1">
+                                                                <span>Especialista: Clínico Geral</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-none d-sm-block ms-auto text-end">
+                                                            <span class="badge bg-body-secondary text-danger">Pendente</span>
+
+                                                        </div>
+                                                        <div class="d-md-flex gap-2 mx-3">
+                                                            <button type="button" class="btn btn-sm btn-dark">
+                                                                <i class="bi bi-upload h4"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="">
+                                                    @if (item.Prescricao != null)
+                                                    {                                                        
+                                                        @foreach (var medicamento in item.Prescricao.Medicamentos)
+                                                        {
+                                                            <div class="list-group-item d-flex align-items-center border-0 py-3">
+                                                                <div class="flex-none w-rem-10 h-rem-10">
+                                                                    <div class="w-100" alt="...">
+                                                                        <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                                            <i class="bi bi-droplet-half"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex-fill ms-4 text-limit">
+                                                                    <div class="d-flex align-items-center justify-content-between">
+                                                                        <a href="#" class="d-block text-sm text-heading fw-bold">@medicamento.Medicacao</a> <span class="text-muted text-xs fw-semibold">47%</span>
+                                                                    </div>
+                                                                    <div class="progress progress-sm my-1">
+                                                                        <div class="progress-bar bg-primary" role="progressbar" style="width:47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
+                                                                        <div>
+                                                                            <span class="font-weight-bold text-muted"><b>Dosagem:</b> @medicamento.Dosagem. <b>Intervalo:</b> @medicamento.Intervalo</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p class="card-text text-muted">
+                                                                                <span datetime="2020-06-23"><b>Duração:</b> @medicamento.Duracao</span>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Nenhuma medicação foi prescrita</span>
+                                                    }
+                                                    <hr class="">
+
+                                                    <div class="d-flex flex-column col-lg-8">
+                                                        <h3 class="mb-2">Médico</h3>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Medico:</h5>
+                                                            <p>@item.Medico.Usuario.Name</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>CRM:</h5>
+                                                            <p>@item.Medico.CRM</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Especialidade:</h5>
+                                                            <p>@item.Medico.CRM</p>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="px-6 py-5 bg-body-secondary d-flex justify-content-center">
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Voltar</button>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    }
 
     @if (!novoPaciente)
     {
@@ -1193,6 +1424,46 @@
     }
 </main>
 
+
+
+@* <div class="modal fade" id="exibirConsultaModal" tabindex="-1" aria-labelledby="exibirConsultaModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exibirConsultaModalLabel">2024-11-01</h1>
+            </div>
+            <div class="modal-body" id="exibirConsultaModalBody">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-sm table-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div class="d-flex align-items-center gap-2 ps-1">
+                                        <span>Nome</span>
+                                    </div>
+                                </th>
+                                <th scope="col">Motivo</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Médico(a)</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="bodyUsuario">
+                        </tbody>
+
+                    </table>
+                    <br>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-neutral" data-bs-dismiss="modal">Voltar</button>
+            </div>
+        </div>
+    </div>
+</div> *@
 
 
 
@@ -1338,44 +1609,65 @@
             $("#divDocumentos").hide();
             $("#divPrincipal").show();
             $("#divConsulta").hide();
+            $("#divHistoricoConsultas").hide();
 
             $("#navHemograma").removeClass("active");
             $("#navDocumentos").removeClass("active");
             $("#navPrincipal").addClass("active");
             $("#navConsulta").removeClass("active");
+            $("#navHistoricoConsultas").removeClass("active");
         }
         else if (aba == 'Hemograma') {
             $("#divHemograma").show();
             $("#divDocumentos").hide();
             $("#divPrincipal").hide();
             $("#divConsulta").hide();
+            $("#divHistoricoConsultas").hide();
 
             $("#navHemograma").addClass("active");
             $("#navDocumentos").removeClass("active");
             $("#navPrincipal").removeClass("active");
             $("#navConsulta").removeClass("active");
+            $("#navHistoricoConsultas").removeClass("active");
         }
         else if (aba == 'Documentos') {
             $("#divHemograma").hide();
             $("#divDocumentos").show();
             $("#divPrincipal").hide();
             $("#divConsulta").hide();
+            $("#divHistoricoConsultas").hide();
 
             $("#navHemograma").removeClass("active");
             $("#navDocumentos").addClass("active");
             $("#navPrincipal").removeClass("active");
             $("#navConsulta").removeClass("active");
+            $("#navHistoricoConsultas").removeClass("active");
         }
         else if (aba == 'Consulta') {
             $("#divHemograma").hide();
             $("#divDocumentos").hide();
             $("#divPrincipal").hide();
             $("#divConsulta").show();
+            $("#divHistoricoConsultas").hide();
 
             $("#navHemograma").removeClass("active");
             $("#navDocumentos").removeClass("active");
             $("#navPrincipal").removeClass("active");
             $("#navConsulta").addClass("active");
+            $("#navHistoricoConsultas").removeClass("active");
+        }
+        else if (aba == 'HistoricoConsultas') {
+            $("#divHemograma").hide();
+            $("#divDocumentos").hide();
+            $("#divPrincipal").hide();
+            $("#divConsulta").hide();
+            $("#divHistoricoConsultas").show();
+
+            $("#navHemograma").removeClass("active");
+            $("#navDocumentos").removeClass("active");
+            $("#navPrincipal").removeClass("active");
+            $("#navConsulta").removeClass("active");
+            $("#navHistoricoConsultas").addClass("active");
         }
     }
 
@@ -1585,6 +1877,8 @@
             }
         });
     }
-
+    function ExibirConsulta(idConsulta) {
+        $("#exibirConsultaModal").modal("show");
+    }
 
 </script>

@@ -1,3 +1,4 @@
+using ehr_csharp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -46,6 +47,25 @@ public class GlobalController : Controller
                 }
             }
         }
+    }
+
+    public object ConsultarConfig(string idConfig)
+    {
+        var config = Contexto<Config>().FirstOrDefault(x => x.IdConfig == idConfig);
+
+        if (config != null)
+            switch (config.IdTipoParametro)
+            {
+                case (int)TipoParametro.String:
+                    return config.Valor;
+                case (int)TipoParametro.Int:
+                    return int.Parse(config.Valor);
+                case (int)TipoParametro.DateTime:
+                    return DateTime.Parse(config.Valor);
+                    default: return "";
+            }
+        else
+            return "";
     }
 
 }

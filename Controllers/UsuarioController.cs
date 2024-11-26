@@ -361,8 +361,8 @@ namespace ehr_csharp.Controllers
                     ModelState.AddModelError("Senha", "O campo Senha é obrigatório");
 
                 }
-                else if (Regex.IsMatch(usuario.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$"))
-                    ModelState.AddModelError("Senha", "O campo Senha deve conter ao menos 8 digitos, sendo eles: 1 caractere maisculo, 1 caractere minúsculo, 1 letra, 1 caractere especial");
+                //else if (Regex.IsMatch(usuario.Password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$"))
+                //    ModelState.AddModelError("Senha", "O campo Senha deve conter ao menos 8 digitos, sendo eles: 1 caractere maisculo, 1 caractere minúsculo, 1 letra, 1 caractere especial");
             }
             if (usuario.Role == "Medico")
             {

@@ -223,6 +223,28 @@ namespace ehr_csharp.Migrations
                     b.ToTable("Antecedente");
                 });
 
+            modelBuilder.Entity("ehr_csharp.Models.Config", b =>
+                {
+                    b.Property<string>("IdConfig")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdTipoParametro")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Valor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdConfig");
+
+                    b.ToTable("Config");
+                });
+
             modelBuilder.Entity("ehr_csharp.Models.Consulta", b =>
                 {
                     b.Property<int>("Id")
@@ -236,6 +258,9 @@ namespace ehr_csharp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataConclusao")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExameFisico")

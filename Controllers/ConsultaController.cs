@@ -314,8 +314,10 @@ namespace ehr_csharp.Controllers
         {
             var consulta = Contexto<Consulta>().FirstOrDefault(x => x.Id == idConsulta);
 
-            if (consulta != null)
-                consulta.StatusConsulta = (int)StatusConsulta.Finalizada;            
+            if (consulta != null) { 
+                consulta.StatusConsulta = (int)StatusConsulta.Finalizada;
+                consulta.DataConclusao = DateTime.Now;
+            }
 
             SaveChanges();
             ModelState.Clear();

@@ -41,6 +41,7 @@ namespace SQLApp.Data
         public DbSet<Prescricao> Prescricao { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Log> Log { get; set; }
+        public DbSet<Config> Config { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,6 +3,7 @@ using ehr_csharp.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using SQLApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +63,8 @@ app.UseAuthorization();
 app.MapIdentityApi<Usuario>();
 
 app.MapRazorPages();
+
+app.UseRotativa();
 
 builder.Services.AddMemoryCache();
 
