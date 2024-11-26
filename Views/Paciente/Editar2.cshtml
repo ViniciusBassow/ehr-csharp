@@ -363,32 +363,8 @@
                 }
                 else
                 {
-                    @* <header class="py-4 border-bottom">
-            <div class="row align-items-center">
-            <div class="col">
-            <div class="d-flex align-items-center gap-4">
-            <div>
-            <button type="button" class="btn-close text-xs" aria-label="Close"></button>
-            </div>
-            <div class="vr opacity-20 my-1"></div>
-            <h1 class="h4 ls-tight">Add a new asset</h1>
-            </div>
-            </div>
-            <div class="col-auto d-none d-md-block">
-            <div class="hstack gap-2 justify-content-end">
-            <a href="#!"
-            class="text-sm text-muted text-primary-hover fw-semibold me-2 d-none d-md-block">
-            <i class="bi bi-question-circle-fill"></i> <span class="d-none d-sm-inline ms-2">Need help?</span>
-            </a><button type="button"
-            class="btn btn-sm btn-neutral">
-            <span>Save and create another</span>
-            </button>
-            <button type="button" class="btn btn-sm btn-primary"><span>Save</span></button>
-            </div>
-            </div>
-            </div>
-            </header> *@
-                    @* <div class="row align-items-center g-3">
+
+                    <div class="row align-items-center g-3">
                         <div class="col-md-4">
                             <label class="form-label">Dados Pessoais</label>
                             <p class="text-sm text-muted">
@@ -402,40 +378,40 @@
                                 <div class="mb-5">
                                     <label class="form-label">Nome Completo</label>
                                     <div class="input-group input-group-inline ">
-                                        <input type="text" class="form-control" placeholder="" data-input="data-input">
+                                        @Html.TextBox("NomeCompleto", Model.NomeCompleto, new { @class = "form-control", id = "NomeCompleto" })
                                     </div>
                                 </div>
 
                                 <div class="mb-5">
                                     <label class="form-label">Data de Nascimento</label>
                                     <div class="input-group input-group-inline datepicker">
-                                        <span class="input-group-text pe-2">
-                                            <i class="bi bi-calendar"></i>
-                                        </span>
-                                        <input type="text" class="form-control" placeholder="Selecione a Data" data-input="data-input">
+
+                                        @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control-sm Data", name = "DataNascimento", id = "DataNascimento", Type = "Date" })
+
                                     </div>
                                 </div>
 
                                 <div class="mb-5">
                                     <label class="form-label">Sexo</label>
-                                    <label class="visually-hidden">Category</label> <select class="form-select">
-                                        <option>Selecione uma opção</option>
-                                        <option>Masculino</option>
-                                        <option>Feminino</option>
-                                        <option>Outro</option>
-                                    </select>
+                                    @Html.DropDownListFor(model => model.Sexo, new List<SelectListItem>
+                            {
+                            new SelectListItem { Text = "Selecionar", Value = "" },
+                            new SelectListItem { Text = "Feminino", Value = "F" },
+                            new SelectListItem { Text = "Masculino", Value = "M" }
+                            }, new { @class = "form-select-sm", @id = "Sexo" })
                                 </div>
                                 <div class="mb-5 d-flex gap-5">
                                     <div>
                                         <label class="form-label">Telefone Fixo</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="(__) ____-____" data-input="data-input">
+                                            @Html.TextBox("TelefoneFixo", Model.TelefoneFixo, new { @placeholder = "(__) ____-____", @class = "form-control TelefoneFixo", id = "TelefoneFixo" })
+
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">Celular</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="(__) _____-____" data-input="data-input">
+                                            @Html.TextBox("Celular", Model.Celular, new { @placeholder = "(__) _____-____", @class = "form-control Celular", id = "Celular" })
                                         </div>
                                     </div>
                                 </div>
@@ -443,30 +419,39 @@
                                     <div>
                                         <label class="form-label">Email</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="email" class="form-control" placeholder="" data-input="data-input">
+                                            @Html.TextBox("Email", Model.Email, new { @type = "email", @class = "form-control", id = "Email" })
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">Estado Civil</label>
-                                        <label class="visually-hidden">Category</label> <select class="form-select">
-                                            <option>Selecione uma opção</option>
-                                            <option>Solteiro</option>
-                                            <option>Casado</option>
-                                            <option>Viuvo</option>
-                                        </select>
+                                        @Html.DropDownListFor(model => model.EstadoCivil, new List<SelectListItem>
+                                {
+                                new SelectListItem { Text = "Selecionar", Value = "" },
+                                new SelectListItem { Text = "Casado(a)", Value = "1" },
+                                new SelectListItem { Text = "Solteiro(a)", Value = "2" },
+                                new SelectListItem { Text = "Divorciado(a)", Value = "3" },
+                                new SelectListItem { Text = "Viúvo(a)", Value = "4" },
+                                new SelectListItem { Text = "União Estável", Value = "5" },
+                                }, new { @class = "form-select-sm", @id = "EstadoCivil" })
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label">Profissão</label>
+                                    <div class="input-group input-group-inline ">
+                                        @Html.TextBox("Profissao", Model.Profissao, new { @class = "form-control-sm", id = "Profissao" })
                                     </div>
                                 </div>
                                 <div class="mb-5 d-flex gap-5">
                                     <div>
                                         <label class="form-label">CPF</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="___.___.___-__" data-input="data-input">
+                                            @Html.TextBox("Cpf", Model.Cpf, new { @placeholder = "___.___.___-__", @class = "form-control Cpf", id = "Cpf" })
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">RG</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="____.___.___-_" data-input="data-input">
+                                            @Html.TextBox("Rg", Model.Rg, new { @placeholder = "__.___.___-__", @class = "form-control-sm Rg", id = "Rg" })
                                         </div>
                                     </div>
                                 </div>
@@ -474,13 +459,13 @@
                                     <div>
                                         <label class="form-label">CEP</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="_____-___" data-input="data-input">
+                                            @Html.TextBox("Cep", Model.Cep, new { @placeholder = "_____-___", @class = "form-control-sm Cep", id = "Cep" })
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">Endereço</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="" data-input="data-input">
+                                            @Html.TextBox("Endereco", Model.Endereco, new { @class = "form-control-sm", id = "Endereco" })
                                         </div>
                                     </div>
                                 </div>
@@ -498,36 +483,52 @@
                         <div class="col-md-8 col-xl-5 ">
                             <div class="gap-2">
 
-                                
+
                                 <div class="mb-5 d-flex gap-5">
                                     <div>
                                         <label class="form-label">Altura(m)</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="" data-input="data-input">
+                                            @* <input type="text" class="form-control" placeholder="" data-input="data-input"> *@
+                                            @Html.TextBox("Altura", Model.Altura, new { @class = "form-control-sm", id = "Altura" })
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">Massa(kg)</label>
                                         <div class="input-group input-group-inline ">
-                                            <input type="text" class="form-control" placeholder="" data-input="data-input">
+                                            @* <input type="text" class="form-control" placeholder="" data-input="data-input"> *@
+                                            @Html.TextBox("Peso", Model.Peso, new { @class = "form-control-sm", id = "Peso" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-5">
                                     <label class="form-label">Convênio</label>
-                                    <label class="visually-hidden">Category</label> <select class="form-select">
-                                        <option>Selecione uma opção</option>
-                                        <option>Unimed</option>
-                                        <option>Amil</option>
-                                        <option>Bradesco Saúde</option>
-                                        <option>Sul América</option>
-                                    </select>
+                                    @Html.TextBox("Carteirinha", Model.Carteirinha, new { @class = "form-control-sm", id = "Carteirinha" })
                                 </div>
                                 <div class="mb-5">
                                     <label class="form-label">Antecedentes</label>
-                                    <div class="input-group input-group-inline ">
-                                        <input type="text" class="form-control" placeholder="" data-input="data-input">
+                                    <div class="input-group input-group-inline d-flex">
+
+                                        <input class="form-control" id="AntecedenteInput" />
+                                        <button type="button" onclick="AdicionarAntecedente()" class="btn btn-sm btn-primary p-3">Adicionar</button>
+
                                     </div>
+                                </div>
+                                <div id="divContainer">
+                                    @foreach (var item in Model.Antecedentes)
+                                    {
+                                        <div class="input-group input-group-inline d-flex">
+
+                                            <div class="" id="idAntecedenteContainer@(Model.Antecedentes.IndexOf(item))">
+                                                <label class="form-label" for="AntecedenteDesc">
+                                                </label>
+                                                <input readonly="" name="Antecedentes@(Model.Antecedentes.IndexOf(item))" class="form-control" value="@item.Descricao">
+                                            </div>
+
+                                            <div class="" id="idAntecedenteBtn@(Model.Antecedentes.IndexOf(item))">
+                                                <button type="button" onclick="RemoverAntecedente(@Model.Antecedentes.IndexOf(item))" class="btn btn-sm btn-primary">Remover</button>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -544,186 +545,21 @@
                             <div class="">
                                 <div class="d-flex align-items-center">
                                     <a href="#"
-                                       class="avatar avatar-lg bg-warning rounded-circle text-white">
-                                        <img src="../../img/crypto/color/ada.svg" alt="...">
+                                       class="avatar avatar-lg bg-warning rounded-circle text-white FileDisplay">
+                                        <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
                                     </a>
                                     <div class="hstack gap-2 ms-5">
-                                        <label for="file_upload"
-                                               class="btn btn-sm btn-neutral">
-                                            <span>Upload</span> <input type="file"
-                                                                       name="file_upload" id="file_upload" class="visually-hidden">
-                                        </label> <a href="#" class="btn d-inline-flex btn-sm btn-neutral text-danger">
-                                            <span>
-                                                <i class="bi bi-trash"></i>
-                                            </span><span class="d-none d-sm-block ms-2">Remove</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="my-6"> *@
-                   
-
-
-                    <div>
-                        <div class="col-md-3 card">
-
-                            <div class="">
-                                <a href="#" class="avatar avatar-lg bg-warning text-white">
-                                    <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
-                                </a>
-                                <div class="hstack gap-2 ms-5">
-                                    <label for="file_upload" class="btn btn-sm btn-neutral">
-                                        <span>Selecionar</span>
-                                        <input type="file" name="File" id="file_upload" class="visually-hidden FileInput">
-                                    </label>
-                                </div>
-                            </div>
-
-                            <label class="form-label" for="Antecedentes">ANTECEDENTES:</label>
-                            <div class="row align-items-center">
-                                <div class="col-md-6 row" style="align-self: normal;">
-                                    <div class="col-md-10">
-                                        <label class="form-label" for="AntecedenteDesc">Descrição:</label>
-                                        <input class="form-control" id="AntecedenteInput" />
-                                    </div>
-                                    <div class="col-md-2" style="padding-top: 2rem;">
-                                        <button type="button" onclick="AdicionarAntecedente()" class="btn btn-sm btn-primary">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="divContainer" style="padding-top: 1.3rem;" class="row align-items-center col-md-5">
-                                @foreach (var item in Model.Antecedentes)
-                                {
-                                    <div class="col-md-10" id="idAntecedenteContainer@(Model.Antecedentes.IndexOf(item))">
-                                        <label class="form-label" for="AntecedenteDesc">
-
+                                        <label for="file_upload" class="btn btn-sm btn-neutral">
+                                            <span>Upload</span>
+                                            <input type="file" name="File" id="file_upload" class="visually-hidden FileInput">
                                         </label>
-                                        <input readonly="" name="Antecedentes@(Model.Antecedentes.IndexOf(item))" class="form-control" value="@item.Descricao">
-                                    </div>
-
-                                    <div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn@(Model.Antecedentes.IndexOf(item))">
-                                        <button type="button" onclick="RemoverAntecedente(@Model.Antecedentes.IndexOf(item))" class="btn btn-sm btn-primary">-</button>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="d-flex align-items-center justify-content-between">
-
-                                    <div class="card-body d-flex flex-column col-lg-6">
-
-                                        <div>
-                                            <div class="d-flex gap-3 mb-5">
-                                                <div class=" col-lg-12 row">
-                                                    <div class="col-md-7">
-                                                        <label class="form-label mb-0">* Nome Completo</label>
-                                                        @Html.TextBox("NomeCompleto", Model.NomeCompleto, new { @class = "form-control-sm", id = "NomeCompleto" })
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0" for="DataNascimento">* Data de Nascimento</label>
-                                                        @Html.TextBoxFor(x => x.DataNascimento, new { @class = "form-control-sm Data", name = "DataNascimento", id = "DataNascimento", Type = "Date" })
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label class="form-label mb-0" for="Sexo">* Sexo</label>
-                                                        @Html.DropDownListFor(model => model.Sexo, new List<SelectListItem>
-                                                {
-                                                new SelectListItem { Text = "Selecionar", Value = "" },
-                                                new SelectListItem { Text = "Feminino", Value = "F" },
-                                                new SelectListItem { Text = "Masculino", Value = "M" }
-                                                }, new { @class = "form-select-sm", @id = "Sexo" })
-                                                    </div>
-
-                                                    <br />
-
-                                                    <div class="col-md-6">
-                                                        <label class="form-label mb-0" for="Email">* Email</label>
-                                                        @Html.TextBox("Email", Model.Email, new { @class = "form-control-sm", id = "Email" })
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0" for="TelefoneFixo">* Telefone Fixo</label>
-                                                        @Html.TextBox("TelefoneFixo", Model.TelefoneFixo, new { @class = "form-control-sm TelefoneFixo", id = "TelefoneFixo" })
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0" for="Celular">* Celular</label>
-                                                        @Html.TextBox("Celular", Model.Celular, new { @class = "form-control-sm Celular", id = "Celular" })
-                                                    </div>
-
-                                                    <br />
-
-                                                    <div class="col-md-4">
-                                                        <label class="form-label mb-0" for="Profissao">* Profissão</label>
-                                                        @Html.TextBox("Profissao", Model.Profissao, new { @class = "form-control-sm", id = "Profissao" })
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0" for="Cpf">* CPF</label>
-                                                        @Html.TextBox("Cpf", Model.Cpf, new { @class = "form-control-sm Cpf", id = "Cpf" })
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0" for="Rg">* RG</label>
-                                                        @Html.TextBox("Rg", Model.Rg, new { @class = "form-control-sm Rg", id = "Rg" })
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <label class="form-label mb-0" for="EstadoCivil">* Estado Civil</label>
-                                                        @Html.DropDownListFor(model => model.EstadoCivil, new List<SelectListItem>
-                                                {
-                                                new SelectListItem { Text = "Selecionar", Value = "" },
-                                                new SelectListItem { Text = "Casado(a)", Value = "1" },
-                                                new SelectListItem { Text = "Solteiro(a)", Value = "2" },
-                                                new SelectListItem { Text = "Divorciado(a)", Value = "3" },
-                                                new SelectListItem { Text = "Viúvo(a)", Value = "4" },
-                                                new SelectListItem { Text = "União Estável", Value = "5" },
-                                                }, new { @class = "form-select-sm", @id = "EstadoCivil" })
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label class="form-label mb-0" for="Cep">* CEP</label>
-                                                        @Html.TextBox("Cep", Model.Cep, new { @class = "form-control-sm Cep", id = "Cep" })
-                                                    </div>
-                                                    <div class="col-md-10">
-                                                        <label class="form-label mb-0" for="Endereco">* Endereço</label>
-                                                        @Html.TextBox("Endereco", Model.Endereco, new { @class = "form-control-sm", id = "Endereco" })
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="d-flex mx-n1"></div>
-
-                                            </div>
-                                            <hr class="my-4">
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <label class="form-label mb-0" for="Altura">* Altura (m)</label>
-                                                    @Html.TextBox("Altura", Model.Altura, new { @class = "form-control-sm", id = "Altura" })
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label mb-0" for="Peso">* Peso (kg)</label>
-                                                    @Html.TextBox("Peso", Model.Peso, new { @class = "form-control-sm", id = "Peso" })
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <label class="form-label mb-0" for="Carteirinha">Carteirinha</label>
-                                                    @Html.TextBox("Carteirinha", Model.Carteirinha, new { @class = "form-control-sm", id = "Carteirinha" })
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
-
-
-
                             </div>
-
-
-
-
-
-
                         </div>
                     </div>
+                    <hr class="my-6">
+
 
 
                 }
@@ -853,7 +689,7 @@
                         </div>
                     }
 
-                  
+
 
 
                 </div>
@@ -975,8 +811,8 @@
                                     </div>
                                 </div>
 
-                                <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">                                    
-                                    @if(Model.ultimaConsulta != null && Model.ultimaConsulta.Prescricao != null)
+                                <div style="align-self: normal;" id="divMedicamentosAdicionados" class="row align-items-center">
+                                    @if (Model.ultimaConsulta != null && Model.ultimaConsulta.Prescricao != null)
                                     {
                                         @foreach (var item in Model.ultimaConsulta.Prescricao.Medicamentos)
                                         {
@@ -1034,178 +870,258 @@
                 <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
             }
 
-        @if(Model.ultimaConsulta != null){
-            <form id="formHemograma">
-                <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
-                        @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "form-control", id = "Eritrocitos", step = "0.01" })
-                    </div>
+            @if (Model.ultimaConsulta != null)
+            {
+                <form id="formHemograma" class="my-6">
+                    <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
+                    
+                    <div class="row gap-2">
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Serie Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Eritrócitos</span>
+                                    <span class="d-block h3 ls-tight fw-bold">5,2</span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">milhões/mm³ </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Hemoglobina</span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">
+                                          </span>
+                                        <span class="text-muted text-xs text-opacity-75">g/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Hematócrito </span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">  </span>
+                                        <span class="text-muted text-xs text-opacity-75">%</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">V.C.M.</span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">  </span>
+                                        <span class="text-muted text-xs text-opacity-75">fL</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">H.C.M. </span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">C.H.C.M.</span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">RDW </span>
+                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
+                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
+                            @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "form-control", id = "Eritrocitos", step = "0.01" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
-                        @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "form-control", id = "Hemoglobina", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
+                            @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "form-control", id = "Hemoglobina", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Hematocrito">Hematócrito:</label>
-                        @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "form-control", id = "Hematocrito", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Hematocrito">Hematócrito:</label>
+                            @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "form-control", id = "Hematocrito", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="VCM">VCM:</label>
-                        @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "form-control", id = "VCM", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="VCM">VCM:</label>
+                            @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "form-control", id = "VCM", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="HCM">HCM:</label>
-                        @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "form-control", id = "HCM", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="HCM">HCM:</label>
+                            @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "form-control", id = "HCM", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="CHCM">CHCM:</label>
-                        @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "form-control", id = "CHCM", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="CHCM">CHCM:</label>
+                            @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "form-control", id = "CHCM", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="RDW">RDW:</label>
-                        @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "form-control", id = "RDW", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="RDW">RDW:</label>
+                            @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "form-control", id = "RDW", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
-                        @Html.TextBox("Leucocitos_Absoluto", Model.ultimaConsultaHemograma.Leucocitos_Absoluto, new { @class = "form-control", id = "Leucocitos_Absoluto", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
+                            @Html.TextBox("Leucocitos_Absoluto", Model.ultimaConsultaHemograma.Leucocitos_Absoluto, new { @class = "form-control", id = "Leucocitos_Absoluto", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
-                        @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "form-control", id = "Leucocitos_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
+                            @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "form-control", id = "Leucocitos_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
-                        @Html.TextBox("Bastonetes_Absoluto", Model.ultimaConsultaHemograma.Bastonetes_Absoluto, new { @class = "form-control", id = "Bastonetes_Absoluto", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
+                            @Html.TextBox("Bastonetes_Absoluto", Model.ultimaConsultaHemograma.Bastonetes_Absoluto, new { @class = "form-control", id = "Bastonetes_Absoluto", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
-                        @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "form-control", id = "Bastonetes_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
+                            @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "form-control", id = "Bastonetes_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
-                        @Html.TextBox("Segmentados_Absoluto", Model.ultimaConsultaHemograma.Segmentados_Absoluto, new { @class = "form-control", id = "Segmentados_Absoluto", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
+                            @Html.TextBox("Segmentados_Absoluto", Model.ultimaConsultaHemograma.Segmentados_Absoluto, new { @class = "form-control", id = "Segmentados_Absoluto", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
-                        @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "form-control", id = "Segmentados_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
+                            @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "form-control", id = "Segmentados_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
-                        @Html.TextBox("Eosinofilos_Absoluto", Model.ultimaConsultaHemograma.Eosinofilos_Absoluto, new { @class = "form-control", id = "Eosinofilos_Absoluto", step = "0.01" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
+                            @Html.TextBox("Eosinofilos_Absoluto", Model.ultimaConsultaHemograma.Eosinofilos_Absoluto, new { @class = "form-control", id = "Eosinofilos_Absoluto", step = "0.01" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
-                        @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "form-control", id = "Eosinofilos_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
+                            @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "form-control", id = "Eosinofilos_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
-                        @Html.TextBox("Basofilos_Absoluto", Model.ultimaConsultaHemograma.Basofilos_Absoluto, new { @class = "form-control", id = "Basofilos_Absoluto", step = "0.01" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
+                            @Html.TextBox("Basofilos_Absoluto", Model.ultimaConsultaHemograma.Basofilos_Absoluto, new { @class = "form-control", id = "Basofilos_Absoluto", step = "0.01" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
-                        @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "form-control", id = "Basofilos_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
+                            @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "form-control", id = "Basofilos_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
-                        @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "form-control", id = "Linfocitos_Absoluto", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
+                            @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "form-control", id = "Linfocitos_Absoluto", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
-                        @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "form-control", id = "Linfocitos_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
+                            @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "form-control", id = "Linfocitos_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
-                        @Html.TextBox("Monocitos_Absoluto", Model.ultimaConsultaHemograma.Monocitos_Absoluto, new { @class = "form-control", id = "Monocitos_Absoluto", step = "0.01" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
+                            @Html.TextBox("Monocitos_Absoluto", Model.ultimaConsultaHemograma.Monocitos_Absoluto, new { @class = "form-control", id = "Monocitos_Absoluto", step = "0.01" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
-                        @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "form-control", id = "Monocitos_Relativo", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
+                            @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "form-control", id = "Monocitos_Relativo", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Plaquetas">Plaquetas:</label>
-                        @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "form-control", id = "Plaquetas" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Plaquetas">Plaquetas:</label>
+                            @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "form-control", id = "Plaquetas" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="VPM">VPM:</label>
-                        @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "form-control", id = "VPM", step = "0.1" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="VPM">VPM:</label>
+                            @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "form-control", id = "VPM", step = "0.1" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Glicemia">Glicemia:</label>
-                        @Html.TextBox("Glicemia", Model.ultimaConsultaHemograma.Glicemia, new { @class = "form-control", id = "Glicemia" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Glicemia">Glicemia:</label>
+                            @Html.TextBox("Glicemia", Model.ultimaConsultaHemograma.Glicemia, new { @class = "form-control", id = "Glicemia" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Creatinina">Creatinina:</label>
-                        @Html.TextBox("Creatinina", Model.ultimaConsultaHemograma.Creatinina, new { @class = "form-control", id = "Creatinina" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Creatinina">Creatinina:</label>
+                            @Html.TextBox("Creatinina", Model.ultimaConsultaHemograma.Creatinina, new { @class = "form-control", id = "Creatinina" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
-                        @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "form-control", id = "AcidoUrico" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
+                            @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "form-control", id = "AcidoUrico" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Prolactina">Prolactina:</label>
-                        @Html.TextBox("Prolactina", Model.ultimaConsultaHemograma.Prolactina, new { @class = "form-control", id = "Prolactina" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Prolactina">Prolactina:</label>
+                            @Html.TextBox("Prolactina", Model.ultimaConsultaHemograma.Prolactina, new { @class = "form-control", id = "Prolactina" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Testosterona">Testosterona:</label>
-                        @Html.TextBox("Testosterona", Model.ultimaConsultaHemograma.Testosterona, new { @class = "form-control", id = "Testosterona" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Testosterona">Testosterona:</label>
+                            @Html.TextBox("Testosterona", Model.ultimaConsultaHemograma.Testosterona, new { @class = "form-control", id = "Testosterona" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
-                        @Html.TextBox("ColesterolTotal", Model.ultimaConsultaHemograma.ColesterolTotal, new { @class = "form-control", id = "ColesterolTotal" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
+                            @Html.TextBox("ColesterolTotal", Model.ultimaConsultaHemograma.ColesterolTotal, new { @class = "form-control", id = "ColesterolTotal" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="HDL">HDL:</label>
-                        @Html.TextBox("HDL", Model.ultimaConsultaHemograma.HDL, new { @class = "form-control", id = "HDL" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="HDL">HDL:</label>
+                            @Html.TextBox("HDL", Model.ultimaConsultaHemograma.HDL, new { @class = "form-control", id = "HDL" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
-                        @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "form-control", id = "Triglicerides" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
+                            @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "form-control", id = "Triglicerides" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="LDL">LDL:</label>
-                        @Html.TextBox("LDL", Model.ultimaConsultaHemograma.LDL, new { @class = "form-control", id = "LDL" })
-                    </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="LDL">LDL:</label>
+                            @Html.TextBox("LDL", Model.ultimaConsultaHemograma.LDL, new { @class = "form-control", id = "LDL" })
+                        </div>
 
-                    <div class="col-md-4">
-                        <label class="form-label" for="NaoHDL">Não-HDL:</label>
-                        @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "form-control", id = "NaoHDL" })
+                        <div class="col-md-4">
+                            <label class="form-label" for="NaoHDL">Não-HDL:</label>
+                            @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "form-control", id = "NaoHDL" })
+                        </div>
                     </div>
-                </div>
-                <br />
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
-            </form>
+                    <br />
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
+                </form>
             }
         }
     </div>
@@ -1299,7 +1215,7 @@
         }
 
 
-        var novaDiv = $('<div class="col-md-11" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">-</button> </div>');
+        var novaDiv = $('<div class="col-md-11" id="idAntecedenteContainer' + contador + '"> <label class= "form-label" for="AntecedenteDesc"> </label> <input readonly name="Antecedentes' + contador + '" class="form-control" value="' + inputValue + '" /> </div><div class="col-md-2" style="padding-top: 0.5rem;" id="idAntecedenteBtn' + contador + '"> <button type="button" onclick="RemoverAntecedente(' + contador + ')" class="btn btn-sm btn-primary">Remover</button> </div>');
 
 
         $('<input>').attr({
@@ -1653,13 +1569,13 @@
         });
     }
 
-    function ConcluirConsulta(idConsulta) {        
-         if (!confirm("Tem certeza de que deseja concluir esta Consulta? \nOs dados não poderão ser alterados futuramente!")) return;
+    function ConcluirConsulta(idConsulta) {
+        if (!confirm("Tem certeza de que deseja concluir esta Consulta? \nOs dados não poderão ser alterados futuramente!")) return;
 
         $.ajax({
             url: '@Url.Action("ConcluirConsulta", "Consulta")',
             type: 'POST',
-             data: { 'idConsulta': idConsulta},
+            data: { 'idConsulta': idConsulta },
             success: function (data) {
                 displayMensagemSucesso();
             },
