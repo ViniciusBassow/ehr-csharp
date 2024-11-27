@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using SQLApp.Data;
 
 namespace ehr_csharp.Models
 {
@@ -45,9 +46,35 @@ namespace ehr_csharp.Models
         public Prescricao? Prescricao { get; set; }
         #endregion
 
-    }
+        #region Configs
+        [NotMapped]
+        public int? ConfigMinutosAdicionais { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateCidade { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateEmail { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateEstado { get; set; }
+        [NotMapped]
+        public int? ConfigTemplateLogradouro { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateNrLogradouro { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateSiteApoio { get; set; }
 
-    public enum StatusConsulta
+
+        public void preencherCamposConfigTemplate(AppDbContext context) {
+            GlobalController globalController = new GlobalController(context);
+
+            globalController.ConsultarConfig
+        }
+        
+
+        #endregion
+
+        }
+
+        public enum StatusConsulta
     {
         Cancelado = 0,
         AguardandoConfirmacao = 1,

@@ -48,6 +48,7 @@ namespace ehr_csharp.Controllers
                                                     .ThenInclude(x => x.Especialidade)
                                                     .Include(x => x.Paciente)
                                                 .FirstOrDefault(x => x.Id == idConsulta);
+            //consulta.preencherCamposConfigTemplate(context);
 
             return View("~/Views/Template/Atestado.cshtml", consulta);            
         }
