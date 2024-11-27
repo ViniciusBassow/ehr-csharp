@@ -118,7 +118,7 @@
                 <span>@Model.Data.ToString("dd/MM/yyyy")</span> no período das <span>@Model.Data.ToString("HH:mm")</span> horas do dia, necessitando o(a) mesmo(a) de convalescença. *@
             </p>
             <p>
-                Porto Alegre, <span>____/____/____</span>
+                @Model.ConfigTemplateCidade, <span>____/____/____</span>
             </p>
         </div>
 
@@ -135,8 +135,8 @@
                 </div>
             </div>
             <div class="footer">
-                <p>Av. Benjamin Constant, 1140 / 402 - B. São Geraldo - POA/RS</p>
-                <p>(51) 3024.3314 | expansiva@expansiva.com.br | www.expansiva.com.br</p>
+                <p>@Model.ConfigTemplateLogradouro, @Model.ConfigTemplateNrLogradouro - @Model.ConfigTemplateBairro - @Model.ConfigTemplateCidade/@Model.ConfigTemplateEstado</p>
+                <p>@Model.ConfigTemplateTelefone | @Model.ConfigTemplateEmail | @Model.ConfigTemplateSiteApoio</p>
             </div>
         </div>
     </div>

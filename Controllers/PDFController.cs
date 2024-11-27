@@ -14,10 +14,12 @@ namespace ehr_csharp.Controllers
     {
         private readonly IMemoryCache _cache;
         private readonly UserManager<Usuario> _userManager;
+        private readonly AppDbContext dbContext;
         public PDFController(AppDbContext context, IMemoryCache cache, UserManager<Usuario> userManager) : base(context)
         {
             _cache = cache;
             _userManager = userManager;
+            dbContext = context;
         }
 
         public IActionResult GerarAtestado(int idConsulta)
@@ -48,7 +50,8 @@ namespace ehr_csharp.Controllers
                                                     .ThenInclude(x => x.Especialidade)
                                                     .Include(x => x.Paciente)
                                                 .FirstOrDefault(x => x.Id == idConsulta);
-            //consulta.preencherCamposConfigTemplate(context);
+
+            consulta.preencherCamposConfigTemplate(dbContext);
 
             return View("~/Views/Template/Atestado.cshtml", consulta);            
         }

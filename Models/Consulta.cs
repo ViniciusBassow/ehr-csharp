@@ -16,14 +16,14 @@ namespace ehr_csharp.Models
         public int StatusConsulta { get; set; }
         public string? MotivoCancelamento { get; set; }
 
-        public string? QueixaPrincipal { get; set; }     
+        public string? QueixaPrincipal { get; set; }
         public string? HistoricoDoencaAtual { get; set; }
-        public string? ExameFisico { get; set; }         
-        public string? HipoteseDiagnostica { get; set; } 
-        public string? ExamesSolicitados { get; set; }   
+        public string? ExameFisico { get; set; }
+        public string? HipoteseDiagnostica { get; set; }
+        public string? ExamesSolicitados { get; set; }
         //public string? Prescricao { get; set; }          
-        public string? Orientacoes { get; set; }         
-        public string? Observacoes { get; set; }         
+        public string? Orientacoes { get; set; }
+        public string? Observacoes { get; set; }
         public DateTime? RetornoConsulta { get; set; }
         public DateTime? DataConclusao { get; set; }
 
@@ -56,29 +56,42 @@ namespace ehr_csharp.Models
         [NotMapped]
         public string? ConfigTemplateEstado { get; set; }
         [NotMapped]
-        public int? ConfigTemplateLogradouro { get; set; }
+        public string? ConfigTemplateLogradouro { get; set; }
         [NotMapped]
         public string? ConfigTemplateNrLogradouro { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateBairro { get; set; }
+        [NotMapped]
+        public string? ConfigTemplateTelefone { get; set; }
         [NotMapped]
         public string? ConfigTemplateSiteApoio { get; set; }
 
 
-        public void preencherCamposConfigTemplate(AppDbContext context) {
+        public void preencherCamposConfigTemplate(AppDbContext context)
+        {
             GlobalController globalController = new GlobalController(context);
-
-            //globalController.ConsultarConfig
+            
+            this.ConfigMinutosAdicionais =      (int)globalController.ConsultarConfig("Minutos");
+            this.ConfigTemplateCidade =         globalController.ConsultarConfig("TemplateCidade").ToString();
+            this.ConfigTemplateEmail =          globalController.ConsultarConfig("TemplateEmail").ToString();
+            this.ConfigTemplateEstado =         globalController.ConsultarConfig("TemplateEstado").ToString();
+            this.ConfigTemplateLogradouro =     globalController.ConsultarConfig("TemplateLogradouro").ToString();
+            this.ConfigTemplateNrLogradouro =   globalController.ConsultarConfig("TemplateNumeroLogradouro").ToString();
+            this.ConfigTemplateBairro =         globalController.ConsultarConfig("TemplateBairro").ToString();
+            this.ConfigTemplateTelefone =       globalController.ConsultarConfig("TemplateNumeroTelefone").ToString();
+            this.ConfigTemplateSiteApoio =      globalController.ConsultarConfig("TemplateUrlSite").ToString();
         }
-        
+
 
         #endregion
 
-        }
+    }
 
-        public enum StatusConsulta
+    public enum StatusConsulta
     {
         Cancelado = 0,
         AguardandoConfirmacao = 1,
-        Confirmada = 2,    
+        Confirmada = 2,
         EmAndamento = 3,
         Finalizada = 4,
     }
