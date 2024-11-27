@@ -66,7 +66,7 @@ namespace ehr_csharp.Models
         public void preencherCamposConfigTemplate(AppDbContext context) {
             GlobalController globalController = new GlobalController(context);
 
-            globalController.ConsultarConfig
+            //globalController.ConsultarConfig
         }
         
 
