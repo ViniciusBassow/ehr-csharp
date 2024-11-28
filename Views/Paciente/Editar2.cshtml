@@ -9,15 +9,27 @@
 
 }
 
-
-
 <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
     <header class="border-bottom mb-3">
-        <div class="row">
-            <div class="col-sm-6 col-12">
-                <h1 class="ls-tight">@(Model.Id > 0 ? $"Pacientes - {Model.NomeCompleto}" : "Novo Paciente") </h1>
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="ls-tight">@((Model.Id > 0) ? $"Pacientes - {Model.NomeCompleto}" : "Novo Paciente")</h1>
             </div>
+            <div class="col-auto">
+                @if (!novoPaciente)
+                {
+                    <div class="d-flex gap-2 align-items-center justify-content-end">
+                        <a href="/paciente/index" class="btn btn-sm btn-neutral flex-grow-1 text-center">Voltar</a>
+                        @if (consultaEmAndamento)
+                        {
+                            <button type="button" class="btn btn-sm btn-success flex-grow-1 text-center" onclick="ConcluirConsulta(@Model.ultimaConsulta.Id)" data-bs-dismiss="modal">Concluir Consulta</button>
+                        }
+                    </div>
+                }
+            </div>
+
         </div>
+
         <br />
         <style>
             .card {
@@ -491,14 +503,12 @@
                                     <div>
                                         <label class="form-label">Altura(m)</label>
                                         <div class="input-group input-group-inline ">
-                                            @* <input type="text" class="form-control" placeholder="" data-input="data-input"> *@
                                             @Html.TextBox("Altura", Model.Altura, new { @class = "form-control-sm", id = "Altura" })
                                         </div>
                                     </div>
                                     <div>
                                         <label class="form-label">Massa(kg)</label>
                                         <div class="input-group input-group-inline ">
-                                            @* <input type="text" class="form-control" placeholder="" data-input="data-input"> *@
                                             @Html.TextBox("Peso", Model.Peso, new { @class = "form-control-sm", id = "Peso" })
                                         </div>
                                     </div>
@@ -866,261 +876,458 @@
     <div id="divHemograma" style="display:none">
         @if (Model.Consultas != null && Model.Consultas.Count > 0)
         {
-            @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
-            {
-                <label for="file">Importar arquivo de exame:</label>
-                <input type="file" id="file" name="file" />
-                <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
-            }
+
+            <header >
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="d-flex align-items-center gap-4">
+                            <h1 class="h4 ls-tight">Hemograma</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="col-auto d-none d-md-block">
+                        <div class="hstack gap-4 justify-content-end">
+                            @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
+                            {
+                                
+                                <label for="file" class="btn btn-sm btn-neutral ">
+                                    <span class="">
+                                        <i class="bi bi-upload me-2 d-none d-sm-inline-block"></i>
+                                    </span>
+                                    Enviar documento do Hemograma (PDF)
+                                </label>
+                                <input type="file" id="file" name="file" class="d-none">
+                                
+                                <button type="button" onclick="enviarEAnaalisar()" class="btn btn-sm btn-primary">
+                                    <span>Analisar documento com I.A</span>
+                                </button>
+
+                                
+
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </header>
+            @* @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
+        {
+        <label for="file">Importar arquivo de exame:</label>
+        <input type="file" id="file" name="file" />
+        <button type="button" onclick="enviarEAnaalisar()">Enviar e Analisar</button>
+        } *@
 
             @if (Model.ultimaConsulta != null)
             {
                 <form id="formHemograma" class="my-6">
                     <input class="form-control" type="hidden" id="idConsulta" name="idConsulta" value="@Model.Consultas.OrderByDescending(x => x.Data).First().Id">
-                    
-                    <div class="row gap-2">
-                        <div class="col-md-4">
-                            <div class="card ">
+
+                    <div class="row gap-2  p-4">
+                        <div class="col-md-3">
+                            <div class="card">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">Serie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Eritrócitos</span>
-                                    <span class="d-block h3 ls-tight fw-bold">5,2</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Eritrocitos", step = "0.01" })
+                                    </span>
                                     <p class="mt-1">
-                                        <span class="text-muted text-xs text-opacity-75">milhões/mm³ </span>
+                                        <span class="text-muted text-xs text-opacity-75">milhões/mm³</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Hemoglobina</span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">
-                                          </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Hemoglobina", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
                                         <span class="text-muted text-xs text-opacity-75">g/dL</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Hematócrito </span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">  </span>
-                                        <span class="text-muted text-xs text-opacity-75">%</span></p>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Hematocrito", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">%</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">V.C.M.</span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">  </span>
-                                        <span class="text-muted text-xs text-opacity-75">fL</span></p>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "VCM", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">fL</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">H.C.M. </span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "HCM", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">pg</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">C.H.C.M.</span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "CHCM", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1"> <span class="text-muted text-xs text-opacity-75">g/dL</span></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Série Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">RDW </span>
-                                    <span class="d-block h3 ls-tight fw-bold">25.040,00</span>
-                                    <p class="mt-1"><span class="text-success text-xs">  </span><span class="text-muted text-xs text-opacity-75">vs last week</span></p>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "RDW", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">%</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-4">
-                            <label class="form-label" for="Eritrocitos">Eritrócitos:</label>
-                            @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "form-control", id = "Eritrocitos", step = "0.01" })
+                    </div>
+                    <hr />
+                    <div class="row gap-2  p-4">
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Leucócitos (Relativo - Absoluto) </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+
+                                        @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Leucocitos_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Leucocitos_Absoluto", Model.ultimaConsultaHemograma.Leucocitos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Leucocitos_Absoluto", step = "0.1" })
+
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75"> % - mil/mm³ </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Bastonetes (Relativo - Absoluto)</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Bastonetes_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Bastonetes_Absoluto", Model.ultimaConsultaHemograma.Bastonetes_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Bastonetes_Absoluto", step = "0.1" })
+
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-success text-xs">
+                                        </span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Segmentados (Relativo - Absoluto) </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Segmentados_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Segmentados_Absoluto", Model.ultimaConsultaHemograma.Segmentados_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Segmentados_Absoluto", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Eosinófilos (Relativo - Absoluto)</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Eosinofilos_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Eosinofilos_Absoluto", Model.ultimaConsultaHemograma.Eosinofilos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Eosinofilos_Absoluto", step = "0.01" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Basófilos (Relativo - Absoluto) </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Basofilos_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Basofilos_Absoluto", Model.ultimaConsultaHemograma.Basofilos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Basofilos_Absoluto", step = "0.01" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Linfócitos (Relativo - Absoluto)</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Linfocitos_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Linfocitos_Absoluto", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Monócitos (Relativo - Absoluto)</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Monocitos_Relativo", step = "0.1" })
+                                        -
+                                        @Html.TextBox("Monocitos_Absoluto", Model.ultimaConsultaHemograma.Monocitos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Monocitos_Absoluto", step = "0.01" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-success text-xs">
+                                        </span><span class="text-muted text-xs text-opacity-75">% - mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Plaquetas </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Plaquetas" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">mil/mm³</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Série Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">VPM </span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "VPM", step = "0.1" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">fL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row gap-2  p-4">
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Glicemia</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Glicemia", Model.ultimaConsultaHemograma.Glicemia, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Glicemia" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-muted text-xs text-opacity-75">
+                                            mg/dL
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Creatinina:</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Creatinina", Model.ultimaConsultaHemograma.Creatinina, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Creatinina" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-success text-xs">
+                                        </span>
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Ácido Úrico</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "AcidoUrico" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Prolactina</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Prolactina", Model.ultimaConsultaHemograma.Prolactina, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Prolactina" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">ng/mL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Testosterona</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Testosterona", Model.ultimaConsultaHemograma.Testosterona, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Testosterona" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">ng/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Colesterol Total</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("ColesterolTotal", Model.ultimaConsultaHemograma.ColesterolTotal, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "ColesterolTotal" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">HDL</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("HDL", Model.ultimaConsultaHemograma.HDL, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "HDL" })
+                                    </span>
+                                    <p class="mt-1">
+                                        <span class="text-success text-xs">
+                                        </span><span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Triglicerídes</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Triglicerides" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">LDL</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("LDL", Model.ultimaConsultaHemograma.LDL, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "LDL" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card ">
+                                <div class="p-4">
+                                    <h6 class="text-limit text-muted mb-3">Coleta</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Não-HDL</span>
+                                    <span class="d-block h3 ls-tight fw-bold">
+                                        @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "NaoHDL" })
+                                    </span>
+                                    <p class="mt-1">
+
+                                        <span class="text-muted text-xs text-opacity-75">mg/dL</span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label" for="Hemoglobina">Hemoglobina:</label>
-                            @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "form-control", id = "Hemoglobina", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Hematocrito">Hematócrito:</label>
-                            @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "form-control", id = "Hematocrito", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="VCM">VCM:</label>
-                            @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "form-control", id = "VCM", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="HCM">HCM:</label>
-                            @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "form-control", id = "HCM", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="CHCM">CHCM:</label>
-                            @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "form-control", id = "CHCM", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="RDW">RDW:</label>
-                            @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "form-control", id = "RDW", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Leucocitos_Absoluto">Leucócitos Absoluto:</label>
-                            @Html.TextBox("Leucocitos_Absoluto", Model.ultimaConsultaHemograma.Leucocitos_Absoluto, new { @class = "form-control", id = "Leucocitos_Absoluto", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Leucocitos_Relativo">Leucócitos Relativo:</label>
-                            @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "form-control", id = "Leucocitos_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Bastonetes_Absoluto">Bastonetes Absoluto:</label>
-                            @Html.TextBox("Bastonetes_Absoluto", Model.ultimaConsultaHemograma.Bastonetes_Absoluto, new { @class = "form-control", id = "Bastonetes_Absoluto", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Bastonetes_Relativo">Bastonetes Relativo:</label>
-                            @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "form-control", id = "Bastonetes_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Segmentados_Absoluto">Segmentados Absoluto:</label>
-                            @Html.TextBox("Segmentados_Absoluto", Model.ultimaConsultaHemograma.Segmentados_Absoluto, new { @class = "form-control", id = "Segmentados_Absoluto", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Segmentados_Relativo">Segmentados Relativo:</label>
-                            @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "form-control", id = "Segmentados_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Eosinofilos_Absoluto">Eosinófilos Absoluto:</label>
-                            @Html.TextBox("Eosinofilos_Absoluto", Model.ultimaConsultaHemograma.Eosinofilos_Absoluto, new { @class = "form-control", id = "Eosinofilos_Absoluto", step = "0.01" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Eosinofilos_Relativo">Eosinófilos Relativo:</label>
-                            @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "form-control", id = "Eosinofilos_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Basofilos_Absoluto">Basófilos Absoluto:</label>
-                            @Html.TextBox("Basofilos_Absoluto", Model.ultimaConsultaHemograma.Basofilos_Absoluto, new { @class = "form-control", id = "Basofilos_Absoluto", step = "0.01" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Basofilos_Relativo">Basófilos Relativo:</label>
-                            @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "form-control", id = "Basofilos_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Linfocitos_Absoluto">Linfócitos Absoluto:</label>
-                            @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "form-control", id = "Linfocitos_Absoluto", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Linfocitos_Relativo">Linfócitos Relativo:</label>
-                            @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "form-control", id = "Linfocitos_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Monocitos_Absoluto">Monócitos Absoluto:</label>
-                            @Html.TextBox("Monocitos_Absoluto", Model.ultimaConsultaHemograma.Monocitos_Absoluto, new { @class = "form-control", id = "Monocitos_Absoluto", step = "0.01" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Monocitos_Relativo">Monócitos Relativo:</label>
-                            @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "form-control", id = "Monocitos_Relativo", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Plaquetas">Plaquetas:</label>
-                            @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "form-control", id = "Plaquetas" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="VPM">VPM:</label>
-                            @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "form-control", id = "VPM", step = "0.1" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Glicemia">Glicemia:</label>
-                            @Html.TextBox("Glicemia", Model.ultimaConsultaHemograma.Glicemia, new { @class = "form-control", id = "Glicemia" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Creatinina">Creatinina:</label>
-                            @Html.TextBox("Creatinina", Model.ultimaConsultaHemograma.Creatinina, new { @class = "form-control", id = "Creatinina" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="AcidoUrico">Ácido Úrico:</label>
-                            @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "form-control", id = "AcidoUrico" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Prolactina">Prolactina:</label>
-                            @Html.TextBox("Prolactina", Model.ultimaConsultaHemograma.Prolactina, new { @class = "form-control", id = "Prolactina" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Testosterona">Testosterona:</label>
-                            @Html.TextBox("Testosterona", Model.ultimaConsultaHemograma.Testosterona, new { @class = "form-control", id = "Testosterona" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="ColesterolTotal">Colesterol Total:</label>
-                            @Html.TextBox("ColesterolTotal", Model.ultimaConsultaHemograma.ColesterolTotal, new { @class = "form-control", id = "ColesterolTotal" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="HDL">HDL:</label>
-                            @Html.TextBox("HDL", Model.ultimaConsultaHemograma.HDL, new { @class = "form-control", id = "HDL" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="Triglicerides">Triglicerídeos:</label>
-                            @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "form-control", id = "Triglicerides" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="LDL">LDL:</label>
-                            @Html.TextBox("LDL", Model.ultimaConsultaHemograma.LDL, new { @class = "form-control", id = "LDL" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label" for="NaoHDL">Não-HDL:</label>
-                            @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "form-control", id = "NaoHDL" })
-                        </div>
                     </div>
                     <br />
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarAbaHemograma()">Salvar</button>
@@ -1408,20 +1615,7 @@
         </div>
     }
 
-    @if (!novoPaciente)
-    {
-        <div class="hstack gap-2 ms-auto align-items-end mt-5">
-            <div class="d-flex align-items-end justify-content-between">
-                <div class="d-none d-md-flex gap-2">
-                    <a href="/paciente/index" class="btn btn-sm btn-neutral">Voltar</a>
-                    @if (consultaEmAndamento)
-                    {
-                        <button type="button" class="btn btn-secondary" onclick="ConcluirConsulta(@Model.ultimaConsulta.Id)" data-bs-dismiss="modal">Concluir Consulta</button>
-                    }
-                </div>
-            </div>
-        </div>
-    }
+    
 </main>
 
 
