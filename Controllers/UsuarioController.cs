@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 
 namespace ehr_csharp.Controllers
@@ -100,7 +101,7 @@ namespace ehr_csharp.Controllers
 
         }
 
-
+        [CustomAuthorize("Admin")]
         public async Task<ActionResult> Editar(Usuario usuario)
         {
             ModelState.Clear();
@@ -350,7 +351,23 @@ namespace ehr_csharp.Controllers
                 Contexto<Log>().Add(logLoginSuccess); // Adicionando log
                 SaveChanges();
 
-                return RedirectToAction("Index", "Consulta");
+               
+                switch (_userManager.GetRolesAsync(usuarioLogadoCache).Result.FirstOrDefault())
+                {
+                    case "Admin":
+                        return RedirectToAction("Index", "Consulta");
+                    case "Medico":
+                        return RedirectToAction("Index", "Consulta");
+                    case "Agenda":
+                        return RedirectToAction("Index", "Consulta");
+                    case "Paciente":
+                        var paciente = Contexto<Paciente>().FirstOrDefault(x => x.Email == usuarioLogadoCache.Email);
+                            return RedirectToAction("Perfil", "Paciente", new { idPaciente = paciente.Id });
+                }
+
+
+
+                        return RedirectToAction("Index", "Consulta");
             }
 
             if (result.IsLockedOut)

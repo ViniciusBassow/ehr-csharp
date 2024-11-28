@@ -9,6 +9,7 @@ using SQLApp.Data;
 
 namespace ehr_csharp.Controllers
 {
+    [CustomAuthorize("Admin")]
     public class AdministratorController : GlobalController
     {
 

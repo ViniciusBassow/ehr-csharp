@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 namespace ehr_csharp.Controllers
 {
+    [CustomAuthorize("Medico")]
     [Route("medico")]
     public class MedicoController : Controller
     {
         private static List<Agendamento> Agendamentos = new List<Agendamento>();
 
+   
         [Route("dash")]
         public IActionResult Dash()
         {

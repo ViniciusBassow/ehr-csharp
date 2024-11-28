@@ -20,6 +20,7 @@ using System.Globalization;
 
 namespace ehr_csharp.Controllers
 {
+
     public class PacienteController : GlobalController
     {
         private readonly IMemoryCache _cache;
@@ -31,61 +32,14 @@ namespace ehr_csharp.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize("Admin", "Agenda", "Medico")]
         public async Task<ActionResult> Index()
         {
             List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).ToList();
             return View(pacientes);
         }
 
-
-        public async Task<ActionResult> Perfil()
-        {
-            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
-                                         .ThenInclude(x => x.Medico)
-                                         .ThenInclude(x => x.Especialidade)
-                                         .Include(x => x.Consultas)
-                                         .ThenInclude(x => x.Medico)
-                                         .ThenInclude(x => x.Usuario)
-                                         .Include(x => x.Consultas)
-                                         .ThenInclude(x => x.Prescricao)
-                                         .ThenInclude(x => x.Medicamentos)
-                                         .FirstOrDefault(x => x.Id == 3);
-
-            return View(paciente);
-        }
-
-        public async Task<ActionResult> Consultas()
-        {
-            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
-                                        .ThenInclude(x => x.Medico)
-                                        .ThenInclude(x => x.Especialidade)
-                                        .Include(x => x.Consultas)
-                                        .ThenInclude(x => x.Medico)
-                                        .ThenInclude(x => x.Usuario)
-                                        .FirstOrDefault(x => x.Id == 3);
-            return View(paciente);
-        }
-
-
-        public async Task<ActionResult> RegistrosMedicos()
-        {
-            return View();
-        }
-
-        public async Task<ActionResult> Medicacoes()
-        {
-            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
-                                                    .ThenInclude(x => x.Prescricao)
-                                                    .ThenInclude(x => x.Medicamentos)
-                                                    .Include(x => x.Consultas)
-                                                    .ThenInclude(x => x.Medico)
-                                                    .ThenInclude(x => x.Usuario)
-                                                    .FirstOrDefault(x => x.Id == 3);
-
-            return View(paciente);
-        }
-
+        [CustomAuthorize("Admin", "Agenda", "Medico")]
         public async Task<ActionResult> Editar(int Id)
         {
             // Log de início de edição de paciente
@@ -159,7 +113,7 @@ namespace ehr_csharp.Controllers
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
         }
 
-
+        [CustomAuthorize("Admin", "Medico")]
         [HttpPost]
         public async Task<ActionResult> Salvar(Paciente paciente)
         {
@@ -189,6 +143,44 @@ namespace ehr_csharp.Controllers
             {
                 paciente.DataCadastro = DateTime.Now;
                 Contexto<Paciente>().Add(paciente);
+
+                
+
+                Usuario usuario = new Usuario()
+                {
+                    Email = paciente.Email,
+                    Name = paciente.NomeCompleto,
+                    UserName = paciente.Email,
+                    Role = "Paciente",
+                    Password = ConsultarConfig("SenhaPadraoPaciente").ToString().Replace("_TagSenha_", paciente.Cpf.Replace(".", "").Replace("-", "")),
+                    PasswordHash = Usuario.Helper.HashPassword((ConsultarConfig("SenhaPadraoPaciente").ToString().Replace("_TagSenha_", paciente.Cpf.Replace(".","").Replace("-", "")))),
+                    CreatedAt = DateTime.Now
+                };
+
+                if (paciente.File != null)
+                    usuario.ImageByteStr = Usuario.Helper.ConverterImagemEmString(paciente.File);
+
+                var result = await _userManager.CreateAsync(usuario, usuario.Password);
+                
+                if (result.Succeeded)
+                {
+                    var addToRoleResult = await _userManager.AddToRoleAsync(usuario, usuario.Role);
+
+                    if (!addToRoleResult.Succeeded)
+                    {
+                        foreach (var error in addToRoleResult.Errors)
+                        {
+                            //errors.Add(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        //errors.Add(string.Empty, error.Description);
+                    }
+                }
             }
             // Log de criação ou atualização de paciente
             if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
@@ -258,8 +250,6 @@ namespace ehr_csharp.Controllers
 
         }
 
-
-
         [HttpPost]
         public JsonResult AdicionarArquivo(IFormFile file, int idPaciente, string nmArquivo)
         {
@@ -306,6 +296,7 @@ namespace ehr_csharp.Controllers
             return Json(new { success = true, anexo });
         }
 
+        [CustomAuthorize("Admin", "Medico")]
         [HttpPost]
         public JsonResult DesativarArquivo(int idAnexo)
         {
@@ -382,6 +373,56 @@ namespace ehr_csharp.Controllers
 
             return PartialView("~/Views/Paciente/_ListaPaciente.cshtml", retorno);
 
+        }
+
+
+
+
+        [CustomAuthorize("Paciente")]
+        public async Task<ActionResult> Perfil(int idPaciente)
+        {
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Especialidade)
+                                         .Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Medico)
+                                         .ThenInclude(x => x.Usuario)
+                                         .Include(x => x.Consultas)
+                                         .ThenInclude(x => x.Prescricao)
+                                         .ThenInclude(x => x.Medicamentos)
+                                         .FirstOrDefault(x => x.Id == idPaciente);
+
+            return View(paciente);
+        }
+        [CustomAuthorize("Paciente")]
+        public async Task<ActionResult> Consultas()
+        {
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Especialidade)
+                                        .Include(x => x.Consultas)
+                                        .ThenInclude(x => x.Medico)
+                                        .ThenInclude(x => x.Usuario)
+                                        .FirstOrDefault(x => x.Id == 3);
+            return View(paciente);
+        }
+        [CustomAuthorize("Paciente")]
+        public async Task<ActionResult> RegistrosMedicos()
+        {
+            return View();
+        }
+        [CustomAuthorize("Paciente")]
+        public async Task<ActionResult> Medicacoes()
+        {
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Prescricao)
+                                                    .ThenInclude(x => x.Medicamentos)
+                                                    .Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Medico)
+                                                    .ThenInclude(x => x.Usuario)
+                                                    .FirstOrDefault(x => x.Id == 3);
+
+            return View(paciente);
         }
     }
 

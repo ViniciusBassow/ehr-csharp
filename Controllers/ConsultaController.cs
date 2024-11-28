@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace ehr_csharp.Controllers
 {
+    [CustomAuthorize("Admin", "Agenda", "Medico")]
     public class ConsultaController : GlobalController
     {
         private readonly IMemoryCache _cache;
