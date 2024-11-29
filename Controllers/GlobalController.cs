@@ -1,17 +1,28 @@
 using ehr_csharp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using SQLApp.Data;
 
 public class GlobalController : Controller
 {
+    
+
     protected readonly AppDbContext _context;
+    private readonly IMemoryCache _cache;
 
     // Injeta o contexto de banco de dados
-    public GlobalController(AppDbContext context)
+    public GlobalController(AppDbContext context, IMemoryCache cache)
     {
         _context = context;
+        _cache = cache;
+    }
+
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        ViewBag.UserRole = _cache.Get<string>("UserRole"); ;
     }
 
     // Disponibiliza o DbContext e a opção de usar Set<T>() para qualquer entidade dinamicamente

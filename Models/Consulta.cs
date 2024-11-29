@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using SQLApp.Data;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ehr_csharp.Models
 {
@@ -67,9 +68,9 @@ namespace ehr_csharp.Models
         public string? ConfigTemplateSiteApoio { get; set; }
 
 
-        public void preencherCamposConfigTemplate(AppDbContext context)
+        public void preencherCamposConfigTemplate(AppDbContext context, IMemoryCache cache)
         {
-            GlobalController globalController = new GlobalController(context);
+            GlobalController globalController = new GlobalController(context, cache);
             
             this.ConfigMinutosAdicionais =      (int)globalController.ConsultarConfig("Minutos");
             this.ConfigTemplateCidade =         globalController.ConsultarConfig("TemplateCidade").ToString();

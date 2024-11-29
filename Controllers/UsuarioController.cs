@@ -29,7 +29,7 @@ namespace ehr_csharp.Controllers
         private readonly SignInManager<Usuario> _signInManager;
         private readonly IMemoryCache _cache;
 
-        public UsuarioController(AppDbContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Usuario> signInManager, IMemoryCache cache) : base(context)
+        public UsuarioController(AppDbContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager, SignInManager<Usuario> signInManager, IMemoryCache cache) : base(context, cache)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -351,7 +351,8 @@ namespace ehr_csharp.Controllers
                 Contexto<Log>().Add(logLoginSuccess); // Adicionando log
                 SaveChanges();
 
-               
+                _cache.Set("UserRole", _userManager.GetRolesAsync(usuarioLogadoCache).Result.FirstOrDefault());
+
                 switch (_userManager.GetRolesAsync(usuarioLogadoCache).Result.FirstOrDefault())
                 {
                     case "Admin":

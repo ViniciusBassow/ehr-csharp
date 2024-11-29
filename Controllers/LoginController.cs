@@ -12,7 +12,7 @@ namespace ehr_csharp.Controllers
         private readonly IMemoryCache _cache; // Declarando a dependência de cache
 
         // Injeta a dependência de IMemoryCache no construtor
-        public LoginController(AppDbContext context, IMemoryCache cache) : base(context)
+        public LoginController(AppDbContext context, IMemoryCache cache) : base(context, cache)
         {
             _cache = cache; // Inicializando o cache
         }

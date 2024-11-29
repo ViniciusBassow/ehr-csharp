@@ -13,7 +13,7 @@ namespace ehr_csharp.Controllers
     {
         private readonly IMemoryCache _cache;
         private readonly UserManager<Usuario> _userManager;
-        public ConsultaController(AppDbContext context, IMemoryCache cache, UserManager<Usuario> userManager) : base(context)
+        public ConsultaController(AppDbContext context, IMemoryCache cache, UserManager<Usuario> userManager) : base(context, cache)
         {
             _cache = cache;
             _userManager = userManager;

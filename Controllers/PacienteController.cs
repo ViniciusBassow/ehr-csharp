@@ -26,7 +26,7 @@ namespace ehr_csharp.Controllers
         private readonly IMemoryCache _cache;
         private readonly UserManager<Usuario> _userManager;
 
-        public PacienteController(AppDbContext context, UserManager<Usuario> userManager, IMemoryCache cache) : base(context)
+        public PacienteController(AppDbContext context, UserManager<Usuario> userManager, IMemoryCache cache) : base(context, cache)
         {
             _cache = cache;
             _userManager = userManager;

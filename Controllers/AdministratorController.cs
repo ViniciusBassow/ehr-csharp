@@ -12,10 +12,12 @@ namespace ehr_csharp.Controllers
     [CustomAuthorize("Admin")]
     public class AdministratorController : GlobalController
     {
+        private readonly IMemoryCache _cache;
 
-        public AdministratorController(AppDbContext context) : base(context)
+        public AdministratorController(AppDbContext context, IMemoryCache cache) : base(context, cache)
         {
-        }
+            _cache = cache; // Inicializando o cache
+        }     
 
         public async Task<ActionResult> Index()
         {

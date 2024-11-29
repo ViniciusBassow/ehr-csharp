@@ -15,7 +15,7 @@ namespace ehr_csharp.Controllers
         private readonly IMemoryCache _cache;
         private readonly UserManager<Usuario> _userManager;
         private readonly AppDbContext dbContext;
-        public PDFController(AppDbContext context, IMemoryCache cache, UserManager<Usuario> userManager) : base(context)
+        public PDFController(AppDbContext context, IMemoryCache cache, UserManager<Usuario> userManager) : base(context, cache)
         {
             _cache = cache;
             _userManager = userManager;
@@ -51,7 +51,7 @@ namespace ehr_csharp.Controllers
                                                     .Include(x => x.Paciente)
                                                 .FirstOrDefault(x => x.Id == idConsulta);
 
-            consulta.preencherCamposConfigTemplate(dbContext);
+            consulta.preencherCamposConfigTemplate(dbContext, _cache);
 
             return View("~/Views/Template/Atestado.cshtml", consulta);            
         }
