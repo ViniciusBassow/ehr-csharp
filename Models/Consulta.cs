@@ -66,7 +66,8 @@ namespace ehr_csharp.Models
         public string? ConfigTemplateTelefone { get; set; }
         [NotMapped]
         public string? ConfigTemplateSiteApoio { get; set; }
-
+        [NotMapped]
+        public List<Anexo> Anexos { get; set; }
 
         public void preencherCamposConfigTemplate(AppDbContext context, IMemoryCache cache)
         {

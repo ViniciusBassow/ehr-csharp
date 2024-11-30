@@ -23,6 +23,7 @@ namespace ehr_csharp.Models
 
         //Exemplo: public ICollection<Post> Posts { get; } = new List<Post>(); // Collection navigation containing dependents
 
-
+        [NotMapped]
+        public IList<Anexo> Anexos { get; set; }
     }
 }

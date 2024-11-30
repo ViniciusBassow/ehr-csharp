@@ -131,20 +131,20 @@
                                         </div>
                                     </div>
                                     <div class="avatar avatar-xl h-50 w-50">
-                                        <img src="data:image/jpeg;base64,@Model.ImagemBase64" alt="Imagem do usu·rio" />
+                                        <img src="data:image/jpeg;base64,@Model.ImagemBase64" alt="Imagem do usu√°rio" />
                                     </div>
 
                                     <div class="d-flex align-items-center justify-content-between mt-8">
                                         <div class="">
                                             <div class="d-flex gap-3 align-items-center">
-                                                <span class="h6 fw-semibold text-muted">PrÛxima Consulta:</span>
+                                                <span class="h6 fw-semibold text-muted">Pr√≥xima Consulta:</span>
                                             </div>
                                             <div class="fw-bold text-heading mt-3"> @(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Data.ToString("dd/MM/yyyy HH:mm") : "Indefinido")  </div>
                                         </div>
                                         <span class="vr bg-dark bg-opacity-10"></span>
                                         <div class="">
                                             <div class="d-flex gap-3 align-items-center">
-                                                <span class="h6 fw-semibold text-muted">MÈdico: </span>
+                                                <span class="h6 fw-semibold text-muted">M√©dico: </span>
                                             </div>
                                             <div class="fw-bold text-heading mt-3">@(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Medico.Usuario.UserName : "Indefinido") </div>
                                         </div>
@@ -175,14 +175,14 @@
                                                 <strong>Telefone:</strong> <span class="TelefoneFixo">@Model.TelefoneFixo</span>
                                             </div>
                                             <div class="mb-3">
-                                                <strong>OcupaÁ„o:</strong> <span>@Model.Profissao</span>
+                                                <strong>Ocupa√ß√£o:</strong> <span>@Model.Profissao</span>
                                             </div>
                                             <div class="mb-3">
-                                                <strong>EndereÁo:</strong> <span>@Model.Endereco</span>
+                                                <strong>Endere√ßo:</strong> <span>@Model.Endereco</span>
                                             </div>
                                         </div>
 
-                                        <!-- Coluna secund·ria -->
+                                        <!-- Coluna secund√°ria -->
                                         <div class="col-12 col-md-4">
                                             @if (Model.Id > 0)
                                             {
@@ -201,9 +201,9 @@
                                                             "1" => "Casado(a)",
                                                             "2" => "Solteiro(a)",
                                                             "3" => "Divorciado(a)",
-                                                            "4" => "Vi˙vo(a)",
-                                                            "5" => "Uni„o Est·vel",
-                                                            _ => "N„o informado"
+                                                            "4" => "Vi√∫vo(a)",
+                                                            "5" => "Uni√£o Est√°vel",
+                                                            _ => "N√£o informado"
                                                         };
                                                     }
                                                     @estadoCivilTexto
@@ -235,7 +235,7 @@
 
                         <div class="card mt-4">
                             <div class="card-body pb-3">
-                                <h5 class="mb-3">MedicaÁıes</h5>
+                                <h5 class="mb-3">Medica√ß√µes</h5>
                                 <div class="list-group list-group-flush">
                                     <div class="list-group-item d-flex align-items-center border-0 py-3">
                                         <div class="flex-none w-rem-10 h-rem-10">
@@ -257,7 +257,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
                                                 <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: ClÌnico Geral</span>
+                                                    <span class="font-weight-bold text-muted">Especialista: Cl√≠nico Geral</span>
                                                 </div>
                                                 <div>
                                                     <p class="card-text text-muted">
@@ -301,7 +301,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
                                                 <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: ClÌnico Geral</span>
+                                                    <span class="font-weight-bold text-muted">Especialista: Cl√≠nico Geral</span>
                                                 </div>
                                                 <div>
                                                     <p class="card-text text-muted">
@@ -345,7 +345,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
                                                 <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: ClÌnico Geral</span>
+                                                    <span class="font-weight-bold text-muted">Especialista: Cl√≠nico Geral</span>
                                                 </div>
                                                 <div>
                                                     <p class="card-text text-muted">
@@ -383,8 +383,8 @@
                         <div class="col-md-4">
                             <label class="form-label">Dados Pessoais</label>
                             <p class="text-sm text-muted">
-                                Este formul·rio tem como objetivo coletar informaÁıes importantes para o seu cadastro e atendimento em nossa unidade de sa˙de.
-                                Por favor, preencha todos os campos com atenÁ„o e verifique se os dados informados est„o corretos.
+                                Este formul√°rio tem como objetivo coletar informa√ß√µes importantes para o seu cadastro e atendimento em nossa unidade de sa√∫de.
+                                Por favor, preencha todos os campos com aten√ß√£o e verifique se os dados informados est√£o corretos.
                             </p>
                         </div>
                         <div class="col-md-8 col-xl-5 ">
@@ -445,13 +445,13 @@
                                 new SelectListItem { Text = "Casado(a)", Value = "1" },
                                 new SelectListItem { Text = "Solteiro(a)", Value = "2" },
                                 new SelectListItem { Text = "Divorciado(a)", Value = "3" },
-                                new SelectListItem { Text = "Vi˙vo(a)", Value = "4" },
-                                new SelectListItem { Text = "Uni„o Est·vel", Value = "5" },
+                                new SelectListItem { Text = "Vi√∫vo(a)", Value = "4" },
+                                new SelectListItem { Text = "Uni√£o Est√°vel", Value = "5" },
                                 }, new { @class = "form-select-sm", @id = "EstadoCivil" })
                                     </div>
                                 </div>
                                 <div class="mb-5">
-                                    <label class="form-label">Profiss„o</label>
+                                    <label class="form-label">Profiss√£o</label>
                                     <div class="input-group input-group-inline ">
                                         @Html.TextBox("Profissao", Model.Profissao, new { @class = "form-control-sm", id = "Profissao" })
                                     </div>
@@ -478,7 +478,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="form-label">EndereÁo</label>
+                                        <label class="form-label">Endere√ßo</label>
                                         <div class="input-group input-group-inline ">
                                             @Html.TextBox("Endereco", Model.Endereco, new { @class = "form-control-sm", id = "Endereco" })
                                         </div>
@@ -490,9 +490,9 @@
                     <hr class="my-6">
                     <div class="row align-items-center g-3">
                         <div class="col-md-4">
-                            <label class="form-label">InformaÁıes de Sa˙de do Paciente</label>
+                            <label class="form-label">Informa√ß√µes de Sa√∫de do Paciente</label>
                             <p class="text-sm text-muted">
-                                Para oferecer um atendimento seguro e personalizado, precisamos conhecer algumas informaÁıes importantes sobre sua sa˙de. Este formul·rio tem como objetivo coletar dados que nos ajudem a entender seu histÛrico mÈdico, condiÁıes atuais e necessidades especÌficas.
+                                Para oferecer um atendimento seguro e personalizado, precisamos conhecer algumas informa√ß√µes importantes sobre sua sa√∫de. Este formul√°rio tem como objetivo coletar dados que nos ajudem a entender seu hist√≥rico m√©dico, condi√ß√µes atuais e necessidades espec√≠ficas.
                             </p>
                         </div>
                         <div class="col-md-8 col-xl-5 ">
@@ -514,7 +514,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-5">
-                                    <label class="form-label">ConvÍnio</label>
+                                    <label class="form-label">Conv√™nio</label>
                                     @Html.TextBox("Carteirinha", Model.Carteirinha, new { @class = "form-control-sm", id = "Carteirinha" })
                                 </div>
                                 <div class="mb-5">
@@ -551,7 +551,7 @@
                         <div class="col-md-4">
                             <label class="form-label">Avatar</label>
                             <p class="text-sm text-muted">
-                                Para melhorar a identificaÁ„o e personalizaÁ„o do seu perfil em nosso sistema, solicitamos o envio ou a captura de uma foto para ser utilizada como seu avatar.
+                                Para melhorar a identifica√ß√£o e personaliza√ß√£o do seu perfil em nosso sistema, solicitamos o envio ou a captura de uma foto para ser utilizada como seu avatar.
                             </p>
                         </div>
                         <div class="col-md-8 col-xl-5">
@@ -637,7 +637,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <h6>ConvÍnio</h6>
+                                            <h6>Conv√™nio</h6>
                                         </div>
                                         <div class="">
                                             <div class="text-xs mt-2">Carteirinha</div>
@@ -685,7 +685,7 @@
                                                         <div>
                                                             <h6 class="progress-text mb-1 d-block">@consulta.Motivo - @consulta.Data.ToString("dd/MM/yyyy")</h6>
                                                             <p class="text-muted text-xs">
-                                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "ConcluÌda" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Conclu√≠da" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
                                                             </p>
                                                         </div>
                                                         <div class="text-end ms-auto">
@@ -748,7 +748,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>Historico da doenÁa atual</h6>
+                                <h6>Historico da doen√ßa atual</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("HistoricoDoencaAtual", Model.ultimaConsulta.HistoricoDoencaAtual, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -759,7 +759,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>OrientaÁıes</h6>
+                                <h6>Orienta√ß√µes</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("Orientacoes", Model.ultimaConsulta.Orientacoes, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -770,7 +770,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>HipÛtese DiagnÛstica</h6>
+                                <h6>Hip√≥tese Diagn√≥stica</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("HipoteseDiagnostica", Model.ultimaConsulta.HipoteseDiagnostica, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -782,15 +782,69 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h6>Exames Solicitados</h6>
-                                <div class="row mt-2">
-                                    @Html.TextArea("ExamesSolicitados", Model.ultimaConsulta.ExamesSolicitados, new { @class = "form-control", rows = "6" })
-                                </div>
                                 <br />
+                                <div class="col-md-12 row" style="align-self: normal;">
+                                    <div class="col-md-11">
+                                        <label class="form-label" for="TipoExameDesc">Tipo de Exame:</label>
+                                        <select class="form-select" id="tipoExame">
+                                            <option value="">Selecionar</option>
+                                            <option value="colesterol_total">Colesterol Total e Fra√ß√µes</option>
+                                            <option value="coproparasitologico">Coproparasitol√≥gico</option>
+                                            <option value="ecocardiograma">Ecocardiograma</option>
+                                            <option value="eletrocardiograma">Eletrocardiograma (ECG)</option>
+                                            <option value="eletr√≥litos">Eletr√≥litos (S√≥dio, Pot√°ssio, C√°lcio, etc.)</option>
+                                            <option value="exame_completo_olhos">Exame Completo de Olhos</option>
+                                            <option value="exames_sorologicos">Exames Sorol√≥gicos (Hepatites, Dengue, etc.)</option>
+                                            <option value="glicemia_jejum">Glicemia em Jejum</option>
+                                            <option value="hemoglobina_glicada">Hemoglobina Glicada</option>
+                                            <option value="hemograma">Hemograma</option>
+                                            <option value="hiv">HIV</option>
+                                            <option value="papanicolau">Papanicolau</option>
+                                            <option value="prova_funcional_hepatica">Prova Funcional Hep√°tica</option>
+                                            <option value="raio_x">Raio-X</option>
+                                            <option value="ressonancia_magnetica">Resson√¢ncia Magn√©tica</option>
+                                            <option value="teste_covid">Teste de COVID-19</option>
+                                            <option value="t4_livre">T4 Livre</option>
+                                            <option value="tgo_tgp">TGO/TGP (Transaminases Hep√°ticas)</option>
+                                            <option value="tomografia">Tomografia Computadorizada</option>
+                                            <option value="triglicerideos">Triglicer√≠deos</option>
+                                            <option value="tsm">TSH (Horm√¥nio Estimulante da Tireoide)</option>
+                                            <option value="ultrassom_abdominal">Ultrassom Abdominal</option>
+                                            <option value="ureia">Ureia</option>
+                                            <option value="urina_tipo1">Urina Tipo 1 (EAS)</option>
+                                            <option value="urocultura">Urocultura</option>
+                                            <option value="vitamina_d">Vitamina D</option>
+                                        </select>
 
-                                <h6>Data do retorno:</h6>
-                                <div class="row mt-2">
-                                    @Html.TextBox("RetornoConsulta", Model.ultimaConsulta.RetornoConsulta, new { @class = "form-control Data", type = "Date" })
+                                    </div>
+
+                                    <div class="col-md-1" style="padding-top: 2rem;">
+                                        <button type="button" onclick="AdicionarExame()" class="btn btn-sm btn-primary">+</button>
+                                    </div>
+
+                                    <br />
+                                    <div id="divExamesAdicionados" class="row">
+                                        @if (Model.ultimaConsulta?.Anexos != null)
+                                        {
+                                            foreach (var item in Model.ultimaConsulta.Anexos)
+                                            {
+                                                <div class="col-md-11" style="padding-top: 1rem;"> <input readonly="" name="Exames@(Model.ultimaConsulta.Anexos.IndexOf(item))" class="form-control col-md-3" value="@item.TipoDocumento"> </div>
+                                                <div class="col-md-1" style="padding-top: 1rem;">  <button type="button" onclick="RemoverExame(@(Model.ultimaConsulta.Anexos.IndexOf(item)), true)" class="btn btn-sm btn-primary">-</button> </div>
+                                            }
+                                        }
+
+                                    </div>
+
+
+                                    <div>
+                                        <h6>Data do retorno:</h6>
+                                        <div class="col-md-11">
+                                            @Html.TextBox("RetornoConsulta", Model.ultimaConsulta.RetornoConsulta, new { @class = "form-control Data", type = "Date" })
+                                        </div>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -798,7 +852,7 @@
                     <div class="col-md-8">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <label class="form-label" for="Medicamentos">PRESCRI«√O</label>
+                                <label class="form-label" for="Medicamentos">PRESCRI√á√ÉO</label>
                                 <div class="row align-items-center">
                                     <div class="col-md-11 row" style="align-self: normal;">
                                         <div class="col-md-3">
@@ -814,7 +868,7 @@
                                             <input class="form-control" id="IntervaloInput" />
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="form-label" for="IntervaloDesc">DuraÁ„o:</label>
+                                            <label class="form-label" for="IntervaloDesc">Dura√ß√£o:</label>
                                             <input class="form-control" id="DuracaoInput" />
                                         </div>
                                     </div>
@@ -877,19 +931,19 @@
         @if (Model.Consultas != null && Model.Consultas.Count > 0)
         {
 
-            <header >
+            <header>
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="d-flex align-items-center gap-4">
                             <h1 class="h4 ls-tight">Hemograma</h1>
                         </div>
                     </div>
-                    
+
                     <div class="col-auto d-none d-md-block">
                         <div class="hstack gap-4 justify-content-end">
                             @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
                             {
-                                
+
                                 <label for="file" class="btn btn-sm btn-neutral ">
                                     <span class="">
                                         <i class="bi bi-upload me-2 d-none d-sm-inline-block"></i>
@@ -897,12 +951,12 @@
                                     Enviar documento do Hemograma (PDF)
                                 </label>
                                 <input type="file" id="file" name="file" class="d-none">
-                                
+
                                 <button type="button" onclick="enviarEAnaalisar()" class="btn btn-sm btn-primary">
                                     <span>Analisar documento com I.A</span>
                                 </button>
 
-                                
+
 
                             }
 
@@ -927,13 +981,13 @@
                         <div class="col-md-3">
                             <div class="card">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">EritrÛcitos</span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Eritr√≥citos</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Eritrocitos", Model.ultimaConsultaHemograma.Eritrocitos, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Eritrocitos", step = "0.01" })
                                     </span>
                                     <p class="mt-1">
-                                        <span class="text-muted text-xs text-opacity-75">milhıes/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">milh√µes/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -941,7 +995,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Hemoglobina</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Hemoglobina", Model.ultimaConsultaHemograma.Hemoglobina, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Hemoglobina", step = "0.1" })
@@ -955,8 +1009,8 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">HematÛcrito </span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Hemat√≥crito </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Hematocrito", Model.ultimaConsultaHemograma.Hematocrito, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Hematocrito", step = "0.1" })
                                     </span>
@@ -969,7 +1023,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">V.C.M.</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("VCM", Model.ultimaConsultaHemograma.VCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "VCM", step = "0.1" })
@@ -983,7 +1037,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">H.C.M. </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("HCM", Model.ultimaConsultaHemograma.HCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "HCM", step = "0.1" })
@@ -997,7 +1051,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">C.H.C.M.</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("CHCM", Model.ultimaConsultaHemograma.CHCM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "CHCM", step = "0.1" })
@@ -1009,7 +1063,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Vermelha</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Vermelha</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">RDW </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("RDW", Model.ultimaConsultaHemograma.RDW, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "RDW", step = "0.1" })
@@ -1026,8 +1080,8 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">LeucÛcitos (Relativo - Absoluto) </span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Leuc√≥citos (Relativo - Absoluto) </span>
                                     <span class="d-block h3 ls-tight fw-bold">
 
                                         @Html.TextBox("Leucocitos_Relativo", Model.ultimaConsultaHemograma.Leucocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Leucocitos_Relativo", step = "0.1" })
@@ -1036,7 +1090,7 @@
 
                                     </span>
                                     <p class="mt-1">
-                                        <span class="text-muted text-xs text-opacity-75"> % - mil/mm≥ </span>
+                                        <span class="text-muted text-xs text-opacity-75"> % - mil/mm¬≥ </span>
                                     </p>
                                 </div>
                             </div>
@@ -1044,7 +1098,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Bastonetes (Relativo - Absoluto)</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Bastonetes_Relativo", Model.ultimaConsultaHemograma.Bastonetes_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Bastonetes_Relativo", step = "0.1" })
@@ -1055,7 +1109,7 @@
                                     <p class="mt-1">
                                         <span class="text-success text-xs">
                                         </span>
-                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1063,7 +1117,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Segmentados (Relativo - Absoluto) </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Segmentados_Relativo", Model.ultimaConsultaHemograma.Segmentados_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Segmentados_Relativo", step = "0.1" })
@@ -1072,7 +1126,7 @@
                                     </span>
                                     <p class="mt-1">
 
-                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1080,8 +1134,8 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">EosinÛfilos (Relativo - Absoluto)</span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Eosin√≥filos (Relativo - Absoluto)</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Eosinofilos_Relativo", Model.ultimaConsultaHemograma.Eosinofilos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Eosinofilos_Relativo", step = "0.1" })
                                         -
@@ -1089,7 +1143,7 @@
                                     </span>
                                     <p class="mt-1">
 
-                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1097,8 +1151,8 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">BasÛfilos (Relativo - Absoluto) </span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Bas√≥filos (Relativo - Absoluto) </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Basofilos_Relativo", Model.ultimaConsultaHemograma.Basofilos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Basofilos_Relativo", step = "0.1" })
                                         -
@@ -1106,7 +1160,7 @@
                                     </span>
                                     <p class="mt-1">
 
-                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1114,15 +1168,15 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">LinfÛcitos (Relativo - Absoluto)</span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Linf√≥citos (Relativo - Absoluto)</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Linfocitos_Relativo", Model.ultimaConsultaHemograma.Linfocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Linfocitos_Relativo", step = "0.1" })
                                         -
                                         @Html.TextBox("Linfocitos_Absoluto", Model.ultimaConsultaHemograma.Linfocitos_Absoluto, new { @class = "border-0 bg-transparent fw-bold mx-4", @style = "width: 4rem;", @placeholder = "--", id = "Linfocitos_Absoluto", step = "0.1" })
                                     </span>
                                     <p class="mt-1">
-                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1130,8 +1184,8 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">MonÛcitos (Relativo - Absoluto)</span>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Mon√≥citos (Relativo - Absoluto)</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Monocitos_Relativo", Model.ultimaConsultaHemograma.Monocitos_Relativo, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 4rem;", @placeholder = "--", id = "Monocitos_Relativo", step = "0.1" })
                                         -
@@ -1139,7 +1193,7 @@
                                     </span>
                                     <p class="mt-1">
                                         <span class="text-success text-xs">
-                                        </span><span class="text-muted text-xs text-opacity-75">% - mil/mm≥</span>
+                                        </span><span class="text-muted text-xs text-opacity-75">% - mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1147,13 +1201,13 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">Plaquetas </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Plaquetas", Model.ultimaConsultaHemograma.Plaquetas, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Plaquetas" })
                                     </span>
                                     <p class="mt-1">
-                                        <span class="text-muted text-xs text-opacity-75">mil/mm≥</span>
+                                        <span class="text-muted text-xs text-opacity-75">mil/mm¬≥</span>
                                     </p>
                                 </div>
                             </div>
@@ -1161,7 +1215,7 @@
                         <div class="col-md-3">
                             <div class="card ">
                                 <div class="p-4">
-                                    <h6 class="text-limit text-muted mb-3">SÈrie Branca</h6>
+                                    <h6 class="text-limit text-muted mb-3">S√©rie Branca</h6>
                                     <span class="text-sm text-muted text-opacity-90 fw-semibold">VPM </span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("VPM", Model.ultimaConsultaHemograma.VPM, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "VPM", step = "0.1" })
@@ -1211,7 +1265,7 @@
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Coleta</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">¡cido ⁄rico</span>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">√Åcido √örico</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("AcidoUrico", Model.ultimaConsultaHemograma.AcidoUrico, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "AcidoUrico" })
                                     </span>
@@ -1286,7 +1340,7 @@
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Coleta</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">TriglicerÌdes</span>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">Triglicer√≠des</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("Triglicerides", Model.ultimaConsultaHemograma.Triglicerides, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "Triglicerides" })
                                     </span>
@@ -1316,7 +1370,7 @@
                             <div class="card ">
                                 <div class="p-4">
                                     <h6 class="text-limit text-muted mb-3">Coleta</h6>
-                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">N„o-HDL</span>
+                                    <span class="text-sm text-muted text-opacity-90 fw-semibold">N√£o-HDL</span>
                                     <span class="d-block h3 ls-tight fw-bold">
                                         @Html.TextBox("NaoHDL", Model.ultimaConsultaHemograma.NaoHDL, new { @class = "border-0 bg-transparent fw-bold", @style = "width: 6rem;", @placeholder = "--", id = "NaoHDL" })
                                     </span>
@@ -1430,13 +1484,13 @@
                                         <div class="">
                                             <h6>@item.Motivo</h6>
                                             <span class="d-inline-block text-muted text-xs">
-                                                @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "ConcluÌda" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "Conclu√≠da" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
                                             </span>
                                         </div>
                                     </div>
                                     <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
                                         <div class="col-6 col-sm-auto col-xl-auto">
-                                            <span class="d-block text-xs text-muted">MÈdico</span> <span class="d-block text-heading text-sm fw-bold">@item.Medico.Usuario.Name</span>
+                                            <span class="d-block text-xs text-muted">M√©dico</span> <span class="d-block text-heading text-sm fw-bold">@item.Medico.Usuario.Name</span>
                                         </div>
                                         <div class="col-6 col-sm-auto col-xl-auto">
                                             <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">@item.Medico.Especialidade.Descricao</span>
@@ -1477,7 +1531,7 @@
                                                         </div>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <h5>Status:</h5>
-                                                            <p>  @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "ConcluÌda" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))</p>
+                                                            <p>  @(item.StatusConsulta == (int)StatusConsulta.Finalizada ? "Conclu√≠da" : (item.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))</p>
                                                         </div>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <h5 class="col-md-2">Queixa:</h5>
@@ -1485,62 +1539,76 @@
                                                         </div>
                                                         <br />
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <h5 class="col-md-2">HistÛrico da doenÁa atual:</h5>
+                                                            <h5 class="col-md-2">Hist√≥rico da doen√ßa atual:</h5>
                                                             <p>@item.HistoricoDoencaAtual</p>
                                                         </div>
                                                         <br />
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <h5 class="col-md-2">OrientaÁıes:</h5>
+                                                            <h5 class="col-md-2">Orienta√ß√µes:</h5>
                                                             <p>@item.Orientacoes</p>
                                                         </div>
                                                         <br />
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <h5 class="col-md-2">HipÛtese diagnÛstica:</h5>
+                                                            <h5 class="col-md-2">Hip√≥tese diagn√≥stica:</h5>
                                                             <p>@item.HipoteseDiagnostica</p>
                                                         </div>
-                                                        @if(!string.IsNullOrEmpty(item.Observacoes)){
-                                                        <br />
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <h5 class="col-md-2">ObservaÁıes:</h5>
-                                                            <p>@item.Observacoes</p>
-                                                        </div>
+                                                        @if (!string.IsNullOrEmpty(item.Observacoes))
+                                                        {
+                                                            <br />
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <h5 class="col-md-2">Observa√ß√µes:</h5>
+                                                                <p>@item.Observacoes</p>
+                                                            </div>
                                                         }
                                                     </div>
 
                                                     <hr class="">
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <h5>Exame Solicitado:</h5>
-                                                        <p></p>
-                                                    </div>
-                                                    <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
-                                                        <div>
-                                                            <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                                                <i class="bi bi-droplet-half"></i>
-                                                            </span>
+                                                    @if (item.Anexos != null && item.Anexos.Count > 0)
+                                                    {
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Exame Solicitado:</h5>
+                                                            <p></p>
                                                         </div>
-                                                        <div class="ms-3 ms-md-4 flex-fill">
-                                                            <div class="text-limit text-sm text-heading fw-semibold">
-                                                                Hemograma
-                                                            </div>
-                                                            <div class="d-block text-xs gap-2 mt-1">
-                                                                <span>Especialista: ClÌnico Geral</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-none d-sm-block ms-auto text-end">
-                                                            <span class="badge bg-body-secondary text-danger">Pendente</span>
+                                                        foreach (var anexo in item.Anexos)
+                                                        {
+                                                            <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
+                                                                <div>
+                                                                    <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                                                        <i class="bi bi-droplet-half"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="ms-3 ms-md-4 flex-fill">
+                                                                    <div class="text-limit text-sm text-heading fw-semibold">
+                                                                        @anexo.TipoDocumento
+                                                                    </div>
+                                                                    <div class="d-block text-xs gap-2 mt-1">
+                                                                        <span>Especialista: Cl√≠nico Geral</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-none d-sm-block ms-auto text-end">
+                                                                    <span class="badge bg-body-secondary text-danger">@anexo.Status</span>
 
-                                                        </div>
-                                                        <div class="d-md-flex gap-2 mx-3">
-                                                            <button type="button" class="btn btn-sm btn-dark">
-                                                                <i class="bi bi-upload h4"></i>
-                                                            </button>
+                                                                </div>
+                                                              @*   <div class="d-md-flex gap-2 mx-3">
+                                                                    <button type="button" class="btn btn-sm btn-dark">
+                                                                        <i class="bi bi-upload h4"></i>
+                                                                    </button>
 
-                                                        </div>
-                                                    </div>
+                                                                </div> *@
+                                                            </div>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Nenhum exame foi solicitado</span>
+                                                    }
+
+                                                
 
                                                     <hr class="">
                                                     @if (item.Prescricao != null)
-                                                    {                                                        
+                                                    {
                                                         @foreach (var medicamento in item.Prescricao.Medicamentos)
                                                         {
                                                             <div class="list-group-item d-flex align-items-center border-0 py-3">
@@ -1564,7 +1632,7 @@
                                                                         </div>
                                                                         <div>
                                                                             <p class="card-text text-muted">
-                                                                                <span datetime="2020-06-23"><b>DuraÁ„o:</b> @medicamento.Duracao</span>
+                                                                                <span datetime="2020-06-23"><b>Dura√ß√£o:</b> @medicamento.Duracao</span>
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -1575,12 +1643,12 @@
                                                     }
                                                     else
                                                     {
-                                                        <span>Nenhuma medicaÁ„o foi prescrita</span>
+                                                        <span>Nenhuma medica√ß√£o foi prescrita</span>
                                                     }
                                                     <hr class="">
 
                                                     <div class="d-flex flex-column col-lg-8">
-                                                        <h3 class="mb-2">MÈdico</h3>
+                                                        <h3 class="mb-2">M√©dico</h3>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <h5>Medico:</h5>
                                                             <p>@item.Medico.Usuario.Name</p>
@@ -1600,7 +1668,7 @@
                                                 </div>
                                             </div>
                                             <div class="px-6 py-5 bg-body-secondary d-flex justify-content-center">
-                                                <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Voltar</button>                                                
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Voltar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1615,7 +1683,7 @@
         </div>
     }
 
-    
+
 </main>
 
 
@@ -1639,8 +1707,8 @@
                                 <th scope="col">Motivo</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">MÈdico(a)</th>
-                                <th>AÁıes</th>
+                                <th scope="col">M√©dico(a)</th>
+                                <th>A√ß√µes</th>
                             </tr>
                         </thead>
 
@@ -1720,7 +1788,7 @@
             return;
         }
         if (intervaloMedicamento == '') {
-            alert("Por favor, insira o intervalo de medicaÁ„o.");
+            alert("Por favor, insira o intervalo de medica√ß√£o.");
             return;
         }
 
@@ -1770,7 +1838,7 @@
             $("input[name='Medicamento[" + id + "].Duracao']").remove();
         }
         else {
-            if (!confirm("Tem certeza de que deseja remover esta MedicaÁ„o? \nEsta aÁ„o n„o poder· ser desfeita!")) return;
+            if (!confirm("Tem certeza de que deseja remover esta Medica√ß√£o? \nEsta a√ß√£o n√£o poder√° ser desfeita!")) return;
 
             var medicamentoId = $("#Medicamento" + id + "Id").val();
 
@@ -1790,7 +1858,7 @@
                     displayMensagemSucessoAjax();
                 },
                 error: function (xhr, status, error) {
-                    alert("Ocorreu um erro ao excluir prescriÁ„o");
+                    alert("Ocorreu um erro ao excluir prescri√ß√£o");
                 }
             });
         }
@@ -1924,14 +1992,14 @@
             success: function (data) {
                 if (data.success) {
                     preencherCampos(data.data);
-                    console.log("An·lise realizada com sucesso:", data.data);
+                    console.log("An√°lise realizada com sucesso:", data.data);
                 } else {
                     console.log("Erro:", data.message);
                     alert(data.message);
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Erro ao enviar o formul·rio:", error);
+                console.error("Erro ao enviar o formul√°rio:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
         });
@@ -1952,21 +2020,21 @@
             success: function (data) {
                 if (data.success) {
                     preencherCampos(data.data);
-                    console.log("An·lise realizada com sucesso:", data.data);
+                    console.log("An√°lise realizada com sucesso:", data.data);
                 } else {
                     console.log("Erro:", data.message);
                     alert(data.message);
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Erro ao enviar o formul·rio:", error);
+                console.error("Erro ao enviar o formul√°rio:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
         });
     }
 
     function DesativarArquivo(idAnexo) {
-        if (!confirm("Tem certeza de que deseja remover este arquivo? \nEsta aÁ„o n„o poder· ser desfeita!")) return;
+        if (!confirm("Tem certeza de que deseja remover este arquivo? \nEsta a√ß√£o n√£o poder√° ser desfeita!")) return;
 
         $.ajax({
             url: '@Url.Action("DesativarArquivo", "Paciente")',
@@ -2004,10 +2072,10 @@
                 var link = document.createElement('a');
                 var url = window.URL.createObjectURL(data);
                 link.href = url;
-                link.download = filename || 'arquivo_download.pdf'; // Define um nome padr„o caso n„o tenha
+                link.download = filename || 'arquivo_download.pdf'; // Define um nome padr√£o caso n√£o tenha
                 link.click();
 
-                // Libera o objeto de URL apÛs o download
+                // Libera o objeto de URL ap√≥s o download
                 window.URL.revokeObjectURL(url);
             },
             error: function (xhr, status, error) {
@@ -2030,7 +2098,7 @@
                 displayMensagemSucessoAjax();
             },
             error: function (xhr, status, error) {
-                console.error("Erro ao enviar o formul·rio:", error);
+                console.error("Erro ao enviar o formul√°rio:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
         });
@@ -2049,14 +2117,14 @@
                 displayMensagemSucessoAjax();
             },
             error: function (xhr, status, error) {
-                console.error("Erro ao enviar o formul·rio:", error);
+                console.error("Erro ao enviar o formul√°rio:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
         });
     }
 
     function ConcluirConsulta(idConsulta) {
-        if (!confirm("Tem certeza de que deseja concluir esta Consulta? \nOs dados n„o poder„o ser alterados futuramente!")) return;
+        if (!confirm("Tem certeza de que deseja concluir esta Consulta? \nOs dados n√£o poder√£o ser alterados futuramente!")) return;
 
         $.ajax({
             url: '@Url.Action("ConcluirConsulta", "Consulta")',
@@ -2066,13 +2134,98 @@
                 displayMensagemSucesso();
             },
             error: function (xhr, status, error) {
-                console.error("Erro ao enviar o formul·rio:", error);
+                console.error("Erro ao enviar o formul√°rio:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
         });
     }
     function ExibirConsulta(idConsulta) {
         $("#exibirConsultaModal").modal("show");
+    }
+
+
+    let contadorExame = @(Model.ultimaConsulta?.Prescricao?.Anexos != null
+        ? Model.ultimaConsulta.Prescricao.Anexos.Count()
+        : 0);
+
+    function AdicionarExame() {
+        var nomeExame = $('#tipoExame').find(":selected").text();
+
+
+        if (nomeExame == '') {
+            alert("Por favor, insira o Exame.");
+            return;
+        }
+
+        var novaDiv = $('</br> <div class="col-md-11" style="padding-top: 1rem;"> <input readonly="" name="Exames' + contadorExame + '" class="form-control col-md-3" value="' + nomeExame + '"> </div> <div class="col-md-1"style="padding-top: 1rem;">  <button type="button" onclick="RemoverExame(' + contadorExame + ', true)" class="btn btn-sm btn-primary">-</button> </div>')
+    @*  var novaDiv = $('</br> <div class="col-md-11 row" id="idExameContainer' + contadorExame + '" style="padding-top: 1rem;"> <div class="col - md - 3">  <input readonly name="Exames' + contadorExame + '" class="form - control col - md - 3" value="' + nomeExame + '" /></div> <div class="col - md - 3">  <input readonly name="Exames' + contadorExame + '" class="form - control col - md - 3" value="' + dosagemExame + '" /></div>  <div class="col - md - 3">  <input readonly name="Exames' + contadorExame + '" class="form - control col - md - 3" value="' + intervaloExame + '" /></div> <div class="col - md - 3">  <input readonly name="Exames' + contadorExame + '" class="form - control col - md - 3" value="' + duracaoExame + '" /></div>   </div> <div class="col - md - 1" style="padding-top: 0.15rem; " id="idExameBtn' + contadorExame + '"> <button type="button" onclick="RemoverExame(' + contadorExame + ', true)" class="btn btn-sm btn-primary">-</button> </div>'); *@
+
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'Prescricao.Anexos[' + contadorExame + '].NomeArquivo',
+                value: nomeExame
+            }).appendTo('#divExamesAdicionados');
+
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Prescricao.Anexos[' + contadorExame + '].TipoDocumento',
+            value: nomeExame
+        }).appendTo('#divExamesAdicionados');
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Prescricao.Anexos[' + contadorExame + '].NmTabelaReferencia',
+            value: "Consulta"
+        }).appendTo('#divExamesAdicionados');
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'Prescricao.Anexos[' + contadorExame + '].IdTabelaReferencia',
+            value: $("#idConsulta").val()
+        }).appendTo('#divExamesAdicionados');
+
+        $('#divExamesAdicionados').append(novaDiv);
+
+        contadorExame++;
+    }
+
+    function RemoverExame(id, novo) {
+        if (novo) {
+            $("#idExameContainer" + id).remove();
+            $("#idExameBtn" + id).remove();
+
+            $("input[name='Exame[" + id + "].Medicacao']").remove();
+            $("input[name='Exame[" + id + "].Dosagem']").remove();
+            $("input[name='Exame[" + id + "].Intervalo']").remove();
+            $("input[name='Exame[" + id + "].Duracao']").remove();
+        }
+        else {
+            if (!confirm("Tem certeza de que deseja remover esta Medica√ß√£o? \nEsta a√ß√£o n√£o poder√° ser desfeita!")) return;
+
+            var medicamentoId = $("#Exame" + id + "Id").val();
+
+            $.ajax({
+                url: '@Url.Action("ExcluirExamePrescricao", "Consulta")',
+                type: 'POST',
+                data: { "Id": medicamentoId },
+                success: function (data) {
+                    $("#idExameContainer" + id).remove();
+                    $("#idExameBtn" + id).remove();
+
+                    $("input[name='Exame[" + id + "].Medicacao']").remove();
+                    $("input[name='Exame[" + id + "].Dosagem']").remove();
+                    $("input[name='Exame[" + id + "].Intervalo']").remove();
+                    $("input[name='Exame[" + id + "].Duracao']").remove();
+
+                    displayMensagemSucessoAjax();
+                },
+                error: function (xhr, status, error) {
+                    alert("Ocorreu um erro ao excluir prescri√ß√£o");
+                }
+            });
+        }
     }
 
 </script>

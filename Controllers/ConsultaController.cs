@@ -27,8 +27,11 @@ namespace ehr_csharp.Controllers
             {
                 usuarioLogado.Role = _userManager.GetRolesAsync(usuarioLogado).Result.FirstOrDefault();
 
-                if (usuarioLogado.Medico != null)
-                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == usuarioLogado.Medico.Id).ToList());
+                if (usuarioLogado.Role == "Medico") {
+                    var medicoId = Contexto<Medico>().AsNoTracking().FirstOrDefault(x => x.IdUsuario == usuarioLogado.Id).Id;
+
+                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == medicoId).ToList());
+                }
                 else if (usuarioLogado.Role == "Admin")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).ToList());
             }
@@ -58,8 +61,12 @@ namespace ehr_csharp.Controllers
             {
                 usuarioLogado.Role = _userManager.GetRolesAsync(usuarioLogado).Result.FirstOrDefault();
 
-                if (usuarioLogado.Medico != null)
-                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == usuarioLogado.Medico.Id && x.Data.Date == DataEvento).ToList());
+                if (usuarioLogado.Role == "Medico")
+                {
+                    var medicoId = Contexto<Medico>().AsNoTracking().FirstOrDefault(x => x.IdUsuario == usuarioLogado.Id).Id;
+
+                    consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento && x.IdMedico == medicoId).ToList());
+                }
                 else if (usuarioLogado.Role == "Admin")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento).ToList());
 
@@ -291,6 +298,7 @@ namespace ehr_csharp.Controllers
         {
             var consultaBd = Contexto<Consulta>().Include(x => x.Prescricao).ThenInclude(x => x.Medicamentos).FirstOrDefault(x => x.Id == abaConsulta.Id);
 
+
             consultaBd.QueixaPrincipal = abaConsulta.QueixaPrincipal;
             consultaBd.HistoricoDoencaAtual = abaConsulta.HistoricoDoencaAtual;
             consultaBd.Orientacoes = abaConsulta.Orientacoes;
@@ -307,7 +315,7 @@ namespace ehr_csharp.Controllers
                 if (consultaBd.Prescricao == null || consultaBd.Prescricao.Id != abaConsulta.Prescricao.Id)
                 {
                     Contexto<Prescricao>().Add(abaConsulta.Prescricao);
-
+                    SaveChanges();
                 }
                 else
                 {
@@ -321,11 +329,25 @@ namespace ehr_csharp.Controllers
                     }
                 }
 
+                if (abaConsulta.Prescricao.Anexos != null)
+                {
+                    foreach (var item in abaConsulta.Prescricao.Anexos)
+                    {
+                        if (consultaBd.Prescricao== null || consultaBd.Prescricao.Anexos == null || !consultaBd.Prescricao.Anexos.Any(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.IdTabelaReferencia && x.TipoDocumento == item.TipoDocumento.ToString()))
+                        {
+                            item.ArquivoData = new byte[0];
+                            item.TipoArquivo = "Indefinido";                            
+                            item.Status = "Solicitado";
+                            Contexto<Anexo>().Add(item);
+                        }
+                    }
+                }
+
             }
 
 
 
-            SaveChanges();
+         
             consultaBd.IdPrescricao = abaConsulta.Prescricao.Id;
             SaveChanges();
 
@@ -362,5 +384,7 @@ namespace ehr_csharp.Controllers
 
             return Json(new { success = true });
         }
+
+      
     }
 }

@@ -102,10 +102,22 @@ namespace ehr_csharp.Controllers
 
                 paciente.ultimaConsultaHemograma = await Contexto<Hemograma>().FirstOrDefaultAsync(x => x.IdConsulta == maiorIdConsulta);
                 paciente.ultimaConsulta = paciente.Consultas.OrderByDescending(x => x.Data).FirstOrDefault(x => x.StatusConsulta == (int)StatusConsulta.EmAndamento);
+
+
+                foreach(var item in paciente.Consultas)
+                {
+                    item.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.Id.ToString()).ToList();
+                }
+                
             }
 
             if (paciente.ultimaConsultaHemograma == null)
                 paciente.ultimaConsultaHemograma = new Hemograma();
+            
+            if(paciente.ultimaConsulta != null)
+            {
+                paciente.ultimaConsulta.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == paciente.ultimaConsulta.Id.ToString()).ToList();
+            }
 
             if (Id > 0)
                 return View("Views\\Paciente\\editar2.cshtml", paciente);
@@ -379,8 +391,14 @@ namespace ehr_csharp.Controllers
 
 
         [CustomAuthorize("Paciente")]
-        public async Task<ActionResult> Perfil(int idPaciente)
+        public async Task<ActionResult> Perfil()
         {
+            var idPaciente = 0;
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
+            {
+                idPaciente = Contexto<Paciente>().FirstOrDefault(x => x.Email == usuarioLogado.Email).Id;
+            }
+
             Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
                                          .ThenInclude(x => x.Medico)
                                          .ThenInclude(x => x.Especialidade)
@@ -397,32 +415,93 @@ namespace ehr_csharp.Controllers
         [CustomAuthorize("Paciente")]
         public async Task<ActionResult> Consultas()
         {
+            var idPaciente = 0;
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
+            {
+                idPaciente = Contexto<Paciente>().FirstOrDefault(x => x.Email == usuarioLogado.Email).Id;
+            }
             Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
                                         .ThenInclude(x => x.Medico)
                                         .ThenInclude(x => x.Especialidade)
                                         .Include(x => x.Consultas)
                                         .ThenInclude(x => x.Medico)
                                         .ThenInclude(x => x.Usuario)
-                                        .FirstOrDefault(x => x.Id == 3);
+                                        .FirstOrDefault(x => x.Id == idPaciente);
+
+
+            foreach (var item in paciente.Consultas)
+            {
+                item.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.Id.ToString()).ToList();
+            }
+
             return View(paciente);
         }
         [CustomAuthorize("Paciente")]
         public async Task<ActionResult> RegistrosMedicos()
         {
-            return View();
-        }
-        [CustomAuthorize("Paciente")]
-        public async Task<ActionResult> Medicacoes()
-        {
+            var idPaciente = 0;
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
+            {
+                idPaciente = Contexto<Paciente>().FirstOrDefault(x => x.Email == usuarioLogado.Email).Id;
+            }
+
             Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
                                                     .ThenInclude(x => x.Prescricao)
                                                     .ThenInclude(x => x.Medicamentos)
                                                     .Include(x => x.Consultas)
                                                     .ThenInclude(x => x.Medico)
                                                     .ThenInclude(x => x.Usuario)
-                                                    .FirstOrDefault(x => x.Id == 3);
+                                                    .FirstOrDefault(x => x.Id == idPaciente);
+
+            return View();
+        }
+        [CustomAuthorize("Paciente")]
+        public async Task<ActionResult> Medicacoes()
+        {
+            var idPaciente = 0;
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
+            {
+                idPaciente = Contexto<Paciente>().FirstOrDefault(x => x.Email == usuarioLogado.Email).Id;
+            }
+
+            Paciente paciente = Contexto<Paciente>().Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Prescricao)
+                                                    .ThenInclude(x => x.Medicamentos)
+                                                    .Include(x => x.Consultas)
+                                                    .ThenInclude(x => x.Medico)
+                                                    .ThenInclude(x => x.Usuario)
+                                                    .FirstOrDefault(x => x.Id == idPaciente);
 
             return View(paciente);
+        }
+
+        [HttpPost]
+        public JsonResult AnexarArquivo(IFormFile file, int idConsulta, string tipoArquivo, string nmArquivo)
+        {
+
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("Arquivo inválido.");
+
+            // Converte o IFormFile para um array de bytes
+            byte[] fileData;
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                fileData = memoryStream.ToArray();
+            }
+
+            var anexoBd = Contexto<Anexo>().FirstOrDefault(x => x.IdTabelaReferencia == idConsulta.ToString() && x.NmTabelaReferencia == "Consulta" && x.TipoDocumento == tipoArquivo);
+
+            anexoBd.ArquivoData = fileData;
+            anexoBd.NomeArquivo = nmArquivo;
+            anexoBd.Status = "Em análise";
+
+
+
+            SaveChanges();
+
+
+            return Json(new { success = true });
         }
     }
 

@@ -14,9 +14,9 @@ namespace ehr_csharp.Models
 
         public bool Ativo { get; set; }        
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
-        public string TipoDocumento { get; set; }
+        public string? TipoDocumento { get; set; }
 
 
 
@@ -27,5 +27,12 @@ namespace ehr_csharp.Models
 
 
 
+    }
+
+    public enum StatusDocumento
+    {
+        Solicitado = 1,
+        Enviado = 2,
+        Recebido = 3
     }
 }

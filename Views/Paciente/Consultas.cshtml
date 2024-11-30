@@ -14,7 +14,7 @@
             <div class="col">
                 <h1 class="ls-tight">Consultas</h1>
             </div>
-            
+
 
         </div>
     </div>
@@ -76,13 +76,13 @@
                                         <div class="">
                                             <h6>@consulta.Motivo</h6>
                                             <span class="d-inline-block text-muted text-xs">
-                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "ConcluÃ­da" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
                                             </span>
                                         </div>
                                     </div>
                                     <div class="row g-10 gx-xl-16 align-items-center justify-content-between">
                                         <div class="col-6 col-sm-auto col-xl-auto">
-                                            <span class="d-block text-xs text-muted">Médico</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Medico.Usuario.Name</span>
+                                            <span class="d-block text-xs text-muted">MÃ©dico</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Medico.Usuario.Name</span>
                                         </div>
                                         <div class="col-6 col-sm-auto col-xl-auto">
                                             <span class="d-block text-xs text-muted">Especialidade</span> <span class="d-block text-heading text-sm fw-bold">@consulta.Medico.Especialidade.Descricao</span>
@@ -128,51 +128,70 @@
                                                             <p>@consulta.QueixaPrincipal Dor na Coluna</p>
                                                         </div>
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <h5>Orientações:</h5>
+                                                            <h5>OrientaÃ§Ãµes:</h5>
                                                             <p>@consulta.Orientacoes Evitar bebidas alcoolicas</p>
                                                         </div>
                                                         <div class="d-flex align-items-center gap-2">
-                                                            <h5>Observações:</h5>
-                                                            <p>@consulta.Observacoes Seguir orientações do Médico</p>
+                                                            <h5>ObservaÃ§Ãµes:</h5>
+                                                            <p>@consulta.Observacoes Seguir orientaÃ§Ãµes do MÃ©dico</p>
                                                         </div>
                                                     </div>
 
                                                     <hr class="">
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <h5>Exame Solicitado:</h5>
-                                                        <p>@consulta.ExamesSolicitados</p>
-                                                        
-                                                    </div>
-                                                    <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
-                                                        <div>
-                                                            <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                                                <i class="bi bi-droplet-half"></i>
-                                                            </span>
+                                                    @if (consulta.Anexos != null && consulta.Anexos.Count > 0)
+                                                    {
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <h5>Exame Solicitado:</h5>
+                                                            <p></p>
                                                         </div>
-                                                        <div class="ms-3 ms-md-4 flex-fill">
-                                                            <div class="text-limit text-sm text-heading fw-semibold">
-                                                                Hemograma
-                                                            </div>
-                                                            <div class="d-block text-xs gap-2 mt-1">
-                                                                <span>Especialista: Clínico Geral</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-none d-sm-block ms-auto text-end">
-                                                            <span class="badge bg-body-secondary text-danger">Pendente</span>
-                                                            
-                                                        </div>
-                                                        <div class="d-md-flex gap-2 mx-3">
-                                                            <button type="button" class="btn btn-sm btn-dark" >
-                                                                <i class="bi bi-upload h4"></i>
-                                                            </button>
+                                                        foreach (var anexo in consulta.Anexos)
+                                                        {
+                                                            <div class="position-relative d-flex align-items-center p-3 my-3 rounded-3">
+                                                                <div>
+                                                                    <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
+                                                                        <i class="bi bi-droplet-half"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="ms-3 ms-md-4 flex-fill">
+                                                                    <div class="text-limit text-sm text-heading fw-semibold">
+                                                                        @anexo.TipoDocumento
+                                                                    </div>
+                                                                   @*  <div class="d-block text-xs gap-2 mt-1">
+                                                                        <span>Especialista: ClÃ­nico Geral</span>
+                                                                    </div> *@
+                                                                </div>
+                                                                <div class="d-none d-sm-block ms-auto text-end">
+                                                                    @if (anexo.Status == "Solicitado")
+                                                                    {
+                                                                        <span class="badge bg-body-secondary text-danger">@anexo.Status</span>
+                                                                           <div class="d-md-flex gap-2 mx-3">
+                                                                    <button type="button" class="btn btn-sm btn-dark" onclick="abrirModalEnviarArquivo(@consulta.Id, '@anexo.TipoDocumento')">
+                                                                        <i class="bi bi-upload h4"></i>
+                                                                    </button>
 
-                                                        </div>
-                                                    </div>
+                                                                </div>
+                                                                    }
+                                                                    else @if (anexo.Status == "Em anÃ¡lise")
+                                                                    {
+                                                                        <span class="badge bg-body-secondary text-warning">@anexo.Status</span>
+                                                                    }
+
+                                                                </div>
+                                                                
+                                                             
+                                                            </div>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Nenhum exame foi solicitado</span>
+                                                    }
 
                                                     <hr class="">
 
                                                     <div class="d-flex flex-column col-lg-8">
-                                                        <h3 class="mb-2">Médico</h3>
+                                                        <h3 class="mb-2">MÃ©dico</h3>
                                                         <div class="d-flex align-items-center gap-2">
                                                             <h5>Medico:</h5>
                                                             <p>@consulta.Medico.Usuario.Name</p>
@@ -236,9 +255,98 @@
     </div>
 </main>
 
+<div class="modal fade" id="enviarArquivoModal" tabindex="-1" aria-labelledby="enviarArquivoModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header pb-0 border-0">
+                <h1 class="modal-title h4" id="enviarArquivoModalLabel">Novo Documento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body undefined">
+                <form class="vstack gap-6" id="AdicionarArquivoForm" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" id="idConsultaModalEnviarArquivo">
+                    <input type="hidden" class="form-control" id="tipoArquivoModal">
+                    <div class="col-md-12">
+                        <div class="">
+                            <label class="form-label" for="email">Nome do Documento:</label>
+                            <input type="text" class="form-control" id="nmArquivo" placeholder="Ex: Hemograma">
+                        </div>
+                    </div>
+                   @*  <div class="col-md-12">
+                        <div class="">
+                            <label class="form-label" for="email">Consulta:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Ex: Hemograma">
+                        </div>
+                    </div> *@
+                    <div>
+                        <h6 class="mb-3">Anexo</h6>
+                        <div>
+                            <div class="rounded border border-2 border-dashed border-primary-hover position-relative">
+                                <div class="d-flex justify-content-center px-5 py-5">
+                                    <label for="file"
+                                           class="position-absolute w-100 h-100 top-0 start-0 cursor-pointer">
+                                        <input id="file" name="file" type="file"
+                                               class="visually-hidden">
+                                    </label>
+                                    <div class="text-center">
+                                        <div class="text-2xl text-muted"><i class="bi bi-upload"></i></div>
+                                        <div class="d-flex text-sm mt-3">
+                                            <p class="fw-semibold">Envie um arquivo</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, PDF atÃ© 3MB</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button type="button" onclick="AdicionarArquivo()" class="btn btn-primary w-100">Enviar Documento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     function abrirModal(consulta) {
-        $("#consultaModal"+consulta).modal("show");
+        $("#consultaModal" + consulta).modal("show");
+    }
+
+
+    function abrirModalEnviarArquivo(idConsulta, tipoArquivo) {
+
+        $("#idConsultaModalEnviarArquivo").val(idConsulta);
+        $("#tipoArquivoModal").val(tipoArquivo);
+        $("#enviarArquivoModal").modal("show");
+    }
+
+    function AdicionarArquivo() {
+        debugger
+        var formData = new FormData($('#AdicionarArquivoForm')[0]);
+        formData.append("idConsulta", $("#idConsultaModalEnviarArquivo").val());
+        formData.append("nmArquivo", $("#nmArquivo").val());
+        formData.append("tipoArquivo", $("#tipoArquivoModal").val());
+
+        $.ajax({
+            url: '/Paciente/AnexarArquivo',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.success) {
+                    displayMensagemSucesso();
+                } else {
+                    console.log("Erro:", data.message);
+                    alert(data.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulÃ¡rio:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
     }
 </script>
