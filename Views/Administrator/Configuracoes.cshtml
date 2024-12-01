@@ -2,623 +2,102 @@
 
  *@
 
-<main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
-
-    <div class="mb-6 mb-xl-8">
-        <div class="row g-3 align-items-center">
+<div class="flex-fill overflow-y-lg-auto scrollbar bg-body rounded-top-4 rounded-top-start-lg-4 rounded-top-end-lg-0 shadow-2">
+    <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
+        <header class="border-bottom mb-10">
+            <div class="row align-items-center">
+                <div class="col-sm-6 col-12">
+                    <h1 class="ls-tight">Security &amp; Password</h1>
+                </div>
+            </div>
+        </header>
+        <div class="row g-6 align-items-end justify-content-between">
             <div class="col">
-                <h1 class="h2 ls-tight">Configuracoes</h1>
+                <h4 class="fw-semibold mb-1">Two-factor authentication</h4>
+                <p class="text-sm text-muted">By filling your data you get a much better experience using our website.</p>
+            </div>
+            <div class="col-12 col-sm-auto">
+                <div class="hstack gap-2"><button type="button" class="btn btn-sm btn-primary">Enable 2FA</button></div>
             </div>
         </div>
-    </div>
-
-
-    <div class="row g-8">
-
-
-        <div class="col-lg-7 vstack gap-5">
-            <div class="card">
-                <div class="d-flex align-items-center justify-content-between">
-                    
-                    <div class="card-body d-flex flex-column col-lg-1">
-
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h3>Pedro Abel</h3>
-                            </div>
-
-                            <div>
-                                <span class="badge text-bg-primary">Ativo</span>
-                            </div>
-                        </div>
-                        <div class="avatar avatar-xl rounded-circle h-50 w-50">
-                            <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between mt-8">
-                            <div class="">
-                                <div class="d-flex gap-3 align-items-center">
-                                    <span class="h6 fw-semibold text-muted">Próxima Consulta</span>
-                                </div>
-                                <div class="fw-bold text-heading mt-3">12/11/2024</div>
-                            </div>
-                            <span class="vr bg-dark bg-opacity-10"></span>
-                            <div class="">
-                                <div class="d-flex gap-3 align-items-center">
-                                    <span class="h6 fw-semibold text-muted">Médico </span>
-                                </div>
-                                <div class="fw-bold text-heading mt-3">Jorge</div>
-                            </div>
-                        </div>
-
-
+        <hr class="mt-6 mb-0">
+        <div class="row row-cols-md-2 g-0 g-md-10 g-xl-16">
+            <div class="col">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill"><a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Authentication app</a> <span class="d-block text-sm text-muted">Google auth app</span></div>
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
                     </div>
-
-
-                    <div class="card-body d-flex flex-column col-lg-5">
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-5">
-                            <div>
-                                <h2>Dados pessoais</h2>
-                            </div>
-                            <div class="hstack align-items-center">
-                                <a href="#" class="text-muted">
-                                    <i class="bi bi-arrow-repeat"></i>
-                                </a>
-                            </div>
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill">
+                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Primary email</a> <span class="d-block text-sm text-muted">E-mail used to send notifications</span>
+                            <div class="d-flex mx-n1"></div>
                         </div>
-                        <div>
-                            <div class="d-flex gap-3 mb-5">
-                                <div class="d-flex flex-column col-lg-8">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Nome Completo:</h5>
-                                        <p>Pedro Augusto da Silva Abel</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Email:</h5>
-                                        <p>pedroabel@gmail.com</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Telefone:</h5>
-                                        <p>(19) 98391-4162</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Ocupação:</h5>
-                                        <p>Estagiário</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Endereço:</h5>
-                                        <p>Av Ipe Roxo, Sumaré-SP</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column col-lg-3">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Idade:</h5>
-                                        <p>22</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Data de Nascimento:</h5>
-                                        <p>21/04/2002</p>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5>Estado Cívil:</h5>
-                                        <p>Solteiro</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex mx-n1"></div>
-
-                            </div>
-                            <hr class="my-4">
-                            <div class="d-flex flex-column col-lg-8">
-                                <div class="d-flex align-items-center gap-2">
-                                    <h5>Paciente desde:</h5>
-                                    <p>09/11/2024</p>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h5>Tipo:</h5>
-                                    <p>Particular</p>
-                                </div>
-                                
-                                
-                            </div>
-                        </div>
-                        
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
                     </div>
-                </div>
-                
-
-
-            </div>
-
-
-
-
-            <div class="card">
-                <div class="card-body pb-3">
-                    <h5 class="mb-3">Medicações</h5>
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!"class="dropdown-item">Visualizar </a>
-                                        <a href="#!"class="dropdown-item">Editar</a>
-                                        <a href="#!"class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill">
+                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">SMS Recovery</a> <span class="d-block text-sm text-muted">Your phone number or something</span>
+                            <div class="d-flex mx-n1"></div>
                         </div>
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!" class="dropdown-item">Visualizar </a>
-                                        <a href="#!" class="dropdown-item">Editar</a>
-                                        <a href="#!" class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!" class="dropdown-item">Visualizar </a>
-                                        <a href="#!" class="dropdown-item">Editar</a>
-                                        <a href="#!" class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!"class="dropdown-item">Visualizar </a>
-                                        <a href="#!"class="dropdown-item">Editar</a>
-                                        <a href="#!"class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!"class="dropdown-item">Visualizar </a>
-                                        <a href="#!"class="dropdown-item">Editar</a>
-                                        <a href="#!"class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center border-0 py-3">
-                            <div class="flex-none w-rem-10 h-rem-10">
-                                <div class="w-100" alt="...">
-                                    <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                        <i class="bi bi-droplet-half"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex-fill ms-4 text-limit">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <a href="#"
-                                       class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                </div>
-                                <div class="progress progress-sm my-1">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                         style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                    <div>
-                                        <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                    </div>
-                                    <div>
-                                        <p class="card-text text-muted">
-                                            <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end ms-7">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" role="button"
-                                       data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="#!" class="dropdown-item">Visualizar </a>
-                                        <a href="#!" class="dropdown-item">Editar</a>
-                                        <a href="#!" class="dropdown-item">Apagar</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
                     </div>
                 </div>
             </div>
-          
+            <hr class="my-0 d-md-none">
+            <div class="col">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill"><a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Authentication app</a> <span class="d-block text-sm text-muted">Google auth app</span></div>
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill">
+                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Primary email</a> <span class="d-block text-sm text-muted">E-mail used to send notifications</span>
+                            <div class="d-flex mx-n1"></div>
+                        </div>
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center px-0">
+                        <div class="flex-fill">
+                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">SMS Recovery</a> <span class="d-block text-sm text-muted">Your phone number or something</span>
+                            <div class="d-flex mx-n1"></div>
+                        </div>
+                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="col-lg-3 vstack gap-5">
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-5">
-                        <div>
-                            <h5>Consultas Recentes</h5>
-                        </div>
-                        <div class="hstack align-items-center">
-                            <a href="#" class="text-muted">
-                                <i class="bi bi-arrow-repeat"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="vstack gap-6">
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Rotina - 12/12/2024</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Cardiologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Especializada - 22/11/2024</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Dermatologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Especializada - 04/01/2024</h6>
-                                    <p class="text-muted text-xs">Cancelada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Neurologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Rotina - 02/08/2023</h6>
-                                    <p class="text-muted text-xs">Adiada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Cardiologista</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="icon icon-shape flex-none text-base text-bg-dark rounded-circle">
-                                    <img src="../../img/crypto/white/btc.svg" class="w-rem-6 h-rem-6"
-                                         alt="...">
-                                </div>
-                                <div>
-                                    <h6 class="progress-text mb-1 d-block">Completa - 01/05/2023</h6>
-                                    <p class="text-muted text-xs">Finalizada </p>
-                                </div>
-                                <div class="text-end ms-auto">
-                                    <span class="h6 text-sm">Clínico Geral</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <hr class="my-6">
+        <div class="d-flex align-items-end justify-content-between">
+            <div>
+                <h4 class="fw-semibold mb-1">Password Reset</h4>
+                <p class="text-sm text-muted">By filling your data you get a much better experience using our website.</p>
             </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="mb-2 d-flex align-items-center">
-                        <h5>Documentos</h5>
-                        <div class="ms-auto text-end">
-                            <a href="#" class="text-sm fw-semibold">Ver mais</a>
-                        </div>
-                    </div>
-                    <div class="hstack gap-2 mt-4 mb-6">
-                        <button class="btn btn-sm btn-neutral">
-                            <i class="bi bi-plus me-2 d-none d-sm-inline-block"></i>Novo Documento
-                        </button>
-                    </div>
-                    <div class="surtitle mb-2">Documentos Enviados</div>
-                    <div class="vstack gap-2 mx-n3">
-                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
-                            <div>
-                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                    <i class="bi bi-droplet-half"></i>
-                                </span>
-                            </div>
-                            <div class="ms-3 ms-md-4 flex-fill">
-                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
-                                     role="button" data-bs-toggle="offcanvas"
-                                     data-bs-target="#cardDetailsOffcanvas"
-                                     aria-controls="cardDetailsOffcanvas">
-                                    Hemograma
-                                </div>
-                                <div class="d-block text-xs gap-2 mt-1">
-                                    <span>Especialista: Clínico Geral</span>
-                                </div>
-                            </div>
-                            <div class="d-none d-sm-block ms-auto text-end">
-                                <span class="badge bg-body-secondary text-warning">Em análise</span>
-                                <div class="d-none d-sm-block text-xs text-muted mt-2">
-                                    Adicionado a 2h atrás
-                                </div>
-                            </div>
-                        </div>
-                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
-                            <div>
-                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                    <i class="bi bi-ear"></i>
-                                </span>
-                            </div>
-                            <div class="ms-3 ms-md-4 flex-fill">
-                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
-                                     role="button" data-bs-toggle="offcanvas"
-                                     data-bs-target="#cardDetailsOffcanvas"
-                                     aria-controls="cardDetailsOffcanvas">
-                                    Audiometria
-                                </div>
-                                <div class="d-block text-xs gap-2 mt-1">
-                                    <span>Especialista: otorrinolaringologista</span>
-                                </div>
-                            </div>
-                            <div class="d-none d-sm-block ms-auto text-end">
-                                <span class="badge bg-body-secondary text-success">Concluído</span>
-                                <div class="d-none d-sm-block text-xs text-muted mt-2">
-                                    Adicionado a 1 ano atrás
-                                </div>
-                            </div>
-                        </div>
-                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
-                            <div>
-                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                    <i class="bi bi-activity"></i>
-                                </span>
-                            </div>
-                            <div class="ms-3 ms-md-4 flex-fill">
-                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
-                                     role="button" data-bs-toggle="offcanvas"
-                                     data-bs-target="#cardDetailsOffcanvas"
-                                     aria-controls="cardDetailsOffcanvas">
-                                    Raio-X
-                                </div>
-                                <div class="d-block text-xs gap-2 mt-1">
-                                    <span>Especialista: Ortopedista</span>
-                                </div>
-                            </div>
-                            <div class="d-none d-sm-block ms-auto text-end">
-                                <span class="badge bg-body-secondary text-success">Concluído</span>
-                                <div class="d-none d-sm-block text-xs text-muted mt-2">
-                                    Adicionado a 1 ano atrás
-                                </div>
-                            </div>
-                        </div>
-                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
-                            <div>
-                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                    <i class="bi bi-heart-half"></i>
-                                </span>
-                            </div>
-                            <div class="ms-3 ms-md-4 flex-fill">
-                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
-                                     role="button" data-bs-toggle="offcanvas"
-                                     data-bs-target="#cardDetailsOffcanvas"
-                                     aria-controls="cardDetailsOffcanvas">
-                                    Eletrocardiograma
-                                </div>
-                                <div class="d-block text-xs gap-2 mt-1">
-                                    <span>Especialista: Cardiologista</span>
-                                </div>
-                            </div>
-                            <div class="d-none d-sm-block ms-auto text-end">
-                                <span class="badge bg-body-secondary text-success">Concluído</span>
-                                <div class="d-none d-sm-block text-xs text-muted mt-2">
-                                    Adicionado a 1 ano atrás
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="surtitle mt-6"></div>
-                    
-                </div>
-            </div>
-            
+            <div class="d-none d-md-flex gap-2"><button type="button" class="btn btn-sm btn-neutral">Cancel</button> <button type="button" class="btn btn-sm btn-primary">Save</button></div>
         </div>
-    </div>
-</main>
-
+        <hr class="my-6">
+        <div class="vstack gap-5">
+            <div class="row align-items-center g-3">
+                <div class="col-md-2"><label class="form-label mb-0">Current password</label></div>
+                <div class="col-md-6">
+                    <div class=""><input type="password" class="form-control"></div>
+                </div>
+            </div>
+            <div class="row align-items-center g-3">
+                <div class="col-md-2"><label class="form-label mb-0">New password</label></div>
+                <div class="col-md-6">
+                    <div class=""><input type="password" class="form-control"></div>
+                </div>
+            </div>
+            <div class="row align-items-center g-3">
+                <div class="col-md-2"><label class="form-label mb-0">Confirm password</label></div>
+                <div class="col-md-6">
+                    <div class=""><input type="password" class="form-control"></div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-6 d-md-none">
+        <div class="d-flex d-md-none justify-content-end gap-2 mb-6"><button type="button" class="btn btn-sm btn-neutral">Cancel</button> <button type="submit" class="btn btn-sm btn-primary">Save</button></div>
+    </main>
+</div>
