@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 
 namespace ehr_csharp.Controllers
@@ -107,6 +108,12 @@ namespace ehr_csharp.Controllers
                 foreach(var item in paciente.Consultas)
                 {
                     item.Anexos = Contexto<Anexo>().Where(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.Id.ToString()).ToList();
+
+                    if(item.Anexos != null)
+                    {
+                        foreach(var anexo in item.Anexos.Where(x => x.Status == "Confirmado").ToList())                        
+                            paciente.Anexos.Add(anexo);                        
+                    }
                 }
                 
             }
@@ -495,6 +502,7 @@ namespace ehr_csharp.Controllers
             anexoBd.ArquivoData = fileData;
             anexoBd.NomeArquivo = nmArquivo;
             anexoBd.Status = "Em análise";
+            anexoBd.TipoArquivo = file.FileName.Split(".")[1];
 
 
 

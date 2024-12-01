@@ -156,20 +156,20 @@
                                                                     <div class="text-limit text-sm text-heading fw-semibold">
                                                                         @anexo.TipoDocumento
                                                                     </div>
-                                                                   @*  <div class="d-block text-xs gap-2 mt-1">
-                                                                        <span>Especialista: Clínico Geral</span>
-                                                                    </div> *@
+                                                                    @*  <div class="d-block text-xs gap-2 mt-1">
+                                                <span>Especialista: Clínico Geral</span>
+                                                </div> *@
                                                                 </div>
                                                                 <div class="d-none d-sm-block ms-auto text-end">
                                                                     @if (anexo.Status == "Solicitado")
                                                                     {
                                                                         <span class="badge bg-body-secondary text-danger">@anexo.Status</span>
-                                                                           <div class="d-md-flex gap-2 mx-3">
-                                                                    <button type="button" class="btn btn-sm btn-dark" onclick="abrirModalEnviarArquivo(@consulta.Id, '@anexo.TipoDocumento')">
-                                                                        <i class="bi bi-upload h4"></i>
-                                                                    </button>
+                                                                        <div class="d-md-flex gap-2 mx-3">
+                                                                            <button type="button" class="btn btn-sm btn-dark" onclick="abrirModalEnviarArquivo(@consulta.Id, '@anexo.TipoDocumento')">
+                                                                                <i class="bi bi-upload h4"></i>
+                                                                            </button>
 
-                                                                </div>
+                                                                        </div>
                                                                     }
                                                                     else @if (anexo.Status == "Em análise")
                                                                     {
@@ -177,8 +177,8 @@
                                                                     }
 
                                                                 </div>
-                                                                
-                                                             
+
+
                                                             </div>
                                                         }
 
@@ -272,11 +272,11 @@
                             <input type="text" class="form-control" id="nmArquivo" placeholder="Ex: Hemograma">
                         </div>
                     </div>
-                   @*  <div class="col-md-12">
-                        <div class="">
-                            <label class="form-label" for="email">Consulta:</label>
-                            <input type="email" class="form-control" id="email" placeholder="Ex: Hemograma">
-                        </div>
+                    @*  <div class="col-md-12">
+                    <div class="">
+                    <label class="form-label" for="email">Consulta:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Ex: Hemograma">
+                    </div>
                     </div> *@
                     <div>
                         <h6 class="mb-3">Anexo</h6>

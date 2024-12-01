@@ -836,10 +836,16 @@
                                     </div>
 
 
-                                    <div>
-                                        <h6>Data do retorno:</h6>
-                                        <div class="col-md-11">
+                                    <div class="col-md-11" style="padding-top: 1rem;">
+                                        <h6 class="form-label">Data do retorno:</h6>
+                                        <div>
                                             @Html.TextBox("RetornoConsulta", Model.ultimaConsulta.RetornoConsulta, new { @class = "form-control Data", type = "Date" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11" style="padding-top: 1rem;">
+                                        <h6 class="form-label">CID-10: <a href="https://www.saudepp.sp.gov.br/farmacia/cons_CID10.asp" target="_blank" style="cursor:pointer"><i class="bi bi-link-45deg"></i></a></h6>
+                                        <div>
+                                            @Html.TextBox("Cid", Model.ultimaConsulta.Cid, new { @class = "form-control Data", type = "text" })
                                         </div>
                                     </div>
                                 </div>
@@ -1585,16 +1591,30 @@
                                                                         <span>Especialista: Clínico Geral</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="d-none d-sm-block ms-auto text-end">
-                                                                    <span class="badge bg-body-secondary text-danger">@anexo.Status</span>
+                                                                @if (anexo.Status == "Solicitado")
+                                                                {
+                                                                    <div class="d-none d-sm-block ms-auto text-end">
+                                                                        <span class="badge bg-body-secondary text-danger">@anexo.Status</span>
 
-                                                                </div>
-                                                              @*   <div class="d-md-flex gap-2 mx-3">
-                                                                    <button type="button" class="btn btn-sm btn-dark">
-                                                                        <i class="bi bi-upload h4"></i>
-                                                                    </button>
+                                                                    </div>
+                                                                }
+                                                                else @if (anexo.Status == "Em análise")
+                                                                {
 
-                                                                </div> *@
+                                                                    <div class="d-none d-sm-block ms-auto text-end">                                                                        
+                                                                        <span class="badge bg-body-secondary text-warning">Pendente Análise</span>
+                                                                        <button class="btn btn-sm btn-primary flex-grow-1 text-center" type="button" onclick="BaixarArquivo(@anexo.IdAnexo)"><i class="bi bi-download"></i></button>
+                                                                        <button class="btn btn-sm btn-success flex-grow-1 text-center" type="button" onclick="ConfirmarArquivo(@anexo.IdAnexo)"><i class="bi bi-check2"></i></button>
+                                                                    </div>
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    <div class="d-none d-sm-block ms-auto text-end">
+                                                                        <span class="badge bg-body-secondary text-success">@anexo.Status</span>
+                                                                        <button class="btn btn-sm btn-primary flex-grow-1 text-center" type="button" onclick="BaixarArquivo(@anexo.IdAnexo)"><i class="bi bi-download"></i></button>
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         }
 
@@ -1604,10 +1624,10 @@
                                                         <span>Nenhum exame foi solicitado</span>
                                                     }
 
-                                                
+
 
                                                     <hr class="">
-                                                    @if (item.Prescricao != null)
+                                                    @if (item.Prescricao != null && item.Prescricao.Medicamentos != null && item.Prescricao.Medicamentos.Count > 0)
                                                     {
                                                         @foreach (var medicamento in item.Prescricao.Medicamentos)
                                                         {
@@ -1737,6 +1757,28 @@
         }
     });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const cidInput = document.querySelector("#Cid");
+
+        cidInput.addEventListener("input", function () {
+            let value = cidInput.value.toUpperCase(); // Converte para maiúsculas
+            value = value.replace(/[^A-Z0-9.]/g, ""); // Remove caracteres inválidos (apenas letras, números e ponto)
+
+            // Enforce formato: letra + 2 números + (opcional: ponto + 1-2 números)
+            const regex = /^([A-Z])(\d{0,2})(\.?)(\d{0,2})$/;
+            const match = value.match(regex);
+
+            if (match) {
+                let formattedValue = match[1]; // Letra
+                if (match[2]) formattedValue += match[2]; // Números
+                if (match[3]) formattedValue += "."; // Ponto
+                if (match[4]) formattedValue += match[4]; // Mais números
+                cidInput.value = formattedValue;
+            } else {
+                cidInput.value = value.slice(0, -1); // Remove último caractere inválido
+            }
+        });
+    });
 
     let contador = 0;
     function AdicionarAntecedente() {
@@ -2227,5 +2269,22 @@
             });
         }
     }
+    function ConfirmarArquivo(idAnexo) {
+        if (!confirm("Tem certeza de que deseja confirmar este arquivo?")) return;
+
+        $.ajax({
+            url: '@Url.Action("ConfirmarArquivo", "Consulta")',
+            type: 'POST',
+            data: { 'idAnexo': idAnexo },
+            success: function (data) {
+                displayMensagemSucesso();
+            },
+            error: function (xhr, status, error) {
+                console.error("Erro ao enviar o formulário:", error);
+                alert("Ocorreu um erro ao enviar o arquivo.");
+            }
+        });
+    }
+
 
 </script>

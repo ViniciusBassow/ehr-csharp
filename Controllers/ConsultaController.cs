@@ -27,7 +27,8 @@ namespace ehr_csharp.Controllers
             {
                 usuarioLogado.Role = _userManager.GetRolesAsync(usuarioLogado).Result.FirstOrDefault();
 
-                if (usuarioLogado.Role == "Medico") {
+                if (usuarioLogado.Role == "Medico")
+                {
                     var medicoId = Contexto<Medico>().AsNoTracking().FirstOrDefault(x => x.IdUsuario == usuarioLogado.Id).Id;
 
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == medicoId).ToList());
@@ -305,6 +306,7 @@ namespace ehr_csharp.Controllers
             consultaBd.HipoteseDiagnostica = abaConsulta.HipoteseDiagnostica;
             consultaBd.ExamesSolicitados = abaConsulta.ExamesSolicitados;
             consultaBd.RetornoConsulta = abaConsulta.RetornoConsulta;
+            consultaBd.Cid = abaConsulta.Cid;
 
 
 
@@ -319,24 +321,25 @@ namespace ehr_csharp.Controllers
                 }
                 else
                 {
-                    foreach (var item in abaConsulta.Prescricao.Medicamentos)
-                    {
-                        if (!consultaBd.Prescricao.Medicamentos.Any(x => x.Id == item.Id))
+                    if (abaConsulta.Prescricao.Medicamentos != null)
+                        foreach (var item in abaConsulta.Prescricao.Medicamentos)
                         {
-                            item.IdPrescricao = consultaBd.Prescricao.Id;
-                            Contexto<Medicamento>().Add(item);
+                            if (!consultaBd.Prescricao.Medicamentos.Any(x => x.Id == item.Id))
+                            {
+                                item.IdPrescricao = consultaBd.Prescricao.Id;
+                                Contexto<Medicamento>().Add(item);
+                            }
                         }
-                    }
                 }
 
                 if (abaConsulta.Prescricao.Anexos != null)
                 {
                     foreach (var item in abaConsulta.Prescricao.Anexos)
                     {
-                        if (consultaBd.Prescricao== null || consultaBd.Prescricao.Anexos == null || !consultaBd.Prescricao.Anexos.Any(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.IdTabelaReferencia && x.TipoDocumento == item.TipoDocumento.ToString()))
+                        if (consultaBd.Prescricao == null || consultaBd.Prescricao.Anexos == null || !consultaBd.Prescricao.Anexos.Any(x => x.NmTabelaReferencia == "Consulta" && x.IdTabelaReferencia == item.IdTabelaReferencia && x.TipoDocumento == item.TipoDocumento.ToString()))
                         {
                             item.ArquivoData = new byte[0];
-                            item.TipoArquivo = "Indefinido";                            
+                            item.TipoArquivo = "Indefinido";
                             item.Status = "Solicitado";
                             Contexto<Anexo>().Add(item);
                         }
@@ -347,7 +350,7 @@ namespace ehr_csharp.Controllers
 
 
 
-         
+
             consultaBd.IdPrescricao = abaConsulta.Prescricao.Id;
             SaveChanges();
 
@@ -385,6 +388,37 @@ namespace ehr_csharp.Controllers
             return Json(new { success = true });
         }
 
-      
+        [HttpPost]
+        public async Task<JsonResult> ConfirmarArquivo(int idAnexo)
+        {
+            var anexo = Contexto<Anexo>().FirstOrDefault(x => x.IdAnexo == idAnexo);
+
+            if (anexo != null)
+            {
+                anexo.Status = "Confirmado";
+
+
+                if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+                {
+                    Log logSalvarConsulta = new Log()
+                    {
+                        DataAlteracao = DateTime.Now,
+                        TabelaReferencia = "Consulta",
+                        Alteracao = $"O usuário {UsuarioLogado.Name} confirmou a veracidade do anexo {idAnexo}",
+                        IdUsuarioAlteracao = UsuarioLogado.Id
+                    };
+
+                    Contexto<Log>().Add(logSalvarConsulta); // Adicionando log                    
+                }
+                SaveChanges();
+                ModelState.Clear();
+            }
+
+
+
+            return Json(new { success = true });
+        }
+
+
     }
 }

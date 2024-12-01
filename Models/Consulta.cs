@@ -25,6 +25,8 @@ namespace ehr_csharp.Models
         //public string? Prescricao { get; set; }          
         public string? Orientacoes { get; set; }
         public string? Observacoes { get; set; }
+
+        public string? Cid { get; set; }
         public DateTime? RetornoConsulta { get; set; }
         public DateTime? DataConclusao { get; set; }
 
