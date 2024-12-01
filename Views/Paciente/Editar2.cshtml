@@ -748,7 +748,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>Historico da doença atual</h6>
+                                <h6>* Historico da doença atual</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("HistoricoDoencaAtual", Model.ultimaConsulta.HistoricoDoencaAtual, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -759,7 +759,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>Orientações</h6>
+                                <h6>* Orientações</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("Orientacoes", Model.ultimaConsulta.Orientacoes, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -770,7 +770,7 @@
                     <div class="col-md-6">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h6>Hipótese Diagnóstica</h6>
+                                <h6>* Hipótese Diagnóstica</h6>
                                 <div class="row mt-2">
                                     @Html.TextArea("HipoteseDiagnostica", Model.ultimaConsulta.HipoteseDiagnostica, new { @class = "form-control", rows = "6" })
                                 </div>
@@ -843,7 +843,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-11" style="padding-top: 1rem;">
-                                        <h6 class="form-label">CID-10: <a href="https://www.saudepp.sp.gov.br/farmacia/cons_CID10.asp" target="_blank" style="cursor:pointer"><i class="bi bi-link-45deg"></i></a></h6>
+                                        <h6 class="form-label">* CID-10: <a href="https://www.saudepp.sp.gov.br/farmacia/cons_CID10.asp" target="_blank" style="cursor:pointer"><i class="bi bi-link-45deg"></i></a></h6>
                                         <div>
                                             @Html.TextBox("Cid", Model.ultimaConsulta.Cid, new { @class = "form-control Data", type = "text" })
                                         </div>
@@ -2022,7 +2022,7 @@
     }
 
     function enviarEAnaalisar() {
-
+        Loading(true);
         var formData = new FormData($('#openAiUploadForm')[0]);
 
         $.ajax({
@@ -2034,13 +2034,16 @@
             success: function (data) {
                 if (data.success) {
                     preencherCampos(data.data);
+                    Loading(false);
                     console.log("Análise realizada com sucesso:", data.data);
                 } else {
+                    Loading(false);
                     console.log("Erro:", data.message);
                     alert(data.message);
                 }
             },
             error: function (xhr, status, error) {
+                Loading(false);
                 console.error("Erro ao enviar o formulário:", error);
                 alert("Ocorreu um erro ao enviar o arquivo.");
             }
@@ -2146,7 +2149,7 @@
         });
     }
 
-    function salvarAbaConsulta() {
+    function salvarAbaConsulta() {        
         var formData = new FormData($('#formAbaConsulta')[0]);
 
         $.ajax({
@@ -2156,7 +2159,12 @@
             processData: false,
             contentType: false,
             success: function (data) {
+                if(data.success){
                 displayMensagemSucessoAjax();
+                }
+                else{
+                    displayMensagemSucessoAjax(data.erros);
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Erro ao enviar o formulário:", error);

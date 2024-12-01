@@ -17,7 +17,7 @@ namespace ehr_csharp.Controllers
         public AdministratorController(AppDbContext context, IMemoryCache cache) : base(context, cache)
         {
             _cache = cache; // Inicializando o cache
-        }     
+        }
 
         public async Task<ActionResult> Index()
         {
@@ -42,7 +42,9 @@ namespace ehr_csharp.Controllers
 
         public async Task<ActionResult> Configuracoes()
         {
-            return View();
+            var configuracoes = Contexto<Config>().ToList();
+
+            return View(configuracoes);
         }
 
         public async Task<ActionResult> dash()
@@ -59,6 +61,27 @@ namespace ehr_csharp.Controllers
         {
             return View();
         }
-        
+
+        [HttpPost]
+        public IActionResult Salvar(List<Config> configs)
+        {
+            if (configs != null)
+            {
+                var configBd = Contexto<Config>().ToList();
+
+
+                // Processar a lista de configurações aqui
+                foreach (var config in configs)
+                {
+                    var tempo = configBd.FirstOrDefault(x => x.IdConfig == config.IdConfig);
+                    tempo.Valor = config.Valor;
+
+                }
+            }
+            SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

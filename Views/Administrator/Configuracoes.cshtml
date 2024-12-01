@@ -1,103 +1,38 @@
-@* @model List<ehr_csharp.Models.Paciente>
+ @model List<ehr_csharp.Models.Config>
 
- *@
+
 
 <div class="flex-fill overflow-y-lg-auto scrollbar bg-body rounded-top-4 rounded-top-start-lg-4 rounded-top-end-lg-0 shadow-2">
     <main class="container-fluid px-3 py-5 p-lg-6 p-xxl-8">
         <header class="border-bottom mb-10">
             <div class="row align-items-center">
                 <div class="col-sm-6 col-12">
-                    <h1 class="ls-tight">Security &amp; Password</h1>
+                    <h1 class="ls-tight">Configurações do Sistema</h1>
                 </div>
             </div>
-        </header>
-        <div class="row g-6 align-items-end justify-content-between">
-            <div class="col">
-                <h4 class="fw-semibold mb-1">Two-factor authentication</h4>
-                <p class="text-sm text-muted">By filling your data you get a much better experience using our website.</p>
-            </div>
-            <div class="col-12 col-sm-auto">
-                <div class="hstack gap-2"><button type="button" class="btn btn-sm btn-primary">Enable 2FA</button></div>
-            </div>
-        </div>
-        <hr class="mt-6 mb-0">
-        <div class="row row-cols-md-2 g-0 g-md-10 g-xl-16">
-            <div class="col">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill"><a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Authentication app</a> <span class="d-block text-sm text-muted">Google auth app</span></div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
-                    </div>
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill">
-                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Primary email</a> <span class="d-block text-sm text-muted">E-mail used to send notifications</span>
-                            <div class="d-flex mx-n1"></div>
+        </header>   
+        
+    @using (Html.BeginForm("Salvar", "Administrator", FormMethod.Post, new { enctype = "multipart/form-data", id = "formSalvarPaciente" }))
+    {
+            <div class="vstack gap-5">
+                @for (var i = 0; i < Model.Count; i++)
+                {
+                    <div >
+                        <div class="col-md-6">
+                            <label class="form-label">@Model[i].Descricao</label>
                         </div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
-                    </div>
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill">
-                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">SMS Recovery</a> <span class="d-block text-sm text-muted">Your phone number or something</span>
-                            <div class="d-flex mx-n1"></div>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-inline">
+                                @Html.HiddenFor(m => m[i].IdConfig) 
+                                @Html.TextBoxFor(m => m[i].Valor, new { @class = "form-control" }) 
+                            </div>
                         </div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
                     </div>
-                </div>
+                }
             </div>
-            <hr class="my-0 d-md-none">
-            <div class="col">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill"><a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Authentication app</a> <span class="d-block text-sm text-muted">Google auth app</span></div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
-                    </div>
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill">
-                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">Primary email</a> <span class="d-block text-sm text-muted">E-mail used to send notifications</span>
-                            <div class="d-flex mx-n1"></div>
-                        </div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
-                    </div>
-                    <div class="list-group-item d-flex align-items-center px-0">
-                        <div class="flex-fill">
-                            <a href="#" class="h5 d-block fw-semibold text-heading text-primary-hover mb-1">SMS Recovery</a> <span class="d-block text-sm text-muted">Your phone number or something</span>
-                            <div class="d-flex mx-n1"></div>
-                        </div>
-                        <div class="ms-auto text-end"><a href="#" class="btn btn-sm btn-neutral">Setup</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr class="my-6">
-        <div class="d-flex align-items-end justify-content-between">
-            <div>
-                <h4 class="fw-semibold mb-1">Password Reset</h4>
-                <p class="text-sm text-muted">By filling your data you get a much better experience using our website.</p>
-            </div>
-            <div class="d-none d-md-flex gap-2"><button type="button" class="btn btn-sm btn-neutral">Cancel</button> <button type="button" class="btn btn-sm btn-primary">Save</button></div>
-        </div>
-        <hr class="my-6">
-        <div class="vstack gap-5">
-            <div class="row align-items-center g-3">
-                <div class="col-md-2"><label class="form-label mb-0">Current password</label></div>
-                <div class="col-md-6">
-                    <div class=""><input type="password" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row align-items-center g-3">
-                <div class="col-md-2"><label class="form-label mb-0">New password</label></div>
-                <div class="col-md-6">
-                    <div class=""><input type="password" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row align-items-center g-3">
-                <div class="col-md-2"><label class="form-label mb-0">Confirm password</label></div>
-                <div class="col-md-6">
-                    <div class=""><input type="password" class="form-control"></div>
-                </div>
-            </div>
-        </div>
+
         <hr class="my-6 d-md-none">
-        <div class="d-flex d-md-none justify-content-end gap-2 mb-6"><button type="button" class="btn btn-sm btn-neutral">Cancel</button> <button type="submit" class="btn btn-sm btn-primary">Save</button></div>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
+    }
     </main>
 </div>

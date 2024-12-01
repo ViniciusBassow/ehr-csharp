@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.Tokens;
 using SQLApp.Data;
 using System.Diagnostics;
 
@@ -297,6 +298,18 @@ namespace ehr_csharp.Controllers
         [HttpPost]
         public async Task<JsonResult> SalvarAbaConsulta(Consulta abaConsulta)
         {
+            var erros = ValidarCamposSalvarAbaConsulta(abaConsulta);
+
+            if (!string.IsNullOrEmpty(erros))
+            {
+              
+                return Json(new
+                {
+                    success = false,
+                    erros
+                });
+            }
+
             var consultaBd = Contexto<Consulta>().Include(x => x.Prescricao).ThenInclude(x => x.Medicamentos).FirstOrDefault(x => x.Id == abaConsulta.Id);
 
 
@@ -419,6 +432,24 @@ namespace ehr_csharp.Controllers
             return Json(new { success = true });
         }
 
+
+        public string ValidarCamposSalvarAbaConsulta(Consulta abaConsulta)
+        {
+            var erro = "";
+            if (string.IsNullOrEmpty(abaConsulta.QueixaPrincipal))
+                erro += "O campo Queixa é obrigatório. \n";
+                ModelState.AddModelError("Queixa", "O campo é obrigatório. \n");
+            if (string.IsNullOrEmpty(abaConsulta.HistoricoDoencaAtual))
+                erro += "O campo Histórico da Doença Atual é obrigatório. \n";
+            if (string.IsNullOrEmpty(abaConsulta.Orientacoes))
+                erro += "O campo Orientações é obrigatório. \n";
+            if (string.IsNullOrEmpty(abaConsulta.HipoteseDiagnostica))
+                erro += "O campo Hipótese Diagnóstica é obrigatório. \n";
+            if (string.IsNullOrEmpty(abaConsulta.Cid))
+                erro += "O campo CID-10 é obrigatório. \n";
+
+            return erro;
+        }
 
     }
 }
