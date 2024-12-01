@@ -79,7 +79,7 @@ namespace ehr_csharp.Controllers
                 }
             }
             SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Configuracoes");
         }
 
 
