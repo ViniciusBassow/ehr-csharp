@@ -22,6 +22,7 @@
                         <a href="/paciente/index" class="btn btn-sm btn-neutral flex-grow-1 text-center">Voltar</a>
                         @if (consultaEmAndamento)
                         {
+                            
                             <button type="button" class="btn btn-sm btn-success flex-grow-1 text-center" onclick="ConcluirConsulta(@Model.ultimaConsulta.Id)" data-bs-dismiss="modal">Concluir Consulta</button>
                         }
                     </div>
@@ -1688,8 +1689,16 @@
                                                 </div>
                                             </div>
                                             <div class="px-6 py-5 bg-body-secondary d-flex justify-content-center">
-                                                <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Voltar</button>
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-neutral text-white me-3">Voltar</button>
+                                                
+                                                <a href="@Url.Action("GerarComprovanteComparacimento", "Pdf", new { idConsulta = @item.Id })" target="_blank" class="btn btn-primary text-white me-3">Gerar declaração de comparecimento</a>
+                                                @* <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Gerar Atestado</button> *@
+                                                <a href="@Url.Action("GerarAtestado", "Pdf", new { idConsulta = @item.Id })" target="_blank" class="btn btn-primary text-white me-3">Gerar Atestado</a>
+                                                
+
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>

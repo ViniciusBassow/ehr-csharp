@@ -1,4 +1,4 @@
-﻿@model List<ehr_csharp.Models.Consulta>
+@model List<ehr_csharp.Models.Consulta>
 
 <head>
     <!-- Required meta tags -->
@@ -20,6 +20,12 @@
     <link rel="stylesheet" href="css/style.css">
 
     @* <title>Calendar #9</title> *@
+    <style>
+        .fc-left {
+            text-transform: capitalize;
+        }
+
+    </style>
 </head>
 
 
@@ -80,14 +86,15 @@
                 ],
         select: function(info) {
             var selectedDate = info.startStr;
-            $("#consultaModalLabel").text(selectedDate)
+
             $.ajax({
                 url: '/Consulta/ExibirEventosDia',
                 type: 'GET',
                 data: { "DataEvento": selectedDate },
                 dataType: 'html',
                 success: function (data) {
-             
+                    var novaData = formatarData(selectedDate);
+                    $("#consultaModalLabel").text(novaData)
                     $("#consultaModalBody").html(data);
                     $("#DataConsultaModal").val(selectedDate);
                 },
@@ -120,6 +127,13 @@
     calendar.render();
             });
 
+    function formatarData(data) {
+        const partes = data.split('-'); // Divide a data em partes: [YYYY, MM, DD]
+        const ano = partes[0];
+        const mes = partes[1];
+        const dia = partes[2];
+        return `${dia}/${mes}/${ano}`; // Reorganiza no formato DD/MM/YYYY
+    }
 
 </script>
 

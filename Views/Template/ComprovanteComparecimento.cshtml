@@ -112,15 +112,11 @@
         <div class="content">
             <h2>Comprovante de Comparecimento</h2>
             <p>
-                Atesto para que o(a) Sr. (a) <span>@Model.Paciente.NomeCompleto</span> portador da Carteira de identidade n° <span>@Model.Paciente.Rg</span>
-                residente e domiciliado(a) à <span>@Model.Paciente.Endereco</span>, que esteve sob cuidades médicos no dia <span> @Model.Data.ToString("dd /MM/yyyy")</span>
-                deverá se afastar de suas atividades pelo período de ___________ dias de trabalho a partir desta data. 
-            </p>
+                Declaro que o(a) Sr. (a) <span>@Model.Paciente.NomeCompleto</span> portador da Carteira de identidade n° <span>@Model.Paciente.Rg</span>
+                residente e domiciliado(a) à <span>@Model.Paciente.Endereco</span>, compareceu a uma consulta médica no dia
+                <span>@Model.Data.ToString("dd/MM/yyyy")</span> no período das <span>___:___</span> até as <span>___:___</span> horas do dia.
 
-            <p>
-                Atestado feito no dia <span>@DateTime.Now.ToString("dd/MM/yyyy")</span> no horário <span>@DateTime.Now.ToString("mm:HH")</span>, na cliníca @Model.TemplateNomeClinica
-                localizada no endereço  <span>@Model.ConfigTemplateLogradouro, @Model.ConfigTemplateNrLogradouro - @Model.ConfigTemplateBairro - @Model.ConfigTemplateCidade/@Model.ConfigTemplateEstado</span>
-            </p>
+            </p>       
         </div>
         <div>
             <br />
@@ -146,10 +142,6 @@
                 <p>@Model.ConfigTemplateTelefone | @Model.ConfigTemplateEmail | @Model.ConfigTemplateSiteApoio</p>
                 <p>Documento gerado digitalmente pelo sistema AVITA</p>
             </div>
-            <p></p>
-            <p style="font-size: 14px;color: #777777;">
-                NOTA: Este atestado é válido para as finalidades previstas no Art. 86 do R.G.P.S. aprovado pelo Decreto nº 60.501 de 14/03/67 e será expedido para justificar de 1 a 15 dias de afastamento do trabalho
-            </p>
         </div>
     </div>
 </body>

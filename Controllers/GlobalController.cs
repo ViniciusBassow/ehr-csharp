@@ -8,7 +8,7 @@ using SQLApp.Data;
 
 public class GlobalController : Controller
 {
-    
+
 
     protected readonly AppDbContext _context;
     private readonly IMemoryCache _cache;
@@ -73,10 +73,27 @@ public class GlobalController : Controller
                     return int.Parse(config.Valor);
                 case (int)TipoParametro.DateTime:
                     return DateTime.Parse(config.Valor);
-                    default: return "";
+                default: return "";
             }
         else
             return "";
+    }
+
+    public void RegistrarLog(string textoAlteração, string TabelaReferencia)
+    {
+        if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
+        {            
+            Log log = new Log()
+            {
+                DataAlteracao = DateTime.Now,
+                TabelaReferencia = TabelaReferencia,
+                Alteracao = textoAlteração,
+                IdUsuarioAlteracao = usuarioLogado.Id
+            };
+
+            Contexto<Log>().Add(log);
+            SaveChanges();
+        }
     }
 
 }

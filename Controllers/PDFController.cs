@@ -22,28 +22,8 @@ namespace ehr_csharp.Controllers
             dbContext = context;
         }
 
-        public IActionResult GerarAtestado(int idConsulta)
-        {
-            idConsulta = 8;
-            var consulta = Contexto<Consulta>().Include(x => x.Medico)
-                                                    .ThenInclude(x => x.Usuario)
-                                                .Include(x => x.Medico)
-                                                    .ThenInclude(x => x.Especialidade)
-                                                    .Include(x => x.Paciente)
-                                                .FirstOrDefault(x => x.Id == idConsulta);            
-
-            return new ViewAsPdf("~/Views/Template/Atestado.cshtml", consulta)
-            {
-                FileName = "Relatorio.pdf",
-                PageSize = Rotativa.AspNetCore.Options.Size.A4,
-                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
-                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
-            };
-        }
-
-        public IActionResult teste(int idConsulta)
-        {
-            idConsulta = 8;
+        public IActionResult GerarComprovanteComparacimento(int idConsulta)
+        {            
             var consulta = Contexto<Consulta>().Include(x => x.Medico)
                                                     .ThenInclude(x => x.Usuario)
                                                 .Include(x => x.Medico)
@@ -53,7 +33,40 @@ namespace ehr_csharp.Controllers
 
             consulta.preencherCamposConfigTemplate(dbContext, _cache);
 
-            return View("~/Views/Template/Atestado.cshtml", consulta);            
+
+            RegistrarLog($"Gerou comprovante de Comparecimento da consulta {idConsulta}", "Consulta");
+
+            return new ViewAsPdf("~/Views/Template/ComprovanteComparecimento.cshtml", consulta)
+            {
+                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+            };
         }
+
+        public IActionResult GerarAtestado(int idConsulta)
+        {
+            var consulta = Contexto<Consulta>().Include(x => x.Medico)
+                                                    .ThenInclude(x => x.Usuario)
+                                                .Include(x => x.Medico)
+                                                    .ThenInclude(x => x.Especialidade)
+                                                    .Include(x => x.Paciente)
+                                                .FirstOrDefault(x => x.Id == idConsulta);
+
+            consulta.preencherCamposConfigTemplate(dbContext, _cache);
+
+
+            RegistrarLog($"Gerou atestado médico da consulta {idConsulta}", "Consulta");
+
+            return new ViewAsPdf("~/Views/Template/Atestado.cshtml", consulta)
+            {
+                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+            };
+        }
+      
     }
 }

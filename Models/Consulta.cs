@@ -69,6 +69,8 @@ namespace ehr_csharp.Models
         [NotMapped]
         public string? ConfigTemplateSiteApoio { get; set; }
         [NotMapped]
+        public string? TemplateNomeClinica { get; set; }
+        [NotMapped]
         public List<Anexo> Anexos { get; set; }
 
         public void preencherCamposConfigTemplate(AppDbContext context, IMemoryCache cache)
@@ -84,6 +86,7 @@ namespace ehr_csharp.Models
             this.ConfigTemplateBairro =         globalController.ConsultarConfig("TemplateBairro").ToString();
             this.ConfigTemplateTelefone =       globalController.ConsultarConfig("TemplateNumeroTelefone").ToString();
             this.ConfigTemplateSiteApoio =      globalController.ConsultarConfig("TemplateUrlSite").ToString();
+            this.TemplateNomeClinica = globalController.ConsultarConfig("TemplateNomeClinica").ToString();
         }
 
 
