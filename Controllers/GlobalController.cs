@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using SQLApp.Data;
+using System.Net.Mail;
+using System.Net;
 
 public class GlobalController : Controller
 {
@@ -82,7 +84,7 @@ public class GlobalController : Controller
     public void RegistrarLog(string textoAlteração, string TabelaReferencia)
     {
         if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
-        {            
+        {
             Log log = new Log()
             {
                 DataAlteracao = DateTime.Now,
@@ -95,5 +97,51 @@ public class GlobalController : Controller
             SaveChanges();
         }
     }
+
+    public bool EnviarEmail(string destinatario, string assunto, string corpo)
+    {        
+        var configs = Contexto<Config>().Where(x => x.IdConfig.Contains("Email")).ToList();
+
+        string remetente = configs.FirstOrDefault(x => x.IdConfig == "EmailRemetente").Valor;
+        string senha = configs.FirstOrDefault(x => x.IdConfig == "EmailSenha").Valor;
+        string smtpServidor = configs.FirstOrDefault(x => x.IdConfig == "EmailServidor").Valor;
+        int portaSmtp = int.Parse(configs.FirstOrDefault(x => x.IdConfig == "EmailPorta").Valor);
+        bool habilitarSSL = configs.FirstOrDefault(x => x.IdConfig == "EmailSsl").Valor == "1";
+        string anexoCaminho = null;
+
+
+        using (SmtpClient smtpClient = new SmtpClient(smtpServidor, portaSmtp))
+        {
+            
+
+            smtpClient.Credentials = new NetworkCredential(remetente, senha);
+            smtpClient.EnableSsl = habilitarSSL;
+
+            // Criar o e-mail
+            using (MailMessage mailMessage = new MailMessage())
+            {
+                mailMessage.From = new MailAddress(remetente);
+                mailMessage.To.Add(destinatario);
+                mailMessage.Subject = assunto;
+                mailMessage.Body = corpo;
+                mailMessage.IsBodyHtml = true; // Caso queira enviar HTML
+
+                // Anexar arquivo (opcional)
+                if (!string.IsNullOrEmpty(anexoCaminho))
+                {
+                    Attachment attachment = new Attachment(anexoCaminho);
+                    mailMessage.Attachments.Add(attachment);
+                }
+
+                // Enviar e-mail
+                smtpClient.Send(mailMessage);
+            }
+        }
+
+        return true; // E-mail enviado com sucesso
+    
+      
+    }
+
 
 }

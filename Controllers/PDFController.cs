@@ -67,6 +67,12 @@ namespace ehr_csharp.Controllers
                 PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
             };
         }
-      
+
+        public IActionResult Teste()
+        {
+
+            EnviarEmail("vinifbasso4@gmail.com", "teste", "OLÁ MUNDO");
+            return View();
+        }
     }
 }
