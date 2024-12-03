@@ -68,6 +68,31 @@ namespace ehr_csharp.Controllers
             };
         }
 
+        public IActionResult GerarPrescricaoMedica(int idConsulta)
+        {
+            var consulta = Contexto<Consulta>().Include(x => x.Medico)
+                                                    .ThenInclude(x => x.Usuario)
+                                                .Include(x => x.Medico)
+                                                    .ThenInclude(x => x.Especialidade)
+                                                    .Include(x => x.Paciente)
+                                                     .Include(x => x.Prescricao)
+                                                     .ThenInclude(x => x.Medicamentos)
+                                                .FirstOrDefault(x => x.Id == idConsulta);
+
+            consulta.preencherCamposConfigTemplate(dbContext, _cache);
+
+
+            RegistrarLog($"Gerou atestado médico da consulta {idConsulta}", "Consulta");
+
+            return new ViewAsPdf("~/Views/Template/PrescricaoMedica.cshtml", consulta)
+            {
+                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+            };
+        }
+
         public IActionResult Teste()
         {
 

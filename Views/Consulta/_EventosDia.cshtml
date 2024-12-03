@@ -1,4 +1,4 @@
-﻿@model List<ehr_csharp.Models.Consulta>
+@model List<ehr_csharp.Models.Consulta>
 
 <div class="table-responsive">
     <table class="table table-hover table-striped table-sm table-nowrap">
@@ -133,7 +133,7 @@
                 data: { idConsulta, motivoCancelamento },
                 dataType: 'html',
                 success: function (data) {
-                    alert("Consulta cancelada com sucesso!");
+                    displayMensagemSucesso();
 
                 },
                 error: function () {
@@ -154,7 +154,7 @@
                 data: { idConsulta},
                 dataType: 'html',
                 success: function (data) {
-                    alert("Consulta cancelada com sucesso!");
+                    displayMensagemSucesso();                    
 
                 },
                 error: function () {
