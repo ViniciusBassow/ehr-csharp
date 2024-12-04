@@ -69,9 +69,16 @@ namespace ehr_csharp.Controllers
             {
                 var roles = await _userManager.GetRolesAsync(usuario);
                 usuario.Role = roles.FirstOrDefault();
+
+                //if (string.IsNullOrEmpty(usuario.Role))
+                //{
+                //    usuario.Role = "Assistente";
+                //}
             }
 
-            return View(usuarios);
+            var retorno = usuarios.Where(x => x.Role != "Paciente").ToList();
+
+            return View(retorno);
         }
 
 
@@ -188,6 +195,10 @@ namespace ehr_csharp.Controllers
                 if (usuario.Role == "Medico")
                 {
                     usuario.Medico.IdUsuario = usuario.Id;
+                }
+                else
+                {
+                    usuario.Medico = null;
                 }
 
                 errors = await Registrar(usuario);

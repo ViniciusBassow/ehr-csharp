@@ -9,7 +9,7 @@
         <header class="border-bottom mb-10">
             <div class="row">
                 <div class="col-sm-6 col-12">
-                    <h1 class="ls-tight">Usu·rios</h1>
+                    <h1 class="ls-tight">Usu√°rios</h1>
                 </div>
             </div>
             <ul class="nav nav-tabs nav-tabs-flush gap-6 overflow-x border-0 mt-4">
@@ -35,14 +35,18 @@
                 <select class="form-select" id="cargoSelect" name="Role" aria-label="Default select example" onchange="AlterarCargo(this)">
                     <option>Selecionar</option>
                     <option value="Admin">Administrador</option>
-                    <option value="Medico">MÈdico</option>
-                    <option value="3">Agenda</option>
+                    <option value="Medico">M√©dico</option>
+                    <option value="Agenda">Assistente</option>
                 </select>
             </div>
             <div class="col-md-1">
-                @Html.CheckBoxFor(x => x.LockoutEnabled, new { @class = "form-check-input me-n2", })
-                @* <input class="form-check-input me-n2" type="checkbox" name="usuario.LockoutEnabled" id="switchView1" checked="checked"> *@
-                <label style="padding-left: 1rem" class="form-check-label" checked="checked" for="check_example">Ativado</label>
+                @if (Model.UserName != null)
+                {
+                    @Html.CheckBoxFor(x => x.LockoutEnabled, new { @class = "form-check-input me-n2", @checked = !Model.LockoutEnabled })
+
+                    @* <input class="form-check-input me-n2" type="checkbox" name="usuario.LockoutEnabled" id="switchView1" checked="checked"> *@
+                    <label style="padding-left: 1rem" class="form-check-label" checked="checked" for="check_example">Bloqueado</label>
+                }
             </div>
         </div>
         <hr class="my-6">
@@ -112,7 +116,7 @@
                     @*   <select class="form-select" id="IdEspecialidade" name="Medico.IdEspecialidade" aria-label="Default select example">
                 <option>Selecionar</option>
                 <option value="Admin">Administrador</option>
-                <option value="Medico">MÈdico</option>
+                <option value="Medico">M√©dico</option>
                 <option value="3">Agenda</option>
                 </select> *@
                 </div>

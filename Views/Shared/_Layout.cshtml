@@ -198,14 +198,14 @@
                                     <ul class="nav nav-sm flex-column mt-1">                                                                                
                                         @* <li class="nav-item"><a href="/Administrator/dash" class="nav-link">Dashboard</a></li> *@
                                         <li class="nav-item"><a href="/Usuario" class="nav-link">Usuários</a></li>
-                                        <li class="nav-item"><a href="/Administrator/reports" class="nav-link">Relatorios</a></li>                                        
+                                        @* <li class="nav-item"><a href="/Administrator/reports" class="nav-link">Relatorios</a></li>*@
                                         <li class="nav-item"><a href="/Administrator/Configuracoes" class="nav-link">Configurações</a></li>
                                         @* <li class="nav-item"><a href="/Administrator/configurações_do_sistema" class="nav-link">Sistema</a></li> *@
                                     </ul>
                                 </div>
                             </li>
                         }
-                        @if(role == "Medico"){
+                   @*      @if(role == "Medico"){
                         <li class="nav-item my-1">
                             <a class="nav-link d-flex align-items-center rounded-pill" href="#sidebar-dashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-dashboards"><i class="bi bi-house-fill"></i> <span>Painel do médico</span> <span class="badge badge-sm rounded-pill me-n2 bg-success-subtle text-success ms-auto"></span></a>
                             <div class="collapse" id="sidebar-dashboards">
@@ -215,7 +215,7 @@
                                 </ul>
                             </div>
                         </li>
-                        }
+                        } *@
                         @if (role == "Paciente")
                         {
                             @* <li class="nav-item my-1">

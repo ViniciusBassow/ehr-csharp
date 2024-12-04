@@ -6,7 +6,7 @@
     var novoPaciente = (Model.Id == 0);
     var contador = 0;
 
-
+    var somenteVisualizacao = (ViewBag.UsuarioLogadoRole == "Agenda");
 }
 
 <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
@@ -20,7 +20,7 @@
                 {
                     <div class="d-flex gap-2 align-items-center justify-content-end">
                         <a href="/paciente/index" class="btn btn-sm btn-neutral flex-grow-1 text-center">Voltar</a>
-                        @if (consultaEmAndamento)
+                        @if (consultaEmAndamento && !somenteVisualizacao)
                         {
 
                             <button type="button" class="btn btn-sm btn-success flex-grow-1 text-center" onclick="ConcluirConsulta(@Model.ultimaConsulta.Id)" data-bs-dismiss="modal">Concluir Consulta</button>
@@ -92,7 +92,7 @@
             <li class="nav-item" onclick="MudarAba('Principal')">
                 <a class="nav-link active" id="navPrincipal" href="#">Principal</a>
             </li>
-            @if (Model.Consultas != null && Model.Consultas.Count > 0 && Model.ultimaConsulta != null)
+            @if (Model.Consultas != null && Model.Consultas.Count > 0 && Model.ultimaConsulta != null && !somenteVisualizacao)
             {
                 <li class="nav-item" onclick="MudarAba('Consulta')" style="@(Model.Consultas != null && Model.Consultas.Count > 0 ? "": "display: none")">
                     <a class="nav-link" id="navConsulta" href="#">Consulta</a>

@@ -34,7 +34,7 @@ namespace ehr_csharp.Controllers
 
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.IdMedico == medicoId).ToList());
                 }
-                else if (usuarioLogado.Role == "Admin")
+                else if (usuarioLogado.Role == "Admin" || usuarioLogado.Role == "Agenda")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).ToList());
             }
 
@@ -69,7 +69,7 @@ namespace ehr_csharp.Controllers
 
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento && x.IdMedico == medicoId).ToList());
                 }
-                else if (usuarioLogado.Role == "Admin")
+                else if (usuarioLogado.Role == "Admin" || usuarioLogado.Role == "Agenda")
                     consultas.AddRange(Contexto<Consulta>().Include(x => x.Paciente).Where(x => x.Data.Date == DataEvento).ToList());
 
                 foreach (var item in consultas)
@@ -168,7 +168,7 @@ namespace ehr_csharp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ConfirmarConsulta(int idConsulta)
+        public async Task<JsonResult> ConfirmarConsulta(int idConsulta)
         {
             var consulta = Contexto<Consulta>().FirstOrDefault(x => x.Id == idConsulta);
             consulta.StatusConsulta = (int)StatusConsulta.Confirmada;
@@ -190,7 +190,7 @@ namespace ehr_csharp.Controllers
 
 
             SaveChanges();
-            return View("Views\\Consulta\\Index.cshtml", consulta);
+            return Json(new { success = true });
         }
 
         public void ValidarCamposConsulta(Consulta consulta)

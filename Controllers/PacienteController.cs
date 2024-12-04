@@ -89,6 +89,8 @@ namespace ehr_csharp.Controllers
                 IdUsuarioAlteracao = usuarioLogadoFinal.Id
             };
 
+            ViewBag.UsuarioLogadoRole = usuarioLogadoFinal.Role;
+
             Contexto<Log>().Add(logInicioEdicaoFinal); // Adicionando log
             SaveChanges();
 
