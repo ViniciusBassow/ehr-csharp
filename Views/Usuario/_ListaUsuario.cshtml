@@ -8,9 +8,8 @@
                 <div class="text-base">
                     <div class="form-check"><input class="form-check-input" type="checkbox"></div>
                 </div>
-                <div class="avatar avatar-sm text-bg-dark rounded-circle">
-                    @(!string.IsNullOrEmpty(usuario.UserImageBase64) ? Html.Raw($"<img src='{@usuario.UserImageBase64}'/>") : Html.Raw("<i class='bi bi-file-fill'></i>"))
-
+                <div class="avatar avatar-sm text-bg-dark rounded-circle overflow-hidden">
+                    @(!string.IsNullOrEmpty(usuario.UserImageBase64) ? Html.Raw($"<img src='{@usuario.UserImageBase64}' class='w-100 h-100 avatar avatar-sm text-bg-dark rounded-circle overflow-hidden d-inline-block'  style='object-fit: cover; ' />") : Html.Raw("<i class='bi bi-file-fill'></i>"))
                 </div>
                 <div><span class="d-block text-heading fw-bold">@usuario.UserName</span></div>
             </div>
