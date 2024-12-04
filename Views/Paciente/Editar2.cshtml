@@ -959,17 +959,20 @@
                             @using (Html.BeginForm("UploadFile", "OpenAI", FormMethod.Post, new { enctype = "multipart/form-data", id = "openAiUploadForm" }))
                             {
 
-                                <label for="file" class="btn btn-sm btn-neutral ">
+                                @* <label for="file" class="btn btn-sm btn-neutral ">
                                     <span class="">
                                         <i class="bi bi-upload me-2 d-none d-sm-inline-block"></i>
                                     </span>
                                     Enviar documento do Hemograma (PDF)
-                                </label>
-                                <input type="file" id="file" name="file" class="d-none">
+                                </label> *@
+                                <div class="d-flex gap-2">
+                                    <input type="file" id="file" name="file" class="form-control w-auto" />
 
                                 <button type="button" onclick="enviarEAnaalisar()" class="btn btn-sm btn-primary">
                                     <span>Analisar documento com I.A</span>
                                 </button>
+                                </div>
+                                
 
 
 
@@ -1408,15 +1411,17 @@
     <div id="divDocumentos" style="display:none">
         @using (Html.BeginForm("AdicionarArquivo", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data", id = "AdicionarArquivoForm" }))
         {
-            <div class="col-md-4">
-                <label class="form-label" for="nmArquivo">* Nome do Arquivo:</label>
-                <input class="form-control" id="nmArquivo">
+            <div class="d-flex align-items-center gap-3 my-4">
+                <div class="">
+                    
+                    <input class="form-control" id="nmArquivo" placeholder="Nome do arquivo"/>
+                </div>
+
+                <input type="file" id="file" name="file" class="form-control w-auto" />
+
+                <button type="button" class="btn btn-primary" onclick="AdicionarArquivo()">Enviar</button>
             </div>
-            <br>
-            <input type="file" id="file" name="file" />
 
-
-            <button type="button" class="btn btn-sm btn-primary" onclick="AdicionarArquivo()">Enviar</button>
         }
         <table class="table table-hover table-striped table-sm table-nowrap">
             <thead>

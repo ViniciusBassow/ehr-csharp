@@ -80,7 +80,9 @@
                         }
                         else
                         {
-                            @consulta.MotivoCancelamento
+                            <span>Cancelado: @consulta.MotivoCancelamento</span>
+                            
+
 
                             @*  <button type="button" onclick="CancelarConsulta(@consulta.Id,'@consulta.Paciente.NomeCompleto')" class="btn btn-sm btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard2-fill" viewBox="0 0 16 16">
@@ -98,7 +100,7 @@
     <br />
     @using (Html.BeginForm("Salvar", "Consulta", FormMethod.Post, new { enctype = "multipart/form-data", id = "formCadastrarConsulta" }))
     {
-        <div class="row align-items-center">
+        <div class="row align-items-center m-2">
             <div class="col-md-2">
                 <input type="hidden" name="Data" id="DataConsultaModal" />
                 <label class="form-label" for="Hora">* Horário da Consulta:</label>
