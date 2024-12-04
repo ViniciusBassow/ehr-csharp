@@ -490,10 +490,24 @@ namespace ehr_csharp.Controllers
         }
 
         [HttpPost]
-        public JsonResult RestaurarSenha(string idUsuario)
+        public JsonResult RestaurarSenha(string idUsuario, bool flPaciente)
         {
             var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == idUsuario);
+            Paciente paciente = new Paciente();
+
+            if (flPaciente)
+            {
+                paciente = Contexto<Paciente>().AsNoTracking().FirstOrDefault(x => x.Id == int.Parse(idUsuario));
+                usuario = Contexto<Usuario>().FirstOrDefault(x => x.Email == paciente.Email);
+
+            }
+
+
             usuario.Password = ConsultarConfig("SenhaPadraoPaciente").ToString();
+
+            if(flPaciente)
+                usuario.Password = usuario.Password.Replace("_TagSenha_", paciente.Cpf);
+            else
             usuario.Password = usuario.Password.Replace("_TagSenha_", "");
             
             usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
@@ -513,7 +527,7 @@ namespace ehr_csharp.Controllers
             }
             SaveChanges();
 
-            return Json(new { success = true, password = usuario.Password });
+            return Json(new { success = true});
         }
     }
 

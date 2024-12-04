@@ -9,14 +9,44 @@
 
         <td>
             <div class="d-flex align-items-center gap-3 ps-1">
-             
+
                 <div><span class="d-block text-heading fw-bold">@paciente.NomeCompleto</span></div>
             </div>
         </td>
         <td class="">@paciente.Sexo</td>
-            <td class="Data">@paciente.DataNascimento.ToString("dd/MM/yyyy")</td>
+        <td class="Data">@paciente.DataNascimento.ToString("dd/MM/yyyy")</td>
         <td class="TelefoneFixo">@paciente.TelefoneFixo</td>
         <td class="Celular">@paciente.Celular</td>
-        <td class="text-end d-none d-sm-table-cell"><a href="/Paciente/Editar/@paciente.Id" class="btn btn-xs btn-neutral"> @((paciente.Editar && !somenteVisualicao) ? "Editar" :"Visualizar")</a></td>
+        <td class="text-end d-none d-sm-table-cell">
+            <a href="/Paciente/Editar/@paciente.Id" class="btn btn-xs btn-neutral"> @((paciente.Editar && !somenteVisualicao) ? "Editar" : "Visualizar")</a>
+            @if (!somenteVisualicao)
+            {
+                <button onclick="RestaurarSenha('@paciente.Id')" class="btn btn-xs btn-neutral">Restaurar Senha</button>
+            }
+        </td>
     </tr>
 }
+
+<script>
+    function RestaurarSenha(idUsuario) {
+
+        if (!confirm("Tem certeza de que deseja restaurar a senha deste usuário?")) return;
+
+
+        $.ajax({
+            url: '/Usuario/RestaurarSenha',
+            type: 'POST',
+            data: { idUsuario: idUsuario, flPaciente: true},
+            dataType: 'json',
+            success: function (data) {
+
+                displayMensagemSucessoAjax("A senha do usuário foi alterada para a senha padrão do sistema.");
+            },
+            error: function (xhr, status, error) {
+
+                console.error("Erro ao restaurar a senha:", error);
+                alert("Ocorreu um erro ao tentar restaurar a senha. Por favor, tente novamente.");
+            }
+        });
+    }
+</script>

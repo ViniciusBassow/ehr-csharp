@@ -33,7 +33,7 @@
         $.ajax({
             url: '/Usuario/RestaurarSenha', 
             type: 'POST', 
-            data: { idUsuario: idUsuario }, 
+            data: { idUsuario: idUsuario, flPaciente: false },
             dataType: 'json', 
             success: function (data) {
                 
