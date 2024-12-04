@@ -36,6 +36,9 @@ namespace ehr_csharp.Controllers
         [CustomAuthorize("Admin", "Agenda", "Medico")]
         public async Task<ActionResult> Index()
         {
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoFinal))
+                ViewBag.SomenteVisualizacao = _userManager.GetRolesAsync(usuarioLogadoFinal).Result.FirstOrDefault();
+
             List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).ToList();
             return View(pacientes);
         }
@@ -392,8 +395,11 @@ namespace ehr_csharp.Controllers
             else
                 retorno.AddRange(pacientes);
 
-            return PartialView("~/Views/Paciente/_ListaPaciente.cshtml", retorno);
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoFinal))
+                ViewBag.SomenteVisualizacao = _userManager.GetRolesAsync(usuarioLogadoFinal).Result.FirstOrDefault();
 
+
+            return PartialView("~/Views/Paciente/_ListaPaciente.cshtml", retorno);
         }
 
 

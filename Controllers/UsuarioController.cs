@@ -488,6 +488,33 @@ namespace ehr_csharp.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult RestaurarSenha(string idUsuario)
+        {
+            var usuario = Contexto<Usuario>().FirstOrDefault(x => x.Id == idUsuario);
+            usuario.Password = ConsultarConfig("SenhaPadraoPaciente").ToString();
+            usuario.Password = usuario.Password.Replace("_TagSenha_", "");
+            
+            usuario.PasswordHash = Usuario.Helper.HashPassword(usuario.Password);
+
+
+            if (_cache.TryGetValue("UsuarioLogado", out Usuario UsuarioLogado))
+            {
+                Log logValidacao = new Log()
+                {
+                    DataAlteracao = DateTime.Now,
+                    TabelaReferencia = "Usuario",
+                    Alteracao = $"A senha do usuário {idUsuario} foi alterado pelo usuário {UsuarioLogado.Id}",
+                    IdUsuarioAlteracao = UsuarioLogado.Id
+                };
+
+                Contexto<Log>().Add(logValidacao); // Adicionando log              
+            }
+            SaveChanges();
+
+            return Json(new { success = true, password = usuario.Password });
+        }
     }
 
 
