@@ -76,7 +76,7 @@ namespace ehr_csharp.Controllers
                 //}
             }
 
-            var retorno = usuarios.Where(x => x.Role != "Paciente").ToList();
+            var retorno = usuarios.Where(x => x.Role != "Paciente").OrderBy(x => x.Name).ToList();
 
             return View(retorno);
         }

@@ -39,7 +39,7 @@ namespace ehr_csharp.Controllers
             if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogadoFinal))
                 ViewBag.SomenteVisualizacao = _userManager.GetRolesAsync(usuarioLogadoFinal).Result.FirstOrDefault();
 
-            List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).ToList();
+            List<Paciente> pacientes = Contexto<Paciente>().Include(x => x.Consultas).OrderBy(x => x.NomeCompleto).ToList();
             return View(pacientes);
         }
 
