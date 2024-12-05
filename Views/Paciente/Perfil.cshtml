@@ -29,15 +29,19 @@
 
                         <div class="avatar avatar-xl rounded-circle h-75 w-75">
                             @* @(!string.IsNullOrEmpty(@Model.ImagemBase64) ? Html.Raw($"<img src='{@Model.ImagemBase64}'/>") : Html.Raw("<i class='bi bi-file-fill'></i>"))
- *@
-                            <img alt="..." src="https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80">
+                            *@       <div class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center" style="width: 150px; height: 150px;">
+                            <img src="data:image/jpeg;base64,@Model.ImagemBase64"
+                                 alt="Imagem do usuÃ¡rio"
+                                 class="w-100 h-100"
+                                 style="object-fit: cover;" />
+                                 </div>
                         </div>
 
 
                         <div class="d-flex align-items-center justify-content-between mt-8">
                             <div class="">
                                 <div class="d-flex gap-3 align-items-center">
-                                    <span class="h6 fw-semibold text-muted">Médico </span>
+                                    <span class="h6 fw-semibold text-muted">MÃ©dico </span>
                                 </div>
                                 <div class="fw-bold text-heading mt-3">
                                     @(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Medico.Usuario.UserName : "Indefinido")
@@ -45,7 +49,7 @@
                             </div>
                             <div class="">
                                 <div class="d-flex gap-3 align-items-center">
-                                    <span class="h6 fw-semibold text-muted">Próxima Consulta</span>
+                                    <span class="h6 fw-semibold text-muted">PrÃ³xima Consulta</span>
                                 </div>
                                 <div class="fw-bold text-heading mt-3">
                                      @(Model.Consultas?.Count > 0 ? Model.Consultas.OrderByDescending(x => x.Data).First().Data.ToString("dd/MM/yyyy HH:mm") : "Indefinido") 
@@ -87,11 +91,11 @@
                                         <p>@Model.Celular</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
-                                        <h5>Ocupação:</h5>
+                                        <h5>OcupaÃ§Ã£o:</h5>
                                         <p>@Model.Profissao</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
-                                        <h5>Endereço:</h5>
+                                        <h5>EndereÃ§o:</h5>
                                         <p>@Model.Endereco</p>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
@@ -104,7 +108,7 @@
                                                 // Calculando a idade
                                                 var idade = dataFinal.Year - dataInicial.Year;
 
-                                                // Ajusta se a data de nascimento ainda não ocorreu este ano
+                                                // Ajusta se a data de nascimento ainda nÃ£o ocorreu este ano
                                                 if (dataFinal < dataInicial.AddYears(idade))
                                                 {
                                                     idade--;
@@ -119,8 +123,21 @@
                                     </div>
 
                                     <div class="d-flex align-items-center gap-2">
-                                        <h5>Estado Cívil:</h5>
-                                        <p>@Model.EstadoCivil</p>
+                                        <h5>Estado CÃ­vil:</h5>
+                                        <p>
+                                            @{
+                                                string estadoCivilTexto = Model.EstadoCivil switch
+                                                {
+                                                    "1" => "Casado(a)",
+                                                    "2" => "Solteiro(a)",
+                                                    "3" => "Divorciado(a)",
+                                                    "4" => "ViÃºvo(a)",
+                                                    "5" => "UniÃ£o EstÃ¡vel",
+                                                    _ => "NÃ£o informado"
+                                                };
+                                            }
+                                            @estadoCivilTexto
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column col-lg-3">
@@ -151,9 +168,9 @@
 
             <div class="card">
                 <div class="card-body pb-3">
-                    <h5 class="mb-3">Prescrições Receitadas</h5>
+                    <h5 class="mb-3">PrescriÃ§Ãµes Receitadas</h5>
                     <div class="list-group list-group-flush">
-                        @if (Model.Consultas != null)
+                        @if (Model.Consultas != null && Model.Consultas.Count > 0)
                         {
                             @foreach (var consulta in Model.Consultas)
                             {
@@ -179,7 +196,7 @@
                                                 
                                                 <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
                                                     <div>
-                                                        <span class="font-weight-bold text-muted">Médico: @consulta.Medico.Usuario.Name</span>
+                                                        <span class="font-weight-bold text-muted">MÃ©dico: @consulta.Medico.Usuario.Name</span>
                                                     </div>
                                                     <div>
                                                         <p class="card-text text-muted">
@@ -211,7 +228,17 @@
                             }
 
                         }
+                        else
+                        {
+                            <div class="vstack gap-6">
 
+                                <div class="col-md-12 mt-3">
+                                    <div class="visit-card">
+                                        <p>Sem prescriÃ§Ãµes por enquanto.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
                         
                     </div>
@@ -259,7 +286,7 @@
                                             <div>
                                                 <h6 class="progress-text mb-1 d-block">@consulta.Motivo - @consulta.Data.ToString("dd/MM/yyyy")</h6>
                                                 <p class="text-muted text-xs">
-                                                    @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "Concluída" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
+                                                    @(consulta.StatusConsulta == (int)StatusConsulta.Finalizada ? "ConcluÃ­da" : (consulta.StatusConsulta == (int)StatusConsulta.Cancelado ? "Cancelada" : "Agendada"))
                                                 </p>
                                             </div>
                                             <div class="text-end ms-auto">
@@ -282,29 +309,11 @@
                             <a href="#" class="text-sm fw-semibold">Ver mais</a>
                         </div>
                     </div>
-                    <div class="vstack gap-2 mx-n3">
-                        <div class="position-relative d-flex align-items-center p-3 rounded-3 bg-body-secondary-hover">
-                            <div>
-                                <span class="d-flex align-items-center justify-content-center w-rem-16 w-md-20 py-3 rounded text-muted text-lg bg-body-secondary">
-                                    <i class="bi bi-droplet-half"></i>
-                                </span>
-                            </div>
-                            <div class="ms-3 ms-md-4 flex-fill">
-                                <div class="stretched-link text-limit text-sm text-heading fw-semibold"
-                                     role="button" data-bs-toggle="offcanvas"
-                                     data-bs-target="#cardDetailsOffcanvas"
-                                     aria-controls="cardDetailsOffcanvas">
-                                    Hemograma
-                                </div>
-                                <div class="d-block text-xs gap-2 mt-1">
-                                    <span>Especialista: Clínico Geral</span>
-                                </div>
-                            </div>
-                            <div class="d-none d-sm-block ms-auto text-end">
-                                <span class="badge bg-body-secondary text-warning">Em análise</span>
-                                <div class="d-none d-sm-block text-xs text-muted mt-2">
-                                    Adicionado a 2h atrás
-                                </div>
+                    <div class="vstack gap-6">
+
+                        <div class="col-md-12 mt-3">
+                            <div class="visit-card">
+                                <p>Sem documentos por enquanto.</p>
                             </div>
                         </div>
                     </div>
