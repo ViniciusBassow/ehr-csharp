@@ -23,26 +23,43 @@ namespace ehr_csharp.Controllers
         }
 
         public IActionResult GerarComprovanteComparacimento(int idConsulta)
-        {            
+        {
             var consulta = Contexto<Consulta>().Include(x => x.Medico)
-                                                    .ThenInclude(x => x.Usuario)
-                                                .Include(x => x.Medico)
-                                                    .ThenInclude(x => x.Especialidade)
-                                                    .Include(x => x.Paciente)
-                                                .FirstOrDefault(x => x.Id == idConsulta);
+                                                .ThenInclude(x => x.Usuario)
+                                            .Include(x => x.Medico)
+                                                .ThenInclude(x => x.Especialidade)
+                                                .Include(x => x.Paciente)
+                                            .FirstOrDefault(x => x.Id == idConsulta);
 
             consulta.preencherCamposConfigTemplate(dbContext, _cache);
 
-
-            RegistrarLog($"Gerou comprovante de Comparecimento da consulta {idConsulta}", "Consulta");
-
-            return new ViewAsPdf("~/Views/Template/ComprovanteComparecimento.cshtml", consulta)
+            try
             {
-                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
-                PageSize = Rotativa.AspNetCore.Options.Size.A4,
-                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
-                PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
-            };
+
+
+                RegistrarLog($"Gerou comprovante de Comparecimento da consulta {idConsulta}", "Consulta");
+
+                return new ViewAsPdf("~/Views/Template/ComprovanteComparecimento.cshtml", consulta)
+                {
+                    FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                    PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                    PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                    PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+                };
+            }
+            catch (Exception ex)
+            {
+                RegistrarLog($"{ex.ToString()}", "Consulta");
+
+                return new ViewAsPdf("~/Views/Template/ComprovanteComparecimento.cshtml", consulta)
+                {
+                    FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                    PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                    PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                    PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
+                };
+            }
+
         }
 
         public IActionResult GerarAtestado(int idConsulta)
