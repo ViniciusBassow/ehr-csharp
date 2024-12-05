@@ -1541,7 +1541,7 @@
 
                                                                     </div>
                                                                 }
-                                                                else @if (anexo.Status == "Em análise")
+                                                                else if (anexo.Status != null && anexo.Status.Contains("Em an"))
                                                                 {
 
                                                                     <div class="d-none d-sm-block ms-auto text-end">
