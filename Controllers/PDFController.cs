@@ -61,7 +61,7 @@ namespace ehr_csharp.Controllers
 
             return new ViewAsPdf("~/Views/Template/Atestado.cshtml", consulta)
             {
-                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                FileName = $"Atestado{consulta.Paciente.NomeCompleto}.pdf",
                 PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
                 PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)
@@ -86,7 +86,7 @@ namespace ehr_csharp.Controllers
 
             return new ViewAsPdf("~/Views/Template/PrescricaoMedica.cshtml", consulta)
             {
-                FileName = $"ComprovanteComparecimento{consulta.Paciente.NomeCompleto}.pdf",
+                FileName = $"Presricao{consulta.Paciente.NomeCompleto}.pdf",
                 PageSize = Rotativa.AspNetCore.Options.Size.A4,
                 PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
                 PageMargins = new Rotativa.AspNetCore.Options.Margins(10, 10, 10, 10)

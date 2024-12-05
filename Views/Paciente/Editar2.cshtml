@@ -7,6 +7,8 @@
     var contador = 0;
 
     var somenteVisualizacao = (ViewBag.UsuarioLogadoRole == "Agenda");
+
+    var contadorMedicacaoAbaPrincipal = 0;
 }
 
 <main class="container-fluid px-3 py-5 p-lg-6 p -xxl-8">
@@ -246,139 +248,48 @@
                             <div class="card-body pb-3">
                                 <h5 class="mb-3">Medicações</h5>
                                 <div class="list-group list-group-flush">
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                     @*    <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div> *@
-                                    </div>
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
-                                        <div class="flex-none w-rem-10 h-rem-10">
-                                            <div class="w-100" alt="...">
-                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
-                                                    <i class="bi bi-droplet-half"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-fill ms-4 text-limit">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a href="#"
-                                                   class="d-block text-sm text-heading fw-bold">Pedido: 09/11/2024</a> <span class="text-muted text-xs fw-semibold">47%</span>
-                                            </div>
-                                            <div class="progress progress-sm my-1">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width:47%" aria-valuenow="47" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
-                                                <div>
-                                                    <span class="font-weight-bold text-muted">Especialista: Clínico Geral</span>
-                                                </div>
-                                                <div>
-                                                    <p class="card-text text-muted">
-                                                        <time datetime="2020-06-23">Vencimento: 01/12/2024</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-end ms-7">
-                                            <div class="dropdown">
-                                                <a class="text-muted" href="#" role="button"
-                                                   data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">Visualizar </a>
-                                                    <a href="#!" class="dropdown-item">Editar</a>
-                                                    <a href="#!" class="dropdown-item">Apagar</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @foreach (var item in Model.Consultas.OrderByDescending(x => x.Data))
+                                    {
+                                        @if (item.Prescricao != null && item.Prescricao.Medicamentos != null && item.Prescricao.Medicamentos.Count > 0 && contadorMedicacaoAbaPrincipal <= 3)
+                                        {
+                                            @foreach (var medicamento in item.Prescricao.Medicamentos)
+                                            {
+                                                contadorMedicacaoAbaPrincipal++;
+                                                if (contadorMedicacaoAbaPrincipal <= 3)
+                                                {
+                                                    <div class="list-group-item d-flex align-items-center border-0 py-3">
+                                                        <div class="flex-none w-rem-10 h-rem-10">
+                                                            <div class="w-100" alt="...">
+                                                                <span class="d-flex align-items-center justify-content-center w-100 h-100 m-auto py-3 rounded-circle text-muted text-lg bg-body-secondary">
+                                                                    <i class="bi bi-droplet-half"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-fill ms-4 text-limit">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <a href="#" class="d-block text-sm text-heading fw-bold">@medicamento.Medicacao</a> <span class="text-muted text-xs fw-semibold">47%</span>
+                                                            </div>
+                                                            <div class="progress progress-sm my-1">
+                                                                <div class="progress-bar bg-primary" role="progressbar" style="width:47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
+                                                                <div>
+                                                                    <span class="font-weight-bold text-muted"><b>Dosagem:</b> @medicamento.Dosagem. <b>Intervalo:</b> @medicamento.Intervalo</span>
+                                                                </div>
+                                                                <div>
+                                                                    <p class="card-text text-muted">
+                                                                        <span datetime="2020-06-23"><b>Duração:</b> @medicamento.Duracao</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                     
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -566,17 +477,17 @@
                         <div class="col-md-8 col-xl-5">
                             <div class="">
                                 @* <div class="d-flex align-items-center">
-                                    <a href="#"
-                                       class="avatar avatar-lg bg-warning rounded-circle text-white FileDisplay">
-                                        <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
-                                    </a>
-                                    <div class="hstack gap-2 ms-5">
-                                        <label for="file_upload" class="btn btn-sm btn-neutral">
-                                            <span>Upload</span>
-                                            <input type="file" name="File" id="file_upload" class="visually-hidden FileInput">
-                                        </label>
-                                    </div>
-                                </div> *@
+                        <a href="#"
+                        class="avatar avatar-lg bg-warning rounded-circle text-white FileDisplay">
+                        <img src="@Model.ImagemBase64" class="FileDisplay" alt="...">
+                        </a>
+                        <div class="hstack gap-2 ms-5">
+                        <label for="file_upload" class="btn btn-sm btn-neutral">
+                        <span>Upload</span>
+                        <input type="file" name="File" id="file_upload" class="visually-hidden FileInput">
+                        </label>
+                        </div>
+                        </div> *@
                                 <div class="d-flex align-items-center">
                                     <div class="rounded-circle overflow-hidden d-flex justify-content-center align-items-center" style="width: 150px; height: 150px;">
 
@@ -585,7 +496,7 @@
                                         </a>
 
                                     </div>
-                                     @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
+                                    @*../..https://images.unsplash.com/photo-1579463148228-138296ac3b98?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=256&amp;h=256&amp;q=80*@
                                     <div class="hstack gap-2 ms-5">
                                         <label for="file_upload" class="btn btn-sm btn-neutral">
                                             <span>Upload</span>
@@ -976,19 +887,19 @@
                             {
 
                                 @* <label for="file" class="btn btn-sm btn-neutral ">
-                                    <span class="">
-                                        <i class="bi bi-upload me-2 d-none d-sm-inline-block"></i>
-                                    </span>
-                                    Enviar documento do Hemograma (PDF)
-                                </label> *@
+                        <span class="">
+                        <i class="bi bi-upload me-2 d-none d-sm-inline-block"></i>
+                        </span>
+                        Enviar documento do Hemograma (PDF)
+                        </label> *@
                                 <div class="d-flex gap-2">
                                     <input type="file" id="file" name="file" class="form-control w-auto" />
 
-                                <button type="button" onclick="enviarEAnaalisar()" class="btn btn-sm btn-primary">
-                                    <span>Analisar documento com I.A</span>
-                                </button>
+                                    <button type="button" onclick="enviarEAnaalisar()" class="btn btn-sm btn-primary">
+                                        <span>Analisar documento com I.A</span>
+                                    </button>
                                 </div>
-                                
+
 
 
 
@@ -1429,8 +1340,8 @@
         {
             <div class="d-flex align-items-center gap-3 my-4">
                 <div class="">
-                    
-                    <input class="form-control" id="nmArquivo" placeholder="Nome do arquivo"/>
+
+                    <input class="form-control" id="nmArquivo" placeholder="Nome do arquivo" />
                 </div>
 
                 <input type="file" id="file" name="file" class="form-control w-auto" />
@@ -1725,8 +1636,9 @@
                                                 <a href="@Url.Action("GerarComprovanteComparacimento", "Pdf", new { idConsulta = @item.Id })" target="_blank" class="btn btn-primary text-white me-3">Gerar declaração de comparecimento</a>
                                                 @* <button type="button" data-bs-dismiss="modal" class="btn btn-primary text-white">Gerar Atestado</button> *@
                                                 <a href="@Url.Action("GerarAtestado", "Pdf", new { idConsulta = @item.Id })" target="_blank" class="btn btn-primary text-white me-3">Gerar Atestado</a>
+                                                @if (item.Prescricao != null && item.Prescricao.Medicamentos != null && item.Prescricao.Medicamentos.Count > 0){
                                                 <a href="@Url.Action("GerarPrescricaoMedica", "Pdf", new { idConsulta = @item.Id })" target="_blank" class="btn btn-primary text-white me-3">Gerar Prescrição</a>
-
+                                                }
 
                                             </div>
 
@@ -1768,9 +1680,9 @@
                                     <div class="d-flex align-items-center justify-content-between">
                                         <a href="#" class="d-block text-sm text-heading fw-bold">Medicação: @medicamento.Medicacao. &nbsp &nbsp &nbsp &nbsp Dosagem: @medicamento.Dosagem.  &nbsp &nbsp &nbsp &nbsp Intervalo: @medicamento.Intervalo.  &nbsp &nbsp &nbsp &nbsp Duração: @medicamento.Duracao.</a> <span class="text-muted text-xs fw-semibold">47%</span>
                                     </div>
-                                  @*   <div class="progress progress-sm my-1">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width:47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div> *@
+                                    @*   <div class="progress progress-sm my-1">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> *@
                                     <div class="d-flex justify-content-between text-xs text-muted text-end mt-1">
                                         <div>
                                             <span class="font-weight-bold text-muted">Prescrição feita por: @consulta.Medico.Usuario.Name. &nbsp &nbsp &nbsp &nbsp Especialidade: @consulta.Medico.Especialidade.Descricao</span>
@@ -1784,18 +1696,18 @@
                                 </div>
                                 <div class="text-end ms-7">
                                     @* <div class="dropdown">
-                                        <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a href="#!" class="dropdown-item">Visualizar </a>
-                                            <a href="#!" class="dropdown-item">Editar</a>
-                                            <a href="#!" class="dropdown-item">Apagar</a>
-                                        </div>
-                                    </div> *@
+                    <a class="text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                    <a href="#!" class="dropdown-item">Visualizar </a>
+                    <a href="#!" class="dropdown-item">Editar</a>
+                    <a href="#!" class="dropdown-item">Apagar</a>
+                    </div>
+                    </div> *@
                                 </div>
                             </div>
-                           
+
 
                         </div>
 
@@ -1805,7 +1717,7 @@
 
 
 
-         
+
 
         </div>
     }
@@ -2196,6 +2108,7 @@
             contentType: false,
             success: function (data) {
                 if (data.success) {
+                    displayMensagemSucesso();
                     preencherCampos(data.data);
                     console.log("Análise realizada com sucesso:", data.data);
                 } else {
@@ -2218,7 +2131,7 @@
             type: 'POST',
             data: { "idAnexo": idAnexo },
             success: function (data) {
-
+                displayMensagemSucesso("");
             },
             error: function (xhr, status, error) {
 
