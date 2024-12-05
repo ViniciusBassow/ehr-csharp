@@ -81,7 +81,7 @@ public class GlobalController : Controller
             return "";
     }
 
-    public void RegistrarLog(string textoAlteração, string TabelaReferencia)
+    public void RegistrarLog(string textoAlteracao, string TabelaReferencia)
     {
         if (_cache.TryGetValue("UsuarioLogado", out Usuario usuarioLogado))
         {
@@ -89,7 +89,7 @@ public class GlobalController : Controller
             {
                 DataAlteracao = DateTime.Now,
                 TabelaReferencia = TabelaReferencia,
-                Alteracao = textoAlteração,
+                Alteracao = textoAlteracao,
                 IdUsuarioAlteracao = usuarioLogado.Id
             };
 
