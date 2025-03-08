@@ -22,6 +22,7 @@ Mencione todos aqueles que ajudaram a levantar o projeto desde o seu início
 * **Vinicius Felipe Basso** - *Trabalho Inicial / Desenvolvimento* - (https://github.com/ViniciusBassow)
 * **Pedro Augusto Abel** - *Desenvolvimento* - (https://github.com/pedroabel)
 * **Thiago Crochat** - *Documentação* - (https://github.com/Thiagocroc)
+* **João Martins** - *Automatização Git* - (https://github.com/Jvsm123)
 
 ---
 ⌨️ com ❤️ por [Vinicius Felipe Basso](https://github.com/ViniciusBassow) 😊
